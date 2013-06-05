@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../system/modules/be_email/assets/be_email_popup.css" media="all">
+<script src="../system/modules/be_email/assets/be_email_popup.js"></script>
+</head>
+<body>
+
+<?php if ($this->showUsersAddresses) : ?>
+       <div id="userBox" class="memberAddressBox">
+              <h2><?php echo $GLOBALS['TL_LANG']['tl_be_email']['users'][0]; ?></h2>
+              <table>
+                     <tr><th class="col_0"></th><th class="col_1">Name</th><th class="col_2">email</th></tr>
+                     <?php echo $this->userAddresses; ?>
+              </table>
+       </div>
+<?php endif; ?>
+
+<?php if ($this->showMembersAddresses) : ?>
+       <div id="memberBox" class="memberAddressBox">
+              <h2><?php echo $GLOBALS['TL_LANG']['tl_be_email']['members'][0]; ?></h2>
+              <table>
+                     <tr><th class="col_0"></th><th class="col_1">Name</th><th class="col_2">email</th></tr>
+                     <?php echo $this->memberAddresses; ?>
+              </table>
+       </div>
+<?php endif; ?>
+</body>
+</html>

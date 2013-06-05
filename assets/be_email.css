@@ -1,0 +1,30 @@
+
+textarea.address_textarea_to, textarea.address_textarea_cc, textarea.address_textarea_bcc
+{
+       height:14px;
+       width:85%;
+       margin-left:10px;
+}
+
+textarea.content
+{
+       height:80px;
+}
+
+label.tl_upload_file
+{
+       display:block;
+       margin-top:20px;
+       font-weight:bold;
+}
+
+.attachmentList checkbox, .attachmentList label
+{
+       display:inline;       
+}
+
+.attachmentList span
+{
+       display: block;       
+}
+

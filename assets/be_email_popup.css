@@ -1,0 +1,56 @@
+
+
+a, b, body, cite, div, em, h1, h2, h3, h4, h5, h6, i, label, legend, li, ol, p, strong, td, th, u, ul
+{
+  font-family: Verdana,sans-serif;
+}
+
+/* Line 23 */
+a, body, div, label, legend, li, ol, p, td, th, ul, fieldset, form, input, optgroup, select, textarea
+{
+  font-size: 11px;
+  color: #666966;
+}
+
+.odd td
+{
+       background-color:#e3e3e3;
+}
+
+th {
+       
+       text-align:left;
+       color:blue;
+}
+
+.col_0 {
+       
+       width:25px;
+}
+
+.col_1 {
+       
+       width:170px;
+}
+
+.col_2 {
+       
+       width:170px;
+}
+
+td {
+       
+       height:30px;
+       padding:0 5px;
+}
+
+table a, table img
+{
+       border:0;
+}
+
+div.memberAddressBox
+{
+       float:left;
+       width:400px;
+}       
