@@ -95,7 +95,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array
         ),
         'pid' => array
         (
-            'default' => $this->User->pid,
+            'default' => $this->User->id,
             'foreignKey' => 'tl_user.username',
             'relation' => array('type' => 'belongsTo', 'load' => 'eager'),
             'eval' => array('doNotShow' => true),
@@ -197,15 +197,13 @@ class tl_be_email extends Backend
         if (Input::get('act') == 'edit') {
             $_SESSION['tl_be_email']['referer'] = $this->Session->get('referer');
         }
+
         // open the popup for the address selection
         if (Input::get('mode') == 'addAddresses') {
             $this->buildPopUp();
             exit;
         }
 
-        if (Input::get('act') == 'create' && Input::get('pid') == '') {
-            $this->redirect(str_replace('pid=', 'pid=' . $this->User->id, Environment::get('request')));
-        }
     }
 
     // onload callback
@@ -245,21 +243,23 @@ class tl_be_email extends Backend
     // onsubmit callback
     public function onSubmitCbUpdateEntry()
     {
-        // Fileupload
-        $fileKey = md5(microtime() . $_FILES['file']['tmp_name']);
-        if ($this->Files->move_uploaded_file($_FILES['file']['tmp_name'], BE_EMAIL_UPLOAD_DIR . '/' . $fileKey)) {
-            // chmod
-            $this->Files->chmod(BE_EMAIL_UPLOAD_DIR . '/' . $fileKey, 0644);
-            $db = $this->Database->prepare('SELECT attachment FROM tl_be_email WHERE id=?')
-                ->execute(Input::get('id'));
-            $arrFiles = array();
-            if ($db->attachment != '') {
-                $arrFiles = unserialize($db->attachment);
+        if ($_FILES['file']['tmp_name'] != '') {
+            // Fileupload
+            $fileKey = md5(microtime() . $_FILES['file']['tmp_name']);
+            if ($this->Files->move_uploaded_file($_FILES['file']['tmp_name'], BE_EMAIL_UPLOAD_DIR . '/' . $fileKey)) {
+                // chmod
+                $this->Files->chmod(BE_EMAIL_UPLOAD_DIR . '/' . $fileKey, 0644);
+                $db = $this->Database->prepare('SELECT attachment FROM tl_be_email WHERE id=?')
+                    ->execute(Input::get('id'));
+                $arrFiles = array();
+                if ($db->attachment != '') {
+                    $arrFiles = unserialize($db->attachment);
+                }
+                //store key and filename in tl_be_email
+                $arrFiles[$fileKey] = utf8_romanize($_FILES['file']['name']);
+                $db = $this->Database->prepare('UPDATE tl_be_email SET attachment=? WHERE id=?')
+                    ->execute(serialize($arrFiles), Input::get('id'));
             }
-            //store key and filename in tl_be_email
-            $arrFiles[$fileKey] = utf8_romanize($_FILES['file']['name']);
-            $db = $this->Database->prepare('UPDATE tl_be_email SET attachment=? WHERE id=?')
-                ->execute(serialize($arrFiles), Input::get('id'));
         }
 
 
