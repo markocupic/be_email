@@ -1,0 +1,40 @@
+{
+    "name":"markocupic/be_email",
+    "description":"Send emails from the Contao backend. Backend extension for the Contao Open Source CMS",
+    "keywords":["contao", "Backend Email Client"],
+    "type":"contao-module",
+    "license":"LGPL-3.0+",
+    "authors":[
+        {
+            "name":"Marko Cupic",
+            "email":"m.cupic@gmx.ch",
+            "homepage":"http://4ae-racing-team.ch",
+            "role":"Developer" 
+        }
+    ],
+    "support":{
+        "issues":"https://github.com/markocupic/be_email/issues",
+        "source":"https://github.com/markocupic/be_email"
+    },
+    "require":{
+        "php":">=5.3",
+        "contao/core":">=3.2,<4",
+        "contao-community-alliance/composer-plugin": "*"  
+    },
+    "replace": {
+        "contao-legacy/be_email":"*"
+    },
+    "conflict": {
+        "contao/core": "3.0.*"
+    },
+    "autoload":{
+        "classmap":[""]
+    },
+    "extra":{
+        "contao":{
+            "sources":{
+                "":"system/modules/be_email"
+            }
+        }
+    }
+}
