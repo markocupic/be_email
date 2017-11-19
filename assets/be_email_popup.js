@@ -9,7 +9,7 @@ function sendmail(email) {
 
               el_form = p_opener.document.id('tl_be_email');
               if (el_form) {
-                     el_form.action = 'contao/main.php?do=tl_be_email&mode=2&pid=' + getParam('pid') + '&act=edit&id=' + getParam('id') + '&rt=' + getParam('rt') + '&ref=' + getParam('ref');
+                     el_form.action = 'contao?do=tl_be_email&mode=2&pid=' + getParam('pid') + '&act=edit&id=' + getParam('id') + '&rt=' + getParam('rt') + '&ref=' + getParam('ref');
 
                      if (getParam('dest') == 'to') var addrInput = el_form.recipientsTo;
                      if (getParam('dest') == 'cc') var addrInput = el_form.recipientsCc;

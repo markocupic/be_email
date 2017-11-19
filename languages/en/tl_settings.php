@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -28,7 +28,7 @@
  */
 
 // Legends
-$GLOBALS['TL_LANG']['tl_settings']['be_email_legend'] = array('be_email settings');
+$GLOBALS['TL_LANG']['tl_settings']['be_email_legend'] = 'be_email settings';
 
 // Fields
 $GLOBALS['TL_LANG']['tl_settings']['address_popup_settings'] = array('address-book settings');

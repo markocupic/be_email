@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -46,8 +46,11 @@ $GLOBALS['TL_LANG']['tl_be_email']['new'] = array('new email', 'Write a new emai
 $GLOBALS['TL_LANG']['tl_be_email']['edit'] = array('edit email', 'Edit email with ID %s.');
 $GLOBALS['TL_LANG']['tl_be_email']['delete'] = array('delete email', 'Delete email with ID %s.');
 $GLOBALS['TL_LANG']['tl_be_email']['show'] = array('show email', 'Show email with ID %s.');
+$GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'Send email';
+
 
 // Legends
-$GLOBALS['TL_LANG']['tl_be_email']['emailAttachments'] = array('Attachments:'); 
-$GLOBALS['TL_LANG']['tl_be_email']['recipients'] = 'Recipients';
-$GLOBALS['TL_LANG']['tl_be_email']['message'] = 'Messages';?>
+$GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = 'Recipients';
+$GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = 'Messages';
+$GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Attachments';
+

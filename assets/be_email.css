@@ -28,3 +28,22 @@ label.tl_upload_file
        display: block;       
 }
 
+img.open-address-book-icon {
+       width: 18px;
+       height: 18px;
+       top: 24px;
+       vertical-align: top;
+       position: relative;
+       left: 0;
+       cursor: pointer;
+}
+
+#pal_attachment_legend{
+       background-color: #f0f0f0;
+}
+
+#ctrl_recipientsTo,#ctrl_recipientsCc, #ctrl_recipientsBcc
+{
+       margin-left: 30px;
+       width: calc(100% - 30px);
+}

@@ -25,10 +25,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         'enableVersioning'   => false,
         'doNotDeleteRecords' => false,
         'onload_callback'    => array(
-            array(
-                'tl_be_email',
-                'onloadCbRenameButtons'
-            ),
+
             array(
                 'tl_be_email',
                 'onLoadCbSetPID'
@@ -54,6 +51,10 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                 'onDeleteCallback'
             )
         )
+    ),
+    // Buttons callback
+    'edit' =>array(
+        'buttons_callback' => array(array('tl_be_email', 'buttonsCallback'))
     ),
     // List
     'list'     => array(
@@ -103,7 +104,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 
     // Palettes
     'palettes' => array(
-        'default' => '{recipients:hide},recipientsTo,recipientsCc,recipientsBcc;{message},subject,content,uploaded_files;'
+        'default' => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content_legend;{attachment_legend},uploaded_files;'
     ),
 
     // Fields
@@ -132,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'inputType' => 'textarea',
             'eval'      => array(
                 'mandatory'      => true,
-                'class'          => 'address_textarea_to flext growme',
+                //'class'          => 'address_textarea_to flext growme',
                 'doNotSaveEmpty' => true
             ),
             'sql'       => "text NOT NULL"
@@ -145,7 +146,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'filter'    => true,
             'inputType' => 'textarea',
             'eval'      => array(
-                'class'          => 'address_textarea_cc flext growme',
+                //'class'          => 'address_textarea_cc flext growme',
                 'doNotSaveEmpty' => true
             ),
             'sql'       => "text NOT NULL"
@@ -157,7 +158,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'filter'    => true,
             'inputType' => 'textarea',
             'eval'      => array(
-                'class'          => 'address_textarea_bcc flext growme',
+                //'class'          => 'address_textarea_bcc flext growme',
                 'doNotSaveEmpty' => true
             ),
             'sql'       => "text NOT NULL"
@@ -193,7 +194,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                 'preserveTags'   => true,
                 'allowHtml'      => true,
                 'mandatory'      => true,
-                'class'          => 'content flext growme',
+                //'class'          => 'content flext growme',
                 'doNotSaveEmpty' => true,
                 'style'          => ' width:95%; ',
                 //'rte' => 'tinyNews',
@@ -255,19 +256,6 @@ class tl_be_email extends Backend
     }
 
 
-    // onload callback
-    public function onloadCbRenameButtons()
-    {
-
-        if ($GLOBALS['TL_LANGUAGE'] == 'de')
-        {
-            $GLOBALS['TL_LANG']['MSC']['saveNclose'] = 'email absenden';
-        }
-        else
-        {
-            $GLOBALS['TL_LANG']['MSC']['saveNclose'] = 'send message';
-        }
-    }
 
 
     // onload callback
@@ -403,9 +391,8 @@ class tl_be_email extends Backend
      */
     public function onSubmitCbSendEmail()
     {
-
         // the save-button is a fileupload-button
-        if (!\Input::post('saveNclose'))
+        if (!isset($_POST['saveNclose']))
         {
             return;
         }
@@ -512,7 +499,7 @@ class tl_be_email extends Backend
             );
             // remove double entries and filter empty values
             $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
-            $userRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td><a href=\"JavaScript:removeElement(this);\" onclick=\"removeElement(this); sendmail('" . implode('; ', $arrEmailAddresses) . "'); return false;\"><img src=\"../system/modules/be_email/assets/add_address.png\"></a></td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td></tr>\r\n";
+            $userRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td><a href=\"JavaScript:removeElement(this);\" onclick=\"removeElement(this); sendmail('" . implode('; ', $arrEmailAddresses) . "'); return false;\"><img src=\"../system/modules/be_email/assets/email.svg\" class=\"select-address-icon\"></a></td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td></tr>\r\n";
             $i++;
         }
         $objTemplate->userAddresses = $userRows;
@@ -525,7 +512,7 @@ class tl_be_email extends Backend
         $i = 0;
         while ($result->next())
         {
-            $memberRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td class=\"col_0\"><a href=\"JavaScript:removeElement(this);\" onclick=\"removeElement(this); sendmail('" . $result->email . "'); return false;\"><img src=\"../system/modules/be_email/assets/add_address.png\"></a></td><td class=\"col_1\">" . $result->firstname . ' ' . $result->lastname . "</td><td class=\"col_2\">" . $result->email . "</td></tr>\r\n";
+            $memberRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td class=\"col_0\"><a href=\"JavaScript:removeElement(this);\" onclick=\"removeElement(this); sendmail('" . $result->email . "'); return false;\"><img src=\"../system/modules/be_email/assets/email.svg\" class=\"select-address-icon\"></a></td><td class=\"col_1\">" . $result->firstname . ' ' . $result->lastname . "</td><td class=\"col_2\">" . $result->email . "</td></tr>\r\n";
             $i++;
         }
         $objTemplate->memberAddresses = $memberRows;
@@ -595,7 +582,7 @@ class tl_be_email extends Backend
         $strFileuploader = $widget->generateLabel() . $widget->generate();
 
         // return the html
-        $html = '<div id="attachmentBox">%s%s</div>';
+        $html = '<div id="attachmentBox" class="widget attachment-box">%s%s</div>';
         return sprintf($html, $strAttachments, $strFileuploader);
     }
 
@@ -609,14 +596,16 @@ class tl_be_email extends Backend
     {
 
         $arrEmailAddresses = array();
-        trim(strtolower($strAddresses));
+        $strAddresses = trim(strtolower($strAddresses));
         if ($strAddresses == '')
         {
+            $set = array($field => '');
             // update the db
-            $this->Database->prepare('UPDATE tl_be_email SET ' . $field . '=? WHERE id=?')->execute('', \Input::get('id'));
-            \Input::setPost($field, '');
+            $this->Database->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
+            Input::setPost($field, '');
             return $arrEmailAddresses;
         }
+
         $arrEmailAddresses = array();
         preg_match_all('/\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,6}/i', $strAddresses, $arrEmailAddresses);
 
@@ -624,8 +613,9 @@ class tl_be_email extends Backend
         $arrEmailAddresses = array_unique($arrEmailAddresses[0]);
 
         // update the db
-        $this->Database->prepare('UPDATE tl_be_email SET ' . $field . '=? WHERE id=?')->execute(implode('; ', $arrEmailAddresses), \Input::get('id'));
-        \Input::setPost($field, implode('; ', $arrEmailAddresses));
+        $set = array($field => implode('; ', $arrEmailAddresses));
+        $this->Database->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
+        Input::setPost($field, implode('; ', $arrEmailAddresses));
 
         return $arrEmailAddresses;
     }
@@ -640,14 +630,30 @@ class tl_be_email extends Backend
     public function parseBackendTemplateHook($strContent, $strTemplate)
     {
 
-        if (\Input::get('do') == 'tl_be_email' && \Input::get('act') == 'edit')
+        if (\Input::get('do') == 'tl_be_email' && \Input::get('act') == 'edit' && TL_MODE == 'BE')
         {
             // set the enctype for fileuploads
             $strContent = str_replace('application/x-www-form-urlencoded', 'multipart/form-data', $strContent);
-            // remove the saveNcreate button
-            $strContent = preg_replace('/<input type=\"submit\" name=\"saveNcreate((\r|\n|.)+?)>/', '', $strContent);
+
         }
 
         return $strContent;
+    }
+
+    /**
+     * buttons_callback
+     * @param $arrButtons
+     * @param DC_Table $dc
+     * @return mixed
+     */
+    public function buttonsCallback($arrButtons, DC_Table $dc)
+    {
+        // Disable buttons
+        unset($arrButtons['saveNcreate']);
+        unset($arrButtons['saveNduplicate']);
+        unset($arrButtons['saveNback']);
+        $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['send_email'] . '</button>';
+
+        return $arrButtons;
     }
 }

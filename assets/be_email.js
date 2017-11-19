@@ -4,7 +4,9 @@ window.addEvent('domready', function () {
     if (document.getElementById('ctrl_recipientsTo') !== null) {
         var addAddressIconTo = new Element('img', {
             id: 'addAddressIconTo',
-            src: '/../system/modules/be_email/assets/add_address.png'
+            'class': 'open-address-book-icon',
+            'role': 'button',
+            src: '/../system/modules/be_email/assets/email.svg'
         });
         var ctrl_recipientsTo = document.id('ctrl_recipientsTo');
         addAddressIconTo.inject(ctrl_recipientsTo, 'before');
@@ -14,7 +16,9 @@ window.addEvent('domready', function () {
     if (document.getElementById('ctrl_recipientsCc') !== null) {
         var addAddressIconCc = new Element('img', {
             id: 'addAddressIconCc',
-            src: '/../system/modules/be_email/assets/add_address.png'
+            'class': 'open-address-book-icon',
+            'role': 'button',
+            src: '/../system/modules/be_email/assets/email.svg'
         });
         var ctrl_recipientsCc = document.id('ctrl_recipientsCc');
         addAddressIconCc.inject(ctrl_recipientsCc, 'before');
@@ -24,7 +28,9 @@ window.addEvent('domready', function () {
     if (document.getElementById('ctrl_recipientsBcc') !== null) {
         var addAddressIconBcc = new Element('img', {
             id: 'addAddressIconBcc',
-            src: '/../system/modules/be_email/assets/add_address.png'
+            'class': 'open-address-book-icon',
+            'role': 'button',
+            src: '/../system/modules/be_email/assets/email.svg'
         });
         var ctrl_recipientsBcc = document.id('ctrl_recipientsBcc');
         addAddressIconBcc.inject(ctrl_recipientsBcc, 'before');
@@ -32,19 +38,19 @@ window.addEvent('domready', function () {
     if (addAddressIconTo) {
         addAddressIconTo.addEvent('click', function (event) {
             // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao/main.php?do=tl_be_email&popup=true&mode=addAddresses&dest=to&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=to&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
         });
     }
     if (addAddressIconCc) {
         addAddressIconCc.addEvent('click', function (event) {
             // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao/main.php?do=tl_be_email&popup=true&mode=addAddresses&dest=cc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=cc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
         });
     }
     if (addAddressIconBcc) {
         addAddressIconBcc.addEvent('click', function (event) {
             // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao/main.php?do=tl_be_email&popup=true&mode=addAddresses&dest=bcc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=bcc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
         });
     }
 });

@@ -15,7 +15,7 @@
  * permanent text corrections which are update-safe. 
  */
  
-$GLOBALS['TL_LANG']['MOD']['tl_be_email']['0'] = "E-Mail";
-$GLOBALS['TL_LANG']['MOD']['tl_be_email']['1'] = "Anderen Backend Benutzern eine E-Mail schreiben.";
+$GLOBALS['TL_LANG']['MOD']['tl_be_email']['0'] = "Backend E-Mail";
+$GLOBALS['TL_LANG']['MOD']['tl_be_email']['1'] = "Backend Benutzern/Mitgliedern E-Mail schreiben.";
  
-?>
+

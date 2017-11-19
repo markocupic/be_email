@@ -8,7 +8,7 @@
         {
             "name":"Marko Cupic",
             "email":"m.cupic@gmx.ch",
-            "homepage":"http://4ae-racing-team.ch",
+            "homepage":"https://github.com/markocupic/be_email",
             "role":"Developer" 
         }
     ],
@@ -17,15 +17,15 @@
         "source":"https://github.com/markocupic/be_email"
     },
     "require":{
-        "php":">=5.3",
-        "contao/core":">=3.2,<4",
-        "contao-community-alliance/composer-plugin": "*"  
+        "php":">=7.0",
+        "contao/core-bundle": ">=4.4",
+        "contao-community-alliance/composer-plugin": "^2.4.0 || 3.*"
     },
     "replace": {
         "contao-legacy/be_email":"*"
     },
     "conflict": {
-        "contao/core": "3.0.*"
+        "contao/core": "3.*"
     },
     "autoload":{
         "classmap":[""]

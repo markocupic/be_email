@@ -38,7 +38,8 @@ $GLOBALS['TL_LANG']['tl_be_email']['delete']['1'] = "Supprimer l'e-mail ID %s.";
 $GLOBALS['TL_LANG']['tl_be_email']['show']['0'] = "Voir un e-mail";
 $GLOBALS['TL_LANG']['tl_be_email']['show']['1'] = "Voir l'e-mail ID %s.";
 $GLOBALS['TL_LANG']['tl_be_email']['emailAttachments']['0'] = "Pièces jointes:";
-$GLOBALS['TL_LANG']['tl_be_email']['recipients'] = "Destinataires";
-$GLOBALS['TL_LANG']['tl_be_email']['message'] = "Messages";
- 
-?>
+$GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Destinataires";
+$GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Messages";
+$GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = "Attachments";
+$GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'Envoie e-mail';
+

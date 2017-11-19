@@ -1,56 +1,58 @@
-
-
-a, b, body, cite, div, em, h1, h2, h3, h4, h5, h6, i, label, legend, li, ol, p, strong, td, th, u, ul
-{
-  font-family: Verdana,sans-serif;
+body {
+    font: .875rem/1 Lato, sans-serif;
+    color: #222;
 }
 
-/* Line 23 */
-a, body, div, label, legend, li, ol, p, td, th, ul, fieldset, form, input, optgroup, select, textarea
-{
-  font-size: 11px;
-  color: #666966;
+.wrapper {
+    margin: 1rem;
+    display:flex;
 }
 
-.odd td
+
+
+
+table {
+    border-collapse: collapse;
+}
+img.select-address-icon
 {
-       background-color:#e3e3e3;
+    width: 18px;
+    height: 18px;
+}
+.odd td {
+    background-color: #eaeaea;
 }
 
 th {
-       
-       text-align:left;
-       color:blue;
-}
 
+    text-align: left;
+    color: #000;
+}
+td{
+    font-size: 12px;
+}
 .col_0 {
-       
-       width:25px;
+
+    width: 25px;
 }
 
 .col_1 {
-       
-       width:170px;
+
+    width: 220px;
 }
 
 .col_2 {
-       
-       width:170px;
+
+    width: 220px;
 }
 
 td {
-       
-       height:30px;
-       padding:0 5px;
+
+    height: 30px;
+    padding: 0 5px;
 }
 
-table a, table img
-{
-       border:0;
+table a, table img {
+    border: 0;
 }
 
-div.memberAddressBox
-{
-       float:left;
-       width:400px;
-}       

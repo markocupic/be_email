@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -23,4 +23,4 @@
  */
 
 // Backend modules
-$GLOBALS['TL_LANG']['MOD']['tl_be_email'] = array('Email', 'Write an email to the other backendusers.');
+$GLOBALS['TL_LANG']['MOD']['tl_be_email'] = array('Backend Email', 'Write emails to backend users/ frontend members.');

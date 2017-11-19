@@ -15,8 +15,8 @@
  * permanent text corrections which are update-safe. 
  */
  
-$GLOBALS['TL_LANG']['tl_be_email']['users']['0'] = "Benutzer";
-$GLOBALS['TL_LANG']['tl_be_email']['members']['0'] = "Mitglieder";
+$GLOBALS['TL_LANG']['tl_be_email']['users']['0'] = "Benutzer Adressbuch";
+$GLOBALS['TL_LANG']['tl_be_email']['members']['0'] = "Mitglieder Adressbuch";
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsTo']['0'] = "To:";
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsTo']['1'] = "Empfänger hinzufügen.";
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsCc']['0'] = "CC:";
@@ -38,7 +38,9 @@ $GLOBALS['TL_LANG']['tl_be_email']['delete']['1'] = "E-Mail mit ID %s löschen."
 $GLOBALS['TL_LANG']['tl_be_email']['show']['0'] = "E-Mail anzeigen";
 $GLOBALS['TL_LANG']['tl_be_email']['show']['1'] = "E-Mail mit ID %s anzeigen.";
 $GLOBALS['TL_LANG']['tl_be_email']['emailAttachments']['0'] = "Dateianhänge";
-$GLOBALS['TL_LANG']['tl_be_email']['recipients'] = "Empfänger";
-$GLOBALS['TL_LANG']['tl_be_email']['message'] = "Nachricht";
- 
-?>
+$GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Empfänger";
+$GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Nachricht";
+$GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Dateianh&auml;nge';
+$GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'E-Mail senden';
+
+
