@@ -104,7 +104,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 
     // Palettes
     'palettes' => array(
-        'default' => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content_legend;{attachment_legend},uploaded_files;'
+        'default' => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content;{attachment_legend},uploaded_files;'
     ),
 
     // Fields
