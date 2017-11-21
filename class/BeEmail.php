@@ -17,7 +17,7 @@ class BeEmail
     {
         if ($strAction === 'openBeEmailAddressBook')
         {
-            $objTemplate = new \BackendTemplate('be_email_popup');
+            $objTemplate = new \BackendTemplate('be_email_address_book');
 
             // userBox
             $result = \Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
@@ -33,7 +33,8 @@ class BeEmail
                 // remove double entries and filter empty values
                 $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
                 $formInput = \Input::post('formInput');
-                $userRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td><a href=\"#\" onclick=\"ContaoBeEmail.removeElement(this); ContaoBeEmail.sendmail('" . implode('; ', $arrEmailAddresses) . "', '" . $formInput . "'); return false;\"><img src=\"../system/modules/be_email/assets/email.svg\" class=\"select-address-icon\"></a></td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td></tr>\r\n";
+                $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
+                $userRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $row['name'], $row['email']);
                 $i++;
             }
             $objTemplate->userAddresses = $userRows;
@@ -45,7 +46,8 @@ class BeEmail
             $i = 0;
             while ($result->next())
             {
-                $memberRows .= "<tr class=\"" . ($i % 2 == 0 ? 'odd' : 'even') . "\"><td class=\"col_0\"><a href=\"#\" onclick=\"ContaoBeEmail.removeElement(this); ContaoBeEmail.sendmail('" . $result->email . "'); return false;\"><img src=\"../system/modules/be_email/assets/email.svg\" class=\"select-address-icon\"></a></td><td class=\"col_1\">" . $result->firstname . ' ' . $result->lastname . "</td><td class=\"col_2\">" . $result->email . "</td></tr>\r\n";
+                $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
+                $memberRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . $result->email . "'", "'" . $formInput . "'", $result->firstname . " " . $result->lastname, $result->email);
                 $i++;
             }
             $objTemplate->memberAddresses = $memberRows;

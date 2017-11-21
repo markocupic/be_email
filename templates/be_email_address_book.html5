@@ -1,0 +1,52 @@
+
+<div id="contaoBeEmailAddressBook">
+
+
+    <div class="wrapper">
+        <ul class="tabs">
+            <?php if ($this->showUsersAddresses) : ?>
+            <li><a href="tab1" onclick="ContaoBeEmail.tabClick(this); return false" class="active">Benutzer</a></li>
+            <?php endif; ?>
+
+            <?php if ($this->showMembersAddresses) : ?>
+            <li><a href="tab2" onclick="ContaoBeEmail.tabClick(this); return false">Mitglieder</a></li>
+            <?php endif; ?>
+        </ul>
+        <section class="tabgroup">
+            <?php if ($this->showUsersAddresses) : ?>
+            <div id="tab1" class="">
+                <div id="userBox" class="addressBox">
+                    <h3><?php echo $GLOBALS['TL_LANG']['tl_be_email']['users'][0]; ?></h3>
+                    <table>
+                        <tr>
+                            <th class="col_0"></th>
+                            <th class="col_1">Name</th>
+                            <th class="col_2">email</th>
+                        </tr>
+                        <?php echo $this->userAddresses; ?>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($this->showMembersAddresses) : ?>
+            <div id="tab2" class="">
+                <div id="memberBox" class="addressBox">
+                    <h3><?php echo $GLOBALS['TL_LANG']['tl_be_email']['members'][0]; ?></h3>
+                    <table>
+                        <tr>
+                            <th class="col_0"></th>
+                            <th class="col_1">Name</th>
+                            <th class="col_2">email</th>
+                        </tr>
+                        <?php echo $this->memberAddresses; ?>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
+
+        </section>
+    </div>
+</div>
+
+

@@ -96,7 +96,8 @@ class tl_be_email extends Backend
         $email->replyTo($fromMail);
         $email->from = $fromMail;
         $email->subject = $subject;
-        $email->html = base64_decode($_POST['content']);
+        $email->text = base64_decode($_POST['content']);
+        $email->html = nl2br(base64_decode($_POST['content']));
 
         // Save attachment
         $db = $this->Database->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
@@ -138,8 +139,6 @@ class tl_be_email extends Backend
         {
             $email->sendTo($recipients);
         }
-
-
     }
 
 

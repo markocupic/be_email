@@ -1,83 +1,123 @@
 #tl_be_email textarea.address_textarea_to, #tl_be_email textarea.address_textarea_cc, #tl_be_email textarea.address_textarea_bcc {
-       height: 14px;
-       width: 85%;
-       margin-left: 10px;
+    height: 14px;
+    width: 85%;
+    margin-left: 10px;
 }
+
 #tl_be_email textarea.content {
-       height: 80px;
+    height: 80px;
 }
+
 #tl_be_email label.tl_upload_file {
-       display: block;
-       margin-top: 20px;
-       font-weight: bold;
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
 }
+
 #tl_be_email .attachmentList checkbox, #tl_be_email .attachmentList label {
-       display: inline;
+    display: inline;
 }
+
 #tl_be_email .attachmentList span {
-       display: block;
+    display: block;
 }
+
 #tl_be_email img.open-address-book-icon {
-       width: 18px;
-       height: 18px;
-       top: 24px;
-       vertical-align: top;
-       position: relative;
-       left: 0;
-       cursor: pointer;
+    width: 18px;
+    height: 18px;
+    top: 24px;
+    vertical-align: top;
+    position: relative;
+    left: 0;
+    cursor: pointer;
 }
+
 #tl_be_email #pal_attachment_legend {
-       background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
+
 #tl_be_email #ctrl_recipientsTo, #tl_be_email #ctrl_recipientsCc, #tl_be_email #ctrl_recipientsBcc {
-       margin-left: 30px;
-       width: calc(100% - 30px);
+    margin-left: 30px;
+    width: calc(100% - 30px);
 }
-
-
-
-
-
-
-.memberAddressBox{
-       max-height: 500px;
-       overflow:scroll;
-}
-
 
 #contaoBeEmailAddressBook {
-       padding: 15px 20px;
+    padding: 15px 20px;
 }
+
+#contaoBeEmailAddressBook .addressBox {
+    max-height: 500px;
+    overflow: scroll;
+}
+
 #contaoBeEmailAddressBook table {
-       border-collapse: collapse;
+    border-collapse: collapse;
 }
+
 #contaoBeEmailAddressBook img.select-address-icon {
-       width: 18px;
-       height: 18px;
+    width: 18px;
+    height: 18px;
 }
+
 #contaoBeEmailAddressBook .odd td {
-       background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
+
 #contaoBeEmailAddressBook th {
-       text-align: left;
-       color: #000;
+    text-align: left;
+    color: #000;
 }
+
 #contaoBeEmailAddressBook td {
-       font-size: 12px;
+    font-size: 12px;
 }
+
 #contaoBeEmailAddressBook .col_0 {
-       width: 25px;
+    width: 25px;
 }
+
 #contaoBeEmailAddressBook .col_1 {
-       width: 220px;
+    width: 220px;
 }
+
 #contaoBeEmailAddressBook .col_2 {
-       width: 220px;
+    width: 220px;
 }
+
 #contaoBeEmailAddressBook td {
-       height: 30px;
-       padding: 0 5px;
+    height: 30px;
+    padding: 0 5px;
 }
+
 #contaoBeEmailAddressBook table a, #contaoBeEmailAddressBook table img {
-       border: 0;
+    border: 0;
 }
+
+#contaoBeEmailAddressBook .tabs {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+#contaoBeEmailAddressBook .tabs li {
+    width: 120px;
+}
+
+#contaoBeEmailAddressBook .tabs a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #333;
+    padding: 10px 0;
+    border-bottom: 2px solid #888;
+    background: #f7f7f7;
+}
+
+#contaoBeEmailAddressBook .tabs a:hover, #contaoBeEmailAddressBook .tabs a.active {
+    background: palegreen;
+}
+
+
+
+
+

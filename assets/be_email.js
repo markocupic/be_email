@@ -1,12 +1,18 @@
 window.addEvent('domready', function () {
-    var objUri = new URI(window.location.href);
+
+    // Get class instance
+    ContaoBeEmail = new ContaoBeEmail();
+
+
     // to
     if (document.getElementById('ctrl_recipientsTo') !== null) {
         var addAddressIconTo = new Element('img', {
-            id: 'addAddressIconTo',
+            'id': 'addAddressIconTo',
             'class': 'open-address-book-icon',
             'role': 'button',
-            src: '/../system/modules/be_email/assets/email.svg'
+            'src': '/../system/modules/be_email/assets/email.svg',
+            'data-input-field': 'ctrl_recipientsTo'
+
         });
         var ctrl_recipientsTo = document.id('ctrl_recipientsTo');
         addAddressIconTo.inject(ctrl_recipientsTo, 'before');
@@ -15,10 +21,12 @@ window.addEvent('domready', function () {
     // cc
     if (document.getElementById('ctrl_recipientsCc') !== null) {
         var addAddressIconCc = new Element('img', {
-            id: 'addAddressIconCc',
+            'id': 'addAddressIconCc',
             'class': 'open-address-book-icon',
             'role': 'button',
-            src: '/../system/modules/be_email/assets/email.svg'
+            'src': '/../system/modules/be_email/assets/email.svg',
+            'data-input-field': 'ctrl_recipientsCc'
+
         });
         var ctrl_recipientsCc = document.id('ctrl_recipientsCc');
         addAddressIconCc.inject(ctrl_recipientsCc, 'before');
@@ -27,59 +35,45 @@ window.addEvent('domready', function () {
     // bcc
     if (document.getElementById('ctrl_recipientsBcc') !== null) {
         var addAddressIconBcc = new Element('img', {
-            id: 'addAddressIconBcc',
+            'id': 'addAddressIconBcc',
             'class': 'open-address-book-icon',
             'role': 'button',
-            src: '/../system/modules/be_email/assets/email.svg'
+            'src': '/../system/modules/be_email/assets/email.svg',
+            'data-input-field': 'ctrl_recipientsBcc'
         });
         var ctrl_recipientsBcc = document.id('ctrl_recipientsBcc');
         addAddressIconBcc.inject(ctrl_recipientsBcc, 'before');
     }
-    if (addAddressIconTo) {
-        addAddressIconTo.addEvent('click', function (event) {
-            new Request.Contao({
-                url: window.location.href,
-                onSuccess: function (txt, json) {
-                    console.log(json);
-                    Backend.openModalWindow(900, 'Adressbuch', json.content);
-                }
-            }).post({
-                'action': 'openBeEmailAddressBook',
-                'formInput': 'ctrl_recipientsTo',
-                'REQUEST_TOKEN': Contao.request_token
+
+    var inputFields = [addAddressIconTo, addAddressIconCc, addAddressIconBcc];
+    inputFields.each(function (inputField) {
+        if (inputField) {
+            inputField.addEvent('click', function (event) {
+                var icon = this;
+                new Request.Contao({
+                    url: window.location.href,
+                    onSuccess: function (txt, json) {
+
+                        // Open modal on click
+                        Backend.openModalWindow(900, 'Adressbuch', json.content);
+
+                        // Handle tab visibility
+                        $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
+                            el.setStyle('display', 'none');
+                        });
+                        $$('#contaoBeEmailAddressBook .tabgroup > div')[0].setStyle('display', 'block');
+
+                        // Add active class to first child
+                        $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
+                    }
+                }).post({
+                    'action': 'openBeEmailAddressBook',
+                    'formInput': icon.getProperty('data-input-field'),
+                    'REQUEST_TOKEN': Contao.request_token
+                });
             });
-        });
-    }
-    if (addAddressIconCc) {
-        addAddressIconCc.addEvent('click', function (event) {
-            new Request.Contao({
-                url: window.location.href,
-                onSuccess: function (txt, json) {
-                    console.log(json);
-                    Backend.openModalWindow(900, 'Adressbuch', json.content);
-                }
-            }).post({
-                'action': 'openBeEmailAddressBook',
-                'formInput': 'ctrl_recipientsCc',
-                'REQUEST_TOKEN': Contao.request_token
-            });
-        });
-    }
-    if (addAddressIconBcc) {
-        addAddressIconBcc.addEvent('click', function (event) {
-            new Request.Contao({
-                url: window.location.href,
-                onSuccess: function (txt, json) {
-                    console.log(json);
-                    Backend.openModalWindow(900, 'Adressbuch', json.content);
-                }
-            }).post({
-                'action': 'openBeEmailAddressBook',
-                'formInput': 'ctrl_recipientsBcc',
-                'REQUEST_TOKEN': Contao.request_token
-            });
-        });
-    }
+        }
+    });
 });
 
 /**
@@ -87,30 +81,42 @@ window.addEvent('domready', function () {
  * @type {Type}
  */
 ContaoBeEmail = new Class(
-{
-    sendmail: function (email, formInputId) {
-        el_form = document.id('tl_be_email');
-        var addrInput = el_form[formInputId];
-        if (addrInput) {
-            if (email) {
-                addrInput.value = email + '; ' + addrInput.value;
+    {
+        sendmail: function (email, formInputId, elButton) {
+            el_form = document.id('tl_be_email');
+            var addrInput = el_form[formInputId];
+            if (addrInput) {
+                if (email) {
+                    addrInput.value = email + '; ' + addrInput.value;
+                }
+                else {
+                    alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
+                }
             }
             else {
-                alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
+                alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
             }
+            // Remove button
+            var remElement = (elButton.parentNode).removeChild(elButton);
+        },
+        tabClick: function (el) {
+            var others = el.getParent('li').getSiblings('li').getChildren('a');
+            var target = el.getProperty('href');
+            others.each(function (act) {
+                act.removeClass('active');
+            });
+            el.addClass('active');
+
+            $$('.tabgroup>div').each(function (elDiv) {
+                elDiv.setStyle('display', 'none');
+            });
+            document.id(target).setStyle('display', 'block');
+            return false;
         }
-        else {
-            alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
-        }
-    },
-    removeElement: function (el) {
-        var remElement = (el.parentNode).removeChild(el);
-    }
-});
+    });
 
 
 window.addEvent('domready', function () {
-    ContaoBeEmail = new ContaoBeEmail();
 });
 
 
