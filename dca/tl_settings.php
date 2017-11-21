@@ -2,10 +2,10 @@
 
 /**
  * Contao Open Source CMS
- * 
+ *
  * Copyright (C) 2005-2012 Leo Feyer
- * 
- * @copyright  Marko Cupic 2012
+ *
+ * @copyright  Marko Cupic 2017
  * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
  * @package    be_email
  * @license    GNU/LGPL

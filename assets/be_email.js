@@ -37,46 +37,82 @@ window.addEvent('domready', function () {
     }
     if (addAddressIconTo) {
         addAddressIconTo.addEvent('click', function (event) {
-            // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=to&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            new Request.Contao({
+                url: window.location.href,
+                onSuccess: function (txt, json) {
+                    console.log(json);
+                    Backend.openModalWindow(900, 'Adressbuch', json.content);
+                }
+            }).post({
+                'action': 'openBeEmailAddressBook',
+                'formInput': 'ctrl_recipientsTo',
+                'REQUEST_TOKEN': Contao.request_token
+            });
         });
     }
     if (addAddressIconCc) {
         addAddressIconCc.addEvent('click', function (event) {
-            // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=cc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            new Request.Contao({
+                url: window.location.href,
+                onSuccess: function (txt, json) {
+                    console.log(json);
+                    Backend.openModalWindow(900, 'Adressbuch', json.content);
+                }
+            }).post({
+                'action': 'openBeEmailAddressBook',
+                'formInput': 'ctrl_recipientsCc',
+                'REQUEST_TOKEN': Contao.request_token
+            });
         });
     }
     if (addAddressIconBcc) {
         addAddressIconBcc.addEvent('click', function (event) {
-            // url param popup=true is important, otherwise contao will redirect you to the address popup, when sending the email (Contao referer)
-            popup('/contao?do=tl_be_email&popup=true&mode=addAddresses&dest=bcc&id=' + objUri.getData('id') + '&pid=' + objUri.getData('pid') + '&rt=' + objUri.getData('rt') + '&ref=' + objUri.getData('ref'));
+            new Request.Contao({
+                url: window.location.href,
+                onSuccess: function (txt, json) {
+                    console.log(json);
+                    Backend.openModalWindow(900, 'Adressbuch', json.content);
+                }
+            }).post({
+                'action': 'openBeEmailAddressBook',
+                'formInput': 'ctrl_recipientsBcc',
+                'REQUEST_TOKEN': Contao.request_token
+            });
         });
     }
 });
 
-function popup(URL) {
-    openWindow(URL, '', '850', '400', 'yes', 'center');
-}
+/**
+ * ContaoBackendEmail
+ * @type {Type}
+ */
+ContaoBeEmail = new Class(
+{
+    sendmail: function (email, formInputId) {
+        el_form = document.id('tl_be_email');
+        var addrInput = el_form[formInputId];
+        if (addrInput) {
+            if (email) {
+                addrInput.value = email + '; ' + addrInput.value;
+            }
+            else {
+                alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
+            }
+        }
+        else {
+            alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
+        }
+    },
+    removeElement: function (el) {
+        var remElement = (el.parentNode).removeChild(el);
+    }
+});
 
 
-function openWindow(mypage, myname, w, h, scroll, pos) {
-    var win = null;
-    if (pos == "random") {
-        LeftPosition = (screen.width) ? Math.floor(Math.random() * (screen.width - w)) : 100;
-        TopPosition = (screen.height) ? Math.floor(Math.random() * ((screen.height - h) - 75)) : 100;
-    }
-    if (pos == "center") {
-        LeftPosition = (screen.width) ? (screen.width - w) / 2 : 100;
-        TopPosition = (screen.height) ? (screen.height - h) / 2 : 100;
-    }
-    else if ((pos != "center" && pos != "random") || pos == null) {
-        LeftPosition = 0;
-        TopPosition = 20
-    }
-    settings = 'width=' + w + ',height=' + h + ',top=' + TopPosition + ',left=' + LeftPosition + ',scrollbars=' + scroll + ',location=no,directories=no,status=no,menubar=no,toolbar=no,resizable=yes';
-    win = window.open(mypage, myname, settings);
-}
+window.addEvent('domready', function () {
+    ContaoBeEmail = new ContaoBeEmail();
+});
+
 
 
 

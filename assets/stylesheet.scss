@@ -1,0 +1,97 @@
+#tl_be_email {
+
+  textarea.address_textarea_to, textarea.address_textarea_cc, textarea.address_textarea_bcc {
+    height: 14px;
+    width: 85%;
+    margin-left: 10px;
+  }
+
+  textarea.content {
+    height: 80px;
+  }
+
+  label.tl_upload_file {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .attachmentList checkbox, .attachmentList label {
+    display: inline;
+  }
+
+  .attachmentList span {
+    display: block;
+  }
+
+  img.open-address-book-icon {
+    width: 18px;
+    height: 18px;
+    top: 24px;
+    vertical-align: top;
+    position: relative;
+    left: 0;
+    cursor: pointer;
+  }
+
+  #pal_attachment_legend {
+    background-color: #f0f0f0;
+  }
+
+  #ctrl_recipientsTo, #ctrl_recipientsCc, #ctrl_recipientsBcc {
+    margin-left: 30px;
+    width: calc(100% - 30px);
+  }
+
+}
+
+#contaoBeEmailAddressBook {
+  padding: 15px 20px;
+
+  table {
+    border-collapse: collapse;
+  }
+  img.select-address-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .odd td {
+    background-color: #eaeaea;
+  }
+
+  th {
+
+    text-align: left;
+    color: #000;
+  }
+  td {
+    font-size: 12px;
+  }
+  .col_0 {
+
+    width: 25px;
+  }
+
+  .col_1 {
+
+    width: 220px;
+  }
+
+  .col_2 {
+
+    width: 220px;
+  }
+
+  td {
+
+    height: 30px;
+    padding: 0 5px;
+  }
+
+  table a, table img {
+    border: 0;
+  }
+}
+
+
+

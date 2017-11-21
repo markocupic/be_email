@@ -1,11 +1,5 @@
-<html>
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="../system/modules/be_email/assets/be_email_popup.css" media="all">
-<script src="../system/modules/be_email/assets/be_email_popup.js"></script>
-</head>
-<body>
-    <div class="wrapper">
+
+    <div id="contaoBeEmailAddressBook">
         <?php if ($this->showUsersAddresses) : ?>
                <div id="userBox" class="memberAddressBox">
                       <h3><?php echo $GLOBALS['TL_LANG']['tl_be_email']['users'][0]; ?></h3>
@@ -34,5 +28,3 @@
                </div>
         <?php endif; ?>
     </div>
-</body>
-</html>

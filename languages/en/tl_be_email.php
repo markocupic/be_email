@@ -31,17 +31,15 @@
 // Fields
 $GLOBALS['TL_LANG']['tl_be_email']['users'] = array('Users');
 $GLOBALS['TL_LANG']['tl_be_email']['members'] = array('Members');
-
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsTo'] = array('To:','Add email recipients.');
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsCc'] = array('CC:','Carbon-Copy');
 $GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc'] = array('BCC:','Blind-Carbon-Copy');
-
 $GLOBALS['TL_LANG']['tl_be_email']['subject'] = array('Subject', 'Subject of the email');
 $GLOBALS['TL_LANG']['tl_be_email']['content'] = array('Message', 'Email content');
+$GLOBALS['TL_LANG']['tl_be_email']['addAttachment'] = array('Add file attachments');
+$GLOBALS['TL_LANG']['tl_be_email']['attachment'] = array('Select files from the filesystem','Select one or more files from the contao filesystem.');
 
 // Buttons
-$GLOBALS['TL_LANG']['tl_be_email']['removeAttachments'] = array('Remove selected attachments');
-$GLOBALS['TL_LANG']['tl_be_email']['fileupload'] = array('Fileupload');
 $GLOBALS['TL_LANG']['tl_be_email']['new'] = array('new email', 'Write a new email.');
 $GLOBALS['TL_LANG']['tl_be_email']['edit'] = array('edit email', 'Edit email with ID %s.');
 $GLOBALS['TL_LANG']['tl_be_email']['delete'] = array('delete email', 'Delete email with ID %s.');
