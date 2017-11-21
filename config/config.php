@@ -13,19 +13,20 @@
 
 
 // Backend modules
-$GLOBALS['BE_MOD']['Email']['tl_be_email'] = array
+$GLOBALS['BE_MOD']['email']['tl_be_email'] = array
 (
     'tables' => array('tl_be_email'),
 );
 
+// Add CSS
+$GLOBALS['TL_CSS'][] = 'system/modules/be_email/assets/stylesheet.css';
 
 if (TL_MODE == 'BE' && $_GET['do'] == 'tl_be_email')
 {
     if ($_GET['act'] == 'edit')
     {
-        // Add Javascript and CSS
+        // Add Javascript
         $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/be_email/assets/be_email.js';
-        $GLOBALS['TL_CSS'][] = 'system/modules/be_email/assets/stylesheet.css';
     }
 
     // HOOKS

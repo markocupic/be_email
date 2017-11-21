@@ -1,3 +1,7 @@
+#tl_navigation .group-email {
+    background: url(envelope.svg) 3px 2px no-repeat;
+}
+
 #tl_be_email textarea.address_textarea_to, #tl_be_email textarea.address_textarea_cc, #tl_be_email textarea.address_textarea_bcc {
     height: 14px;
     width: 85%;
@@ -114,7 +118,8 @@
 }
 
 #contaoBeEmailAddressBook .tabs a:hover, #contaoBeEmailAddressBook .tabs a.active {
-    background: palegreen;
+    background: #f47c00;
+    color: #ffffff;
 }
 
 

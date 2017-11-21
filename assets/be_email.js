@@ -10,7 +10,7 @@ window.addEvent('domready', function () {
             'id': 'addAddressIconTo',
             'class': 'open-address-book-icon',
             'role': 'button',
-            'src': '/../system/modules/be_email/assets/email.svg',
+            'src': '/../system/modules/be_email/assets/phone-book.svg',
             'data-input-field': 'ctrl_recipientsTo'
 
         });
@@ -24,7 +24,7 @@ window.addEvent('domready', function () {
             'id': 'addAddressIconCc',
             'class': 'open-address-book-icon',
             'role': 'button',
-            'src': '/../system/modules/be_email/assets/email.svg',
+            'src': '/../system/modules/be_email/assets/phone-book.svg',
             'data-input-field': 'ctrl_recipientsCc'
 
         });
@@ -38,7 +38,7 @@ window.addEvent('domready', function () {
             'id': 'addAddressIconBcc',
             'class': 'open-address-book-icon',
             'role': 'button',
-            'src': '/../system/modules/be_email/assets/email.svg',
+            'src': '/../system/modules/be_email/assets/phone-book.svg',
             'data-input-field': 'ctrl_recipientsBcc'
         });
         var ctrl_recipientsBcc = document.id('ctrl_recipientsBcc');
