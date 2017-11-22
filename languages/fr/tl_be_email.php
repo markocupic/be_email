@@ -44,4 +44,6 @@ $GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Destinataires";
 $GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Messages";
 $GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = "Attachments";
 $GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'Envoie e-mail';
+$GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Carnet d\'adresses';
+$GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Ajouter des destinataires';
 

@@ -44,5 +44,7 @@ $GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Empf&auml;nger";
 $GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Nachricht";
 $GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Dateianh&auml;nge';
 $GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'E-Mail senden';
+$GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Adressbuch';
+$GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Empf&auml;nger hinzuf&uuml;gen';
 
 

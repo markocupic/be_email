@@ -1,20 +1,48 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: Marko
- * Date: 20.11.2017
- * Time: 21:59
+ * Contao Open Source CMS
+ *
+ * Copyright (C) 2005-2012 Leo Feyer
+ *
+ * @copyright  Marko Cupic 2012
+ * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
+ * @package    be_email
+ * @license    GNU/LGPL
  */
 
 namespace Markocupic\BeEmail;
 
-
+/**
+ * Class BeEmail
+ * @package Markocupic\BeEmail
+ */
 class BeEmail
 {
 
-
+    /**
+     * @param string $strAction
+     */
     public function executePreActions($strAction = '')
     {
+
+        // Send language file to the browser
+        if ($strAction === 'loadBeEmailLangFile')
+        {
+            // Output
+            $json = array();
+
+            // Load language file
+            \Controller::loadLanguageFile('tl_be_email');
+            $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
+
+            // Send it to the browser
+            echo html_entity_decode(json_encode($json));
+            exit();
+
+        }
+
+        // Send address book to the browser
         if ($strAction === 'openBeEmailAddressBook')
         {
             $objTemplate = new \BackendTemplate('be_email_address_book');
@@ -30,7 +58,8 @@ class BeEmail
                     trim($row['alternate_email']),
                     trim($row['alternate_email_2'])
                 );
-                // remove double entries and filter empty values
+
+                // Remove double entries and filter empty values
                 $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
                 $formInput = \Input::post('formInput');
                 $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
@@ -65,8 +94,18 @@ class BeEmail
                     $objTemplate->showMembersAddresses = true;
             }
 
-            // output
-            echo json_encode(array('content' => $objTemplate->parse()));
+            // Output
+            $json = array();
+
+            // Load language file
+            \Controller::loadLanguageFile('tl_be_email');
+            $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
+
+            // Parse template
+            $json['content'] = $objTemplate->parse();
+
+            // Send it to the browser
+            echo json_encode($json);
             exit();
         }
 

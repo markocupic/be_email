@@ -52,3 +52,7 @@ $GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = 'Recipients';
 $GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = 'Messages';
 $GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Attachments';
 
+
+// Modal window
+$GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Address book';
+$GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Add recipients';
