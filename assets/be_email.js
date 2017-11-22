@@ -56,6 +56,7 @@ window.addEvent('domready', function () {
 
                         // Open modal on click
                         Backend.openModalWindow(900, 'Adressbuch', json.content);
+                        document.id('simple-modal').addClass('contao-be-email-modal');
 
                         // Handle tab visibility
                         $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
@@ -81,43 +82,40 @@ window.addEvent('domready', function () {
  * @type {Type}
  */
 ContaoBeEmail = new Class(
-    {
-        sendmail: function (email, formInputId, elButton) {
-            el_form = document.id('tl_be_email');
-            var addrInput = el_form[formInputId];
-            if (addrInput) {
-                if (email) {
-                    addrInput.value = email + '; ' + addrInput.value;
-                }
-                else {
-                    alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
-                }
+{
+    sendmail: function (email, formInputId, elButton) {
+        el_form = document.id('tl_be_email');
+        var addrInput = el_form[formInputId];
+        if (addrInput) {
+            if (email) {
+                addrInput.value = email + '; ' + addrInput.value;
             }
             else {
-                alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
+                alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
             }
-            // Remove button
-            var remElement = (elButton.parentNode).removeChild(elButton);
-        },
-        tabClick: function (el) {
-            var others = el.getParent('li').getSiblings('li').getChildren('a');
-            var target = el.getProperty('href');
-            others.each(function (act) {
-                act.removeClass('active');
-            });
-            el.addClass('active');
-
-            $$('.tabgroup>div').each(function (elDiv) {
-                elDiv.setStyle('display', 'none');
-            });
-            document.id(target).setStyle('display', 'block');
-            return false;
         }
-    });
+        else {
+            alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
+        }
+        // Remove button
+        var remElement = (elButton.parentNode).removeChild(elButton);
+    },
+    tabClick: function (el) {
+        var others = el.getParent('li').getSiblings('li').getChildren('a');
+        var target = el.getProperty('href');
+        others.each(function (act) {
+            act.removeClass('active');
+        });
+        el.addClass('active');
 
-
-window.addEvent('domready', function () {
+        $$('.tabgroup>div').each(function (elDiv) {
+            elDiv.setStyle('display', 'none');
+        });
+        document.id(target).setStyle('display', 'block');
+        return false;
+    }
 });
+
 
 
 

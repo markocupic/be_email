@@ -1,5 +1,11 @@
+.contao-be-email-modal
+{
+    max-width: 95% !important;
+}
+
 #tl_navigation .group-email {
     background: url(envelope.svg) 3px 2px no-repeat;
+    background-size: 13px 13px;
 }
 
 #tl_be_email textarea.address_textarea_to, #tl_be_email textarea.address_textarea_cc, #tl_be_email textarea.address_textarea_bcc {
