@@ -79,6 +79,8 @@
     background-color: #ffffff;
     padding: 12px 4px;
     border-bottom: 1px solid #e2e2e2;
+    height: 43px;
+    vertical-align: middle;
 }
 
 #contaoBeEmailAddressBook .odd td {
