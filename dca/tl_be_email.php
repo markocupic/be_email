@@ -116,6 +116,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'recipientsTo' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo'],
+            'exclude' => false,
             'search' => true,
             'sorting' => true,
             'filter' => true,
@@ -128,6 +129,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'recipientsCc' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc'],
+            'exclude' => false,
             'search' => true,
             'sorting' => true,
             'filter' => true,
@@ -137,6 +139,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'recipientsBcc' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc'],
+            'exclude' => false,
             'search' => true,
             'sorting' => true,
             'filter' => true,
@@ -146,6 +149,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'subject' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['subject'],
+            'exclude' => false,
             'search' => true,
             'sorting' => true,
             'filter' => true,
@@ -159,6 +163,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'content' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['content'],
+            'exclude' => false,
             'search' => true,
             'sorting' => true,
             'filter' => true,
@@ -182,13 +187,14 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'addAttachment' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['addAttachment'],
+            'exclude' => false,
             'inputType' => 'checkbox',
             'eval' => array('doNotShow' => true, 'submitOnChange' => true),
             'sql' => "char(1) NOT NULL default ''"
         ),
         'attachment' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_be_email']['attachment'],
-            'exclude' => true,
+            'exclude' => false,
             'inputType' => 'fileTree',
             'eval' => array('multiple' => true, 'fieldType' => 'checkbox', 'files' => true, 'mandatory' => true),
             'sql' => "blob NULL",
