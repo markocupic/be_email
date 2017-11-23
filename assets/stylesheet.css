@@ -77,7 +77,7 @@
 #contaoBeEmailAddressBook td {
     font-size: 12px;
     background-color: #ffffff;
-    padding: 8px 4px;
+    padding: 12px 4px;
     border-bottom: 1px solid #e2e2e2;
 }
 
@@ -86,7 +86,7 @@
 }
 
 #contaoBeEmailAddressBook td.col_0 {
-
+    padding-right: 10px;
 }
 
 #contaoBeEmailAddressBook td.col_1 {
@@ -95,6 +95,7 @@
 
 #contaoBeEmailAddressBook td.col_2 {
     width: 150px;
+    padding-left: 15px;
 }
 
 
