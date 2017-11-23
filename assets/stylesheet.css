@@ -33,9 +33,9 @@
 }
 
 #tl_be_email img.open-address-book-icon {
-    width: 18px;
-    height: 18px;
-    top: 24px;
+    width: 20px;
+    height: 20px;
+    top: 23px;
     vertical-align: top;
     position: relative;
     left: 0;
@@ -69,10 +69,6 @@
     height: 18px;
 }
 
-#contaoBeEmailAddressBook .odd td {
-    background-color: #f0f0f0;
-}
-
 #contaoBeEmailAddressBook th {
     text-align: left;
     color: #000;
@@ -80,24 +76,27 @@
 
 #contaoBeEmailAddressBook td {
     font-size: 12px;
+    background-color: #ffffff;
+    padding: 8px 4px;
+    border-bottom: 1px solid #e2e2e2;
 }
 
-#contaoBeEmailAddressBook .col_0 {
-    width: 25px;
+#contaoBeEmailAddressBook .odd td {
+    background-color: #ffffff;
 }
 
-#contaoBeEmailAddressBook .col_1 {
-    width: 220px;
+#contaoBeEmailAddressBook td.col_0 {
+
 }
 
-#contaoBeEmailAddressBook .col_2 {
-    width: 220px;
+#contaoBeEmailAddressBook td.col_1 {
+    width: 150px;
 }
 
-#contaoBeEmailAddressBook td {
-    height: 30px;
-    padding: 0 5px;
+#contaoBeEmailAddressBook td.col_2 {
+    width: 150px;
 }
+
 
 #contaoBeEmailAddressBook table a, #contaoBeEmailAddressBook table img {
     border: 0;
@@ -119,7 +118,6 @@
     text-transform: uppercase;
     color: #333;
     padding: 10px 0;
-    border-bottom: 2px solid #888;
     background: #f7f7f7;
 }
 

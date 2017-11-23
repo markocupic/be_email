@@ -76,7 +76,7 @@ class BeEmail
             while ($result->next())
             {
                 $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-                $memberRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . $result->email . "'", "'" . $formInput . "'", $result->firstname . " " . $result->lastname, $result->email);
+                $memberRows .= sprintf('<tr class="col_0 %s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, "'" . $result->email . "'", "'" . $formInput . "'", $result->firstname . " " . $result->lastname, $result->email);
                 $i++;
             }
             $objTemplate->memberAddresses = $memberRows;
