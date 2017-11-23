@@ -13,24 +13,24 @@
 
 $GLOBALS['TL_DCA']['tl_be_email'] = array(
     // Config
-    'config'   => array(
-        'sql'                => array(
+    'config' => array(
+        'sql' => array(
             'keys' => array(
-                'id'  => 'primary',
+                'id' => 'primary',
                 'pid' => 'index',
             )
         ),
-        'ptable'             => 'tl_user',
-        'dataContainer'      => 'Table',
-        'enableVersioning'   => false,
+        'ptable' => 'tl_user',
+        'dataContainer' => 'Table',
+        'enableVersioning' => false,
         'doNotDeleteRecords' => false,
-        'onload_callback'    => array(
+        'onload_callback' => array(
             array(
                 'tl_be_email',
                 'onLoadCbCheckPermission'
             ),
         ),
-        'onsubmit_callback'  => array(
+        'onsubmit_callback' => array(
             array(
                 'tl_be_email',
                 'onSubmitCbSendEmail'
@@ -38,12 +38,12 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         )
     ),
     // Buttons callback
-    'edit' =>array(
+    'edit' => array(
         'buttons_callback' => array(array('tl_be_email', 'buttonsCallback'))
     ),
     // List
-    'list'     => array(
-        'sorting'           => array(
+    'list' => array(
+        'sorting' => array(
             'fields' => array('tstamp DESC'),
             'filter' => array(
                 array(
@@ -52,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                 )
             )
         ),
-        'label'             => array(
+        'label' => array(
             'fields' => array(
                 'subject',
                 'recipientsTo'
@@ -61,28 +61,28 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         ),
         'global_operations' => array(
             'all' => array(
-                'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
-                'href'       => 'act=select',
-                'class'      => 'header_edit_all',
+                'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
+                'href' => 'act=select',
+                'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset();" accesskey="e"'
             )
         ),
-        'operations'        => array(
-            'edit'   => array(
+        'operations' => array(
+            'edit' => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_be_email']['edit'],
-                'href'  => 'act=edit',
-                'icon'  => 'edit.gif'
+                'href' => 'act=edit',
+                'icon' => 'edit.gif'
             ),
             'delete' => array(
-                'label'      => &$GLOBALS['TL_LANG']['tl_be_email']['delete'],
-                'href'       => 'act=delete',
-                'icon'       => 'delete.gif',
+                'label' => &$GLOBALS['TL_LANG']['tl_be_email']['delete'],
+                'href' => 'act=delete',
+                'icon' => 'delete.gif',
                 'attributes' => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             ),
-            'show'   => array(
+            'show' => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_be_email']['show'],
-                'href'  => 'act=show',
-                'icon'  => 'show.gif'
+                'href' => 'act=show',
+                'icon' => 'show.gif'
             )
         )
     ),
@@ -94,75 +94,75 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
     // Subpalettes
     'subpalettes' => array
     (
-        'addAttachment'                    => 'attachment',
+        'addAttachment' => 'attachment',
     ),
     // Fields
-    'fields'   => array(
-        'id'             => array(
+    'fields' => array(
+        'id' => array(
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ),
-        'pid'            => array(
-            'default'    => \BackendUser::getInstance()->id,
+        'pid' => array(
+            'default' => \BackendUser::getInstance()->id,
             'foreignKey' => 'tl_user.username',
-            'relation'   => array(
+            'relation' => array(
                 'type' => 'belongsTo',
                 'load' => 'eager'
             ),
-            'eval'       => array('doNotShow' => true),
-            'sql'        => "int(10) unsigned NOT NULL default '0'",
+            'eval' => array('doNotShow' => true),
+            'sql' => "int(10) unsigned NOT NULL default '0'",
         ),
-        'tstamp'         => array(
+        'tstamp' => array(
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ),
-        'recipientsTo'   => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo'],
-            'search'    => true,
-            'sorting'   => true,
-            'filter'    => true,
+        'recipientsTo' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo'],
+            'search' => true,
+            'sorting' => true,
+            'filter' => true,
             'inputType' => 'textarea',
-            'eval'      => array(
-                'mandatory'      => true,
+            'eval' => array(
+                'mandatory' => true,
                 'doNotSaveEmpty' => true
             ),
-            'sql'       => "text NOT NULL"
+            'sql' => "text NOT NULL"
         ),
-        'recipientsCc'   => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc'],
-            'search'    => true,
-            'sorting'   => true,
-            'filter'    => true,
+        'recipientsCc' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc'],
+            'search' => true,
+            'sorting' => true,
+            'filter' => true,
             'inputType' => 'textarea',
-            'eval'      => array(),
-            'sql'       => "text NOT NULL"
+            'eval' => array(),
+            'sql' => "text NOT NULL"
         ),
-        'recipientsBcc'  => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc'],
-            'search'    => true,
-            'sorting'   => true,
-            'filter'    => true,
+        'recipientsBcc' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc'],
+            'search' => true,
+            'sorting' => true,
+            'filter' => true,
             'inputType' => 'textarea',
-            'eval'      => array(),
-            'sql'       => "text NOT NULL"
+            'eval' => array(),
+            'sql' => "text NOT NULL"
         ),
-        'subject'        => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_be_email']['subject'],
-            'search'    => true,
-            'sorting'   => true,
-            'filter'    => true,
+        'subject' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['subject'],
+            'search' => true,
+            'sorting' => true,
+            'filter' => true,
             'inputType' => 'text',
-            'eval'      => array(
-                'mandatory'      => true,
+            'eval' => array(
+                'mandatory' => true,
                 'doNotSaveEmpty' => true,
-                'style'          => ' width:95%; '
+                'style' => ' width:95%; '
             ),
-            'sql'       => "text NOT NULL"
+            'sql' => "text NOT NULL"
         ),
-        'content'        => array(
-            'label'         => &$GLOBALS['TL_LANG']['tl_be_email']['content'],
-            'search'        => true,
-            'sorting'       => true,
-            'filter'        => true,
-            'inputType'     => 'textarea',
+        'content' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['content'],
+            'search' => true,
+            'sorting' => true,
+            'filter' => true,
+            'inputType' => 'textarea',
             'load_callback' => array(
                 array(
                     'tl_be_email',
@@ -170,29 +170,28 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                 )
             ),
 
-            'eval'          => array(
+            'eval' => array(
                 'decodeEntities' => false,
-                'preserveTags'   => true,
-                'allowHtml'      => true,
-                'mandatory'      => true,
+                'preserveTags' => true,
+                'allowHtml' => true,
+                'mandatory' => true,
                 'doNotSaveEmpty' => true,
-                'style'          => ' width:95%; ',
+                'style' => ' width:95%; ',
             ),
-            'sql'           => "longtext NOT NULL"
+            'sql' => "longtext NOT NULL"
         ),
-        'addAttachment'     => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_be_email']['addAttachment'],
-            'inputType' => 'text',
-            'inputType'               => 'checkbox',
-            'eval'                    => array('doNotShow' => true, 'submitOnChange'=>true),
-            'sql'                     => "char(1) NOT NULL default ''"
+        'addAttachment' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['addAttachment'],
+            'inputType' => 'checkbox',
+            'eval' => array('doNotShow' => true, 'submitOnChange' => true),
+            'sql' => "char(1) NOT NULL default ''"
         ),
         'attachment' => array(
-            'label'                   => &$GLOBALS['TL_LANG']['tl_be_email']['attachment'],
-            'exclude'                 => true,
-            'inputType'               => 'fileTree',
-            'eval'                    => array('multiple'=>true, 'fieldType'=>'checkbox', 'files'=>true, 'mandatory'=>true),
-            'sql'                     => "blob NULL",
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['attachment'],
+            'exclude' => true,
+            'inputType' => 'fileTree',
+            'eval' => array('multiple' => true, 'fieldType' => 'checkbox', 'files' => true, 'mandatory' => true),
+            'sql' => "blob NULL",
         )
     )
 );
