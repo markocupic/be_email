@@ -75,7 +75,6 @@ ContaoBeEmail = new Class(
                         new Request.JSON({
                             url: window.location.href,
                             onSuccess: function(json, txt){
-                                console.log(json);
                                 // Open modal on click
                                 var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
                                 Backend.openModalWindow(modalWidth, json['lang']['address_book'], json.content);
@@ -131,9 +130,3 @@ ContaoBeEmail = new Class(
             return false;
         }
     });
-
-
-
-
-
-
