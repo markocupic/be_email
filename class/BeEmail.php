@@ -63,7 +63,7 @@ class BeEmail
                 $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
                 $formInput = \Input::post('formInput');
                 $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-                $userRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $row['name'], $row['email']);
+                $userRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $row['name'], implode('; ', $arrEmailAddresses));
                 $i++;
             }
             $objTemplate->userAddresses = $userRows;
