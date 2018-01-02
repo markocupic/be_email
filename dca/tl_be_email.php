@@ -24,7 +24,23 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         'dataContainer' => 'Table',
         'enableVersioning' => false,
         'doNotDeleteRecords' => false,
+        'oncreate_callback' => array(
+            array(
+                'tl_be_email',
+                'onCreateCallback'
+            ),
+        ),
+        'oncopy_callback' => array(
+            array(
+                'tl_be_email',
+                'onCopyCallback'
+            ),
+        ),
         'onload_callback' => array(
+            array(
+                'tl_be_email',
+                'setPalette'
+            ),
             array(
                 'tl_be_email',
                 'onLoadCbCheckPermission'
@@ -50,14 +66,17 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                     'pid=?',
                     \BackendUser::getInstance()->id
                 )
-            )
+            ),
+            'panelLayout' => 'filter;search,limit',
+
         ),
         'label' => array(
             'fields' => array(
                 'subject',
                 'recipientsTo'
             ),
-            'format' => '%s  <span style="color:#b3b3b3; padding-left:3px;">(%s)</span>'
+            //'format' => '%s  <span style="color:#b3b3b3; padding-left:3px;">(%s)</span>',
+            'label_callback' => array('tl_be_email', 'labelCallback'),
         ),
         'global_operations' => array(
             'all' => array(
@@ -89,6 +108,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
     // Palettes
     'palettes' => array(
         '__selector__' => array('addAttachment'),
+        'sentEmail' => 'summary',
         'default' => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content;{attachment_legend},addAttachment;'
     ),
     // Subpalettes
@@ -119,7 +139,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'exclude' => false,
             'search' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'inputType' => 'textarea',
             'eval' => array(
                 'mandatory' => true,
@@ -132,7 +152,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'exclude' => false,
             'search' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'inputType' => 'textarea',
             'eval' => array(),
             'sql' => "text NOT NULL"
@@ -142,7 +162,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'exclude' => false,
             'search' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'inputType' => 'textarea',
             'eval' => array(),
             'sql' => "text NOT NULL"
@@ -152,7 +172,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'exclude' => false,
             'search' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'inputType' => 'text',
             'eval' => array(
                 'mandatory' => true,
@@ -166,7 +186,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'exclude' => false,
             'search' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'inputType' => 'textarea',
             'load_callback' => array(
                 array(
@@ -198,7 +218,26 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'inputType' => 'fileTree',
             'eval' => array('multiple' => true, 'fieldType' => 'checkbox', 'files' => true, 'mandatory' => true),
             'sql' => "blob NULL",
-        )
+        ),
+        'emailNotSent' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['emailNotSent'],
+            'filter' => true,
+            'sql' => "char(1) NOT NULL default ''"
+        ),
+        'summary' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_be_email']['summary'],
+            'exclude' => false,
+            'inputType' => 'textarea',
+            'input_field_callback' =>
+                array(
+                    'tl_be_email', 'generateSummary',
+                ),
+            'eval' => array(
+                'doNotShow' => true,
+                'doNotCopy' => true,
+            ),
+            'sql' => "longtext NOT NULL"
+        ),
     )
 );
 
