@@ -342,7 +342,7 @@ class tl_be_email extends Backend
 
         // Labels
         $objTemplate->labelSubject = $GLOBALS['TL_LANG']['tl_be_email']['subject']['0'];
-        $objTemplate->labelSubjecText = $GLOBALS['TL_LANG']['tl_be_email']['content']['0'];
+        $objTemplate->labelText = $GLOBALS['TL_LANG']['tl_be_email']['content']['0'];
 
 
         return $objTemplate->parse();
