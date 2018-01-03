@@ -21,7 +21,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['alternate_email'] = array
     'sorting' => true,
     'flag' => 1,
     'inputType' => 'text',
-    'eval' => array('mandatory' => false, 'rgxp' => 'email', 'tl_class' => 'w50'),
+    'eval' => array('mandatory' => false, 'rgxp' => 'email', 'tl_class' => 'clr'),
     'sql' => "varchar(255) NOT NULL default ''"
 );
 
@@ -33,7 +33,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['alternate_email_2'] = array
     'sorting' => true,
     'flag' => 1,
     'inputType' => 'text',
-    'eval' => array('mandatory' => false, 'rgxp' => 'email', 'tl_class' => 'w50'),
+    'eval' => array('mandatory' => false, 'rgxp' => 'email', 'tl_class' => 'clr'),
     'sql' => "varchar(255) NOT NULL default ''"
 );
 
