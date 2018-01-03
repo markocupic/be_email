@@ -66,10 +66,10 @@ class tl_be_email extends Backend
      */
     public function labelCallback($row)
     {
-        $class = $row['emailNotSent'] ? 'emailNotSent' : 'emailSent';
+        $class = $row['emailNotSent'] ? 'email-not-sent' : 'email-sent';
 
         $project = $row['emailNotSent'] ? sprintf('<span class="project">[%s]</span>', $GLOBALS['TL_LANG']['tl_be_email']['emailNotSent'][0]) : '';
-        return sprintf('<p class="%s"><span class="date">%s</span> %s<br><span class="subject"><strong>%s</strong></span><br><span class="to">%s</span></p>', $class, Date::parse('d.m.Y H:m', $row['tstamp']), $project, $row['subject'], \Contao\StringUtil::substr($row['recipientsTo'], 50, ' ...'));
+        return sprintf('<p class="%s"><span class="date">%s</span> %s<br><span class="subject"><strong>%s</strong></span><br><span class="to">TO: %s</span></p>', $class, Date::parse('d.m.Y H:m', $row['tstamp']), $project, $row['subject'], \Contao\StringUtil::substr($row['recipientsTo'], 50, ' ...'));
     }
 
 

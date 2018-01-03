@@ -140,7 +140,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'search' => true,
             'sorting' => true,
             'filter' => false,
-            'inputType' => 'textarea',
+            'inputType' => 'text',
             'eval' => array(
                 'mandatory' => true,
                 'doNotSaveEmpty' => true
@@ -153,7 +153,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'search' => true,
             'sorting' => true,
             'filter' => false,
-            'inputType' => 'textarea',
+            'inputType' => 'text',
             'eval' => array(),
             'sql' => "text NOT NULL"
         ),
@@ -163,7 +163,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'search' => true,
             'sorting' => true,
             'filter' => false,
-            'inputType' => 'textarea',
+            'inputType' => 'text',
             'eval' => array(),
             'sql' => "text NOT NULL"
         ),

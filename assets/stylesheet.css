@@ -1,7 +1,50 @@
-.contao-be-email-modal
-{
+/** Overwrite defaults **/
+.awesomplete {
+    display: block !important;
+    width: calc(100% - 30px) !important;
+}
+
+.awesomplete ul {
+    margin-left: 30px !important;
+    min-width: calc(100% - 30px) !important;
+}
+
+.awesomplete ul li {
+    margin: 7px 0 !important;
+}
+
+.tl_listing tr[class*="row-email-"] > td {
+    border-bottom: 3px solid #fff;
+}
+
+
+
+
+
+
+
+/** Listing **/
+.tl_listing tr[class*="row-email-"] > td > p {
+    line-height: 1.5;
+}
+
+.tl_listing tr.row-email-sent > td {
+    background-color: rgba(111, 189, 255, 0.18);
+}
+
+.tl_listing tr.row-email-not-sent > td {
+    background-color: rgba(255, 0, 0, 0.18);
+}
+
+.contao-be-email-modal {
     max-width: 90% !important;
 }
+
+
+
+
+
+
 
 #tl_navigation .group-email {
     background: url(envelope.svg) 3px 2px no-repeat;
@@ -99,7 +142,6 @@
     width: 150px;
     padding-left: 15px;
 }
-
 
 #contaoBeEmailAddressBook table a, #contaoBeEmailAddressBook table img {
     border: 0;

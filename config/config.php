@@ -23,6 +23,12 @@ $GLOBALS['TL_CSS'][] = 'system/modules/be_email/assets/stylesheet.css';
 
 if (TL_MODE == 'BE' && $_GET['do'] == 'tl_be_email')
 {
+    // http://leaverou.github.io/awesomplete
+    $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/be_email/assets/Autocompleter/awesomplete.js';
+    $GLOBALS['TL_CSS'][]        = 'system/modules/be_email/assets/Autocompleter/awesomplete.css';
+
+    $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/be_email/assets/be_email_listing.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/be_email/assets/be_email_listing_autocomplete.js';
     if ($_GET['act'] == 'edit')
     {
         // Add Javascript

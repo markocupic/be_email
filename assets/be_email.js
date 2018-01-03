@@ -6,9 +6,10 @@ window.addEvent('domready', function () {
     // Load language file
     new Request.JSON({
         url: window.location.href,
-        onSuccess: function(json, txt){
+        onSuccess: function (json, txt) {
             ContaoBeEmail.init(json['lang']);
-    }}).post({
+        }
+    }).post({
         'action': 'loadBeEmailLangFile',
         'REQUEST_TOKEN': Contao.request_token
     });
@@ -74,7 +75,7 @@ ContaoBeEmail = new Class(
                         // Load language file
                         new Request.JSON({
                             url: window.location.href,
-                            onSuccess: function(json, txt){
+                            onSuccess: function (json, txt) {
                                 // Open modal on click
                                 var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
                                 Backend.openModalWindow(modalWidth, json['lang']['address_book'], json.content);
@@ -88,7 +89,8 @@ ContaoBeEmail = new Class(
 
                                 // Add active class to first child
                                 $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
-                            }}).post({
+                            }
+                        }).post({
                             'action': 'openBeEmailAddressBook',
                             'formInput': icon.getProperty('data-input-field'),
                             'REQUEST_TOKEN': Contao.request_token
@@ -129,4 +131,5 @@ ContaoBeEmail = new Class(
             document.id(target).setStyle('display', 'block');
             return false;
         }
-    });
+    }
+);
