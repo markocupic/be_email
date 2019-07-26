@@ -32,7 +32,6 @@ ContaoBeEmailListingAutocomplete = new Class(
             new Request.JSON({
                 url: window.location.href,
                 onSuccess: function (json, txt) {
-                    console.log(json.emailString);
                     $$('input.awesomplete').each(function (el) {
                         el.setProperty('data-multiple', 'true');
                         el.setProperty('data-list', json.emailString);

@@ -50,11 +50,12 @@ $GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'E-Mail senden';
 $GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Adressbuch';
 $GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Empf&auml;nger hinzuf&uuml;gen';
 
-
-
 // Buttons
 $GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'] = 'Email erneut versenden';
 $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] = 'Zur&uuml;ck';
 
 // Messages
 $GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent'] = 'Ihre Nachricht wurde versandt.';
+
+// Placeholders
+$GLOBALS['TL_LANG']['tl_be_email']['searchForName'] = 'Suche nach Name';

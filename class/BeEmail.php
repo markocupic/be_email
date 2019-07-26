@@ -31,8 +31,6 @@ class BeEmail
      */
     public function executePreActions($strAction = '')
     {
-
-
         // Send email addresses as string to the server
         if ($strAction === 'getEmailAddresses')
         {
@@ -41,7 +39,6 @@ class BeEmail
 
             // userBox
             $arrEmail = [];
-
 
             $mode = Config::get('address_popup_settings') ?: '';
 
@@ -72,7 +69,6 @@ class BeEmail
                 }
             }
 
-
             $arrEmail = array_unique($arrEmail);
             $arrEmail = array_filter($arrEmail);
 
@@ -81,7 +77,6 @@ class BeEmail
             // Send it to the browser
             echo(json_encode($json));
             exit();
-
         }
         // Send language file to the browser
         if ($strAction === 'loadBeEmailLangFile')
@@ -96,47 +91,27 @@ class BeEmail
             // Send it to the browser
             echo html_entity_decode(json_encode($json));
             exit();
-
         }
 
         // Send address book to the browser
         if ($strAction === 'openBeEmailAddressBook')
         {
+            // Load language file
+            Controller::loadLanguageFile('tl_be_email');
+
+            // Get template object
             $objTemplate = new BackendTemplate('be_email_address_book');
 
             // userBox
-            $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
-            $userRows = '';
-            $i = 0;
-            while ($row = $result->fetchAssoc())
-            {
-                $arrEmailAddresses = array(
-                    trim($row['email']),
-                    trim($row['alternate_email']),
-                    trim($row['alternate_email_2'])
-                );
-
-                // Remove double entries and filter empty values
-                $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
-                $formInput = Input::post('formInput');
-                $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-                $userRows .= sprintf('<tr class="%s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $row['name'], implode('; ', $arrEmailAddresses));
-                $i++;
-            }
-            $objTemplate->userAddresses = $userRows;
-
+            $objTemplate->userAddresses = $this->getUserRows();
 
             // memberBox
-            $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ? ORDER BY lastname')->execute('');
-            $memberRows = '';
-            $i = 0;
-            while ($result->next())
-            {
-                $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-                $memberRows .= sprintf('<tr class="col_0 %s"><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, "'" . $result->email . "'", "'" . $formInput . "'", $result->firstname . " " . $result->lastname, $result->email);
-                $i++;
-            }
-            $objTemplate->memberAddresses = $memberRows;
+            $objTemplate->memberAddresses = $this->getMemberRows();
+
+            // Placeholders
+            $objTemplate->lbl_searchForName = $GLOBALS['TL_LANG']['tl_be_email']['searchForName'];
+            $objTemplate->lbl_users = $GLOBALS['TL_LANG']['tl_be_email']['users']['0'];
+            $objTemplate->lbl_members = $GLOBALS['TL_LANG']['tl_be_email']['members']['0'];
 
             switch ($GLOBALS['TL_CONFIG']['address_popup_settings'])
             {
@@ -154,8 +129,7 @@ class BeEmail
             // Output
             $json = array();
 
-            // Load language file
-            Controller::loadLanguageFile('tl_be_email');
+
             $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
 
             // Parse template
@@ -165,6 +139,51 @@ class BeEmail
             echo json_encode($json);
             exit();
         }
+    }
 
+    /**
+     * @return string
+     */
+    protected function getMemberRows()
+    {
+        $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ? ORDER BY lastname')->execute('');
+        $memberRows = '';
+        $i = 0;
+        while ($result->next())
+        {
+            $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
+            $formInput = Input::post('formInput');
+            $strName = $result->firstname . " " . $result->lastname;
+            $memberRows .= sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, "'" . $result->email . "'", "'" . $formInput . "'", $strName, $result->email);
+            $i++;
+        }
+        return $memberRows;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUserRows()
+    {
+        $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
+        $userRows = '';
+        $i = 0;
+        while ($row = $result->fetchAssoc())
+        {
+            $arrEmailAddresses = array(
+                trim($row['email']),
+                trim($row['alternate_email']),
+                trim($row['alternate_email_2'])
+            );
+
+            // Remove double entries and filter empty values
+            $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
+            $formInput = Input::post('formInput');
+            $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
+            $strName = $row['name'];
+            $userRows .= sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $strName, implode('; ', $arrEmailAddresses));
+            $i++;
+        }
+        return $userRows;
     }
 }

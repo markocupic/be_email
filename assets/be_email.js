@@ -100,6 +100,32 @@ ContaoBeEmail = new Class(
             });
         },
 
+        filterName: function (inputText) {
+
+            var arrLists = ['userBox', 'memberBox'];
+            arrLists.each(function (idSelector) {
+                if (document.id(idSelector)) {
+                    if (inputText.value == '') {
+                        $$('#' + idSelector + ' tr').each(function (el) {
+                            el.setStyle('display', 'block');
+                        });
+                        return;
+                    }
+
+                    $$('#' + idSelector + ' tr').each(function (el) {
+                        var dataName = el.getProperty('data-name');
+                        var regExp = new RegExp('' + inputText.value, 'gi');
+                        var res = dataName.match(regExp);
+                        if (res === null) {
+                            el.setStyle('display', 'none');
+                        } else {
+                            el.setStyle('display', 'block');
+                        }
+                    });
+                }
+            });
+        },
+
         sendmail: function (email, formInputId, elButton) {
             el_form = document.id('tl_be_email');
             var addrInput = el_form[formInputId];

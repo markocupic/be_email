@@ -153,7 +153,10 @@
 }
 
 #contaoBeEmailAddressBook .tabs li {
-    width: 120px;
+    min-width: 160px;
+}
+#contaoBeEmailAddressBook .tabs li .tl_text {
+    margin: 2px 10px;
 }
 
 #contaoBeEmailAddressBook .tabs a {
@@ -162,7 +165,7 @@
     text-decoration: none;
     text-transform: uppercase;
     color: #333;
-    padding: 10px 0;
+    padding: 10px 10px;
     background: #f7f7f7;
 }
 

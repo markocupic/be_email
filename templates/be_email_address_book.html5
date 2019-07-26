@@ -2,12 +2,13 @@
     <div class="wrapper">
         <ul class="tabs">
             <?php if ($this->showUsersAddresses) : ?>
-            <li><a href="tab1" onclick="ContaoBeEmail.tabClick(this); return false" class="active">Benutzer</a></li>
+            <li><a href="tab1" onclick="ContaoBeEmail.tabClick(this); return false" class="active"><?= $this->lbl_users ?></a></li>
             <?php endif; ?>
 
             <?php if ($this->showMembersAddresses) : ?>
-            <li><a href="tab2" onclick="ContaoBeEmail.tabClick(this); return false">Mitglieder</a></li>
+            <li><a href="tab2" onclick="ContaoBeEmail.tabClick(this); return false"><?= $this->lbl_members ?></a></li>
             <?php endif; ?>
+            <li id="tabSearchForName"><input type="text" id="ctrlSearchForName" class="tl_text" oninput="ContaoBeEmail.filterName(this)" placeholder="<?= $this->lbl_searchForName ?>"></li>
         </ul>
         <section class="tabgroup">
             <?php if ($this->showUsersAddresses) : ?>
