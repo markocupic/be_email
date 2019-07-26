@@ -8,8 +8,6 @@ class tl_be_email extends Backend
 
     public function __construct()
     {
-
-
         if (\Input::post('copyAndResendEmail') !== null)
         {
             $objSource = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
@@ -30,9 +28,7 @@ class tl_be_email extends Backend
                 unset($_POST);
                 \Contao\Controller::redirect($redirect);
             }
-
         }
-
 
         if ($_POST['content'])
         {
@@ -72,7 +68,6 @@ class tl_be_email extends Backend
         return sprintf('<p class="%s"><span class="date">%s</span> %s<br><span class="subject"><strong>%s</strong></span><br><span class="to">TO: %s</span></p>', $class, Date::parse('d.m.Y H:m', $row['tstamp']), $project, $row['subject'], \Contao\StringUtil::substr($row['recipientsTo'], 50, ' ...'));
     }
 
-
     /**
      * load callback for the content field
      * the content is stored base64_encoded in the database
@@ -90,26 +85,22 @@ class tl_be_email extends Backend
         return $strValue;
     }
 
-
     /**
      * @param $strValue
      * @return mixed
      */
     protected function cleanPost($strValue)
     {
-
         $strValue = Input::stripSlashes($strValue);
         $strValue = Input::xssClean($strValue, true);
         return $strValue;
     }
-
 
     /**
      * onload_callback
      */
     public function onLoadCbCheckPermission()
     {
-
         // each user can only see his own emails
         if (Input::get('act') == '' || Input::get('id') == '')
         {
@@ -123,7 +114,6 @@ class tl_be_email extends Backend
         }
     }
 
-
     /**
      * onsubmit_callback
      * send email
@@ -136,14 +126,14 @@ class tl_be_email extends Backend
             return;
         }
 
-        $email = new Email();
+        $objEmail = new Email();
         $fromMail = $this->User->email;
         $subject = Input::post('subject');
-        $email->replyTo($fromMail);
-        $email->from = $fromMail;
-        $email->subject = $subject;
-        $email->text = base64_decode($_POST['content']);
-        $email->html = nl2br(base64_decode($_POST['content']));
+        $objEmail->replyTo($fromMail);
+        $objEmail->from = $fromMail;
+        $objEmail->subject = $subject;
+        $objEmail->text = base64_decode($_POST['content']);
+        $objEmail->html = nl2br(base64_decode($_POST['content']));
 
         // Save attachment
         $db = $this->Database->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
@@ -159,7 +149,7 @@ class tl_be_email extends Backend
                 {
                     if (file_exists(TL_ROOT . '/' . $objFile->path))
                     {
-                        $email->attachFile(TL_ROOT . '/' . $objFile->path);
+                        $objEmail->attachFile(TL_ROOT . '/' . $objFile->path);
                     }
                 }
             }
@@ -169,18 +159,19 @@ class tl_be_email extends Backend
         $cc_recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsCc'), 'recipientsCc'));
         if (count($cc_recipients))
         {
-            $email->sendCc($cc_recipients);
+            $objEmail->sendCc($cc_recipients);
         }
 
         // Bcc
         $bcc_recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsBcc'), 'recipientsBcc'));
         if (count($bcc_recipients))
         {
-            $email->sendBcc($bcc_recipients);
+            $objEmail->sendBcc($bcc_recipients);
         }
 
         // To
         $recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsTo'), 'recipientsTo'));
+
         if (count($recipients))
         {
             // Call the oncreate_callback
@@ -200,16 +191,29 @@ class tl_be_email extends Backend
                 }
             }
 
-
-            $email->sendTo($recipients);
-            $this->setNotSentFlagToFalse($dc);
-
-            // Save date
-            $objEmail = BeEmailModel::findByPk(Input::get('id'));
-            if ($objEmail !== null)
+            // Update model
+            $beEmailModel = BeEmailModel::findByPk(Input::get('id'));
+            if ($beEmailModel !== null)
             {
-                $objEmail->tstamp = time();
-                $objEmail->save();
+                $beEmailModel->recipientsTo = implode('; ', $recipients);
+                $beEmailModel->recipientsCc = implode('; ', $cc_recipients);
+                $beEmailModel->recipientsBcc = implode('; ', $bcc_recipients);
+                $beEmailModel->tstamp = time();
+
+                // HOOK: add custom logic
+                if (isset($GLOBALS['TL_HOOKS']['beEmailBeforeSend']) && \is_array($GLOBALS['TL_HOOKS']['beEmailBeforeSend']))
+                {
+                    foreach ($GLOBALS['TL_HOOKS']['beEmailBeforeSend'] as $callback)
+                    {
+                        // !Important - Parameters $objEmail and $beEmailModel should be passed by reference in the function declaration.
+                        static::importStatic($callback[0])->{$callback[1]}($objEmail, $beEmailModel);
+                    }
+                }
+
+                $objEmail->sendTo($beEmailModel->recipientsTo);
+                $beEmailModel->emailNotSent = '';
+
+                $beEmailModel->save();
             }
 
             $request = Environment::get('request');
@@ -217,11 +221,9 @@ class tl_be_email extends Backend
             Message::addInfo($GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent']);
             unset($_POST);
 
-
             \Contao\Controller::redirect($redirect);
         }
     }
-
 
     /**
      * @param string $strAddresses
@@ -230,7 +232,6 @@ class tl_be_email extends Backend
      */
     private function validateEmailAddresses($strAddresses = '', $field)
     {
-
         $arrEmailAddresses = array();
         $strAddresses = trim(strtolower($strAddresses));
         if ($strAddresses == '')
@@ -256,7 +257,6 @@ class tl_be_email extends Backend
         return $arrEmailAddresses;
     }
 
-
     /**
      * buttons_callback
      * @param $arrButtons
@@ -274,7 +274,6 @@ class tl_be_email extends Backend
             unset($arrButtons['saveNcreate']);
             unset($arrButtons['saveNduplicate']);
             $arrButtons['save'] = '<button type="submit" name="save" id="save" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['send_email'] . '</button>';
-
         }
         else
         {
@@ -284,9 +283,7 @@ class tl_be_email extends Backend
             unset($arrButtons['saveNback']);
             $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] . '</button>';
             $arrButtons['copyAndResendEmail'] = '<button type="submit" name="copyAndResendEmail" id="copyAndResendEmail" class="tl_submit" accesskey="r">' . $GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'] . '</button>';
-
         }
-
 
         return $arrButtons;
     }
@@ -316,21 +313,12 @@ class tl_be_email extends Backend
         Database::getInstance()->prepare('UPDATE tl_be_email SET emailNotSent=? WHERE id=?')->execute('1', $id);
     }
 
-    /**
-     * Called right after sending en email
-     * @param $dc
-     */
-    public function setNotSentFlagToFalse($dc)
-    {
-        Database::getInstance()->prepare('UPDATE tl_be_email SET emailNotSent=? WHERE id=?')->execute('', $dc->id);
-    }
 
     /**
      * @return string
      */
     public function generateSummary(Contao\DC_Table $dc, $label)
     {
-
         $db = \Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
         $objTemplate = new BackendTemplate('be_email_summary');
         $objTemplate->to = $db->recipientsTo;
@@ -343,7 +331,6 @@ class tl_be_email extends Backend
         // Labels
         $objTemplate->labelSubject = $GLOBALS['TL_LANG']['tl_be_email']['subject']['0'];
         $objTemplate->labelText = $GLOBALS['TL_LANG']['tl_be_email']['content']['0'];
-
 
         return $objTemplate->parse();
     }
