@@ -16,7 +16,7 @@ In der config.php muss der Hook regsitriert werden.
    $GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array('Vendorname\BeEmailBeforeSendHook', 'myBeEmailBeforeSendHook');
 ```
 
-Die Klasse könnte ungefähr so aussehen.
+Die Hook-Klasse könnte ungefähr so aussehen.
 ```php
 <?php
 
