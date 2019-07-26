@@ -40,7 +40,6 @@ if (TL_MODE == 'BE' && $_GET['do'] == 'tl_be_email')
 
 }
 
-$GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array('Vendorname\BeEmailBeforeSendHook', 'myBeEmailBeforeSendHook');
 
 
 
