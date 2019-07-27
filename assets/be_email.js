@@ -68,7 +68,11 @@ ContaoBeEmail = new Class(
                             // Open modal on click
                             var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
                             Backend.openModalWindow(modalWidth, self.lang['address_book'], self.addressBook);
+
                             document.id('simple-modal').addClass('contao-be-email-modal');
+
+                            // Set focus to the search input field
+                            document.getElementById('ctrlSearchForName').focus();
 
                             // Handle tab visibility
                             $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
@@ -141,7 +145,7 @@ ContaoBeEmail = new Class(
             // Remove button
             var remElement = (elButton.parentNode).removeChild(elButton);
         },
-        
+
         /**
          *
          * @param el

@@ -32,7 +32,7 @@ class BeEmail
     public function executePreActions($strAction = '')
     {
         // Send email addresses as string to the server
-        if ($strAction === 'getEmailAddresses')
+        if ($strAction === 'loadEmailAddresses')
         {
             // Output
             $json = array();
