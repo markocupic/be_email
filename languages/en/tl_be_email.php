@@ -60,6 +60,7 @@ $GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Add recipients';
 
 // Messages
 $GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent'] = 'Your message has bben sent.';
+$GLOBALS['TL_LANG']['tl_be_email']['entriesFound'] = 'entries found';
 
 // Placeholders
 $GLOBALS['TL_LANG']['tl_be_email']['searchForName'] = 'Search for name';

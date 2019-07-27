@@ -47,4 +47,5 @@ $GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'Envoie e-mail';
 $GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Carnet d\'adresses';
 $GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Ajouter des destinataires';
 $GLOBALS['TL_LANG']['tl_be_email']['searchForName'] = 'Cherche nom';
+$GLOBALS['TL_LANG']['tl_be_email']['entriesFound'] = 'enregistrements';
 

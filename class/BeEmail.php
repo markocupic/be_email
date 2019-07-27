@@ -79,7 +79,6 @@ class BeEmail
             exit();
         }
 
-
         // Send address book to the browser
         if ($strAction === 'loadData')
         {
@@ -90,10 +89,15 @@ class BeEmail
             $objTemplate = new BackendTemplate('be_email_address_book');
 
             // userBox
-            $objTemplate->userAddresses = $this->getUserRows();
+            $arrRows = $this->getUserRows();
+            $objTemplate->userAddresses = implode('', $arrRows);
+            $objTemplate->countUserAddresses = count($arrRows);
 
             // memberBox
-            $objTemplate->memberAddresses = $this->getMemberRows();
+            $arrRows = $this->getMemberRows();
+            $objTemplate->memberAddresses = implode('', $arrRows);
+            $objTemplate->countMemberAddresses = count($arrRows);
+            $objTemplate->lblEntriesFound = $GLOBALS['TL_LANG']['tl_be_email']['entriesFound'];
 
             // Placeholders
             $objTemplate->lbl_searchForName = $GLOBALS['TL_LANG']['tl_be_email']['searchForName'];
@@ -116,7 +120,6 @@ class BeEmail
             // Output
             $json = array();
 
-
             $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
 
             // Parse template
@@ -129,31 +132,31 @@ class BeEmail
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function getMemberRows()
     {
         $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ? ORDER BY lastname')->execute('');
-        $memberRows = '';
         $i = 0;
+        $arrRows = array();
         while ($result->next())
         {
             $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
             $strName = $result->firstname . " " . $result->lastname;
-            $memberRows .= sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, "'" . $result->email . "'", $strName, $result->email);
+            $arrRows[] = sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(\'%s\', this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, $result->email, $strName, $result->email);
             $i++;
         }
-        return $memberRows;
+        return $arrRows;
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function getUserRows()
     {
         $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
-        $userRows = '';
         $i = 0;
+        $arrRows = array();
         while ($row = $result->fetchAssoc())
         {
             $arrEmailAddresses = array(
@@ -166,9 +169,9 @@ class BeEmail
             $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
             $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
             $strName = $row['name'];
-            $userRows .= sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, "'" . implode('; ', $arrEmailAddresses) . "'", $strName, implode('; ', $arrEmailAddresses));
+            $arrRows[] = sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(\'%s\', this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, implode('; ', $arrEmailAddresses), $strName, implode('; ', $arrEmailAddresses));
             $i++;
         }
-        return $userRows;
+        return $arrRows;
     }
 }

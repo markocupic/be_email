@@ -108,12 +108,16 @@ ContaoBeEmail = new Class(
                         if (inputText.value == queryText) {
 
                             if (queryText == '') {
+                                var i = 0;
                                 $$('#' + idSelector + ' tr').each(function (el) {
                                     el.setStyle('display', 'block');
+                                    i++;
                                 });
+                                $$('#' + idSelector + ' .rowCount').set('text', i);
                                 return;
                             }
 
+                            var i = 0;
                             $$('#' + idSelector + ' tr').each(function (el) {
                                 var dataName = el.getProperty('data-name');
                                 var regExp = new RegExp('' + inputText.value, 'gi');
@@ -122,8 +126,10 @@ ContaoBeEmail = new Class(
                                     el.setStyle('display', 'none');
                                 } else {
                                     el.setStyle('display', 'block');
+                                    i++;
                                 }
                             });
+                            $$('#' + idSelector + ' .rowCount').set('text', i);
                         }
                     }
                 }, 500);

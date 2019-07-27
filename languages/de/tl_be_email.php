@@ -56,6 +56,7 @@ $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] = 'Zurück';
 
 // Messages
 $GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent'] = 'Ihre Nachricht wurde versandt.';
+$GLOBALS['TL_LANG']['tl_be_email']['entriesFound'] = 'Einträge gefunden';
 
 // Placeholders
 $GLOBALS['TL_LANG']['tl_be_email']['searchForName'] = 'Suche nach Name';

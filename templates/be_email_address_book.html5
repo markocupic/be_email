@@ -14,6 +14,7 @@
             <?php if ($this->showUsersAddresses) : ?>
             <div id="tab1" class="">
                 <div id="userBox" class="addressBox">
+                    <div><small><span class="rowCount"><?= $this->countUserAddresses ?></span> <?= $this->lblEntriesFound ?>.</small></div>
                     <table>
                         <?php echo $this->userAddresses; ?>
                     </table>
@@ -24,6 +25,7 @@
             <?php if ($this->showMembersAddresses) : ?>
             <div id="tab2" class="">
                 <div id="memberBox" class="addressBox">
+                    <div><span class="rowCount"><?= $this->countMemberAddresses ?></span> <?= $this->lblEntriesFound ?>.</div>
                     <table>
                         <?php echo $this->memberAddresses; ?>
                     </table>
