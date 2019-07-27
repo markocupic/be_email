@@ -7,13 +7,14 @@ window.addEvent('domready', function () {
     new Request.JSON({
         url: window.location.href,
         onSuccess: function (json, txt) {
-            ContaoBeEmail.init(json['lang']);
+            ContaoBeEmail.addressBook = json.content;
+            ContaoBeEmail.lang = json.lang;
+            ContaoBeEmail.init();
         }
     }).post({
-        'action': 'loadBeEmailLangFile',
+        'action': 'loadData',
         'REQUEST_TOKEN': Contao.request_token
     });
-
 });
 
 
@@ -23,83 +24,74 @@ window.addEvent('domready', function () {
  */
 ContaoBeEmail = new Class(
     {
-        init: function (lang) {
-            // to
-            if (document.getElementById('ctrl_recipientsTo') !== null) {
-                var addAddressIconTo = new Element('img', {
-                    'id': 'addAddressIconTo',
-                    'class': 'open-address-book-icon',
-                    'role': 'button',
-                    'src': '/../system/modules/be_email/assets/phone-book.svg',
-                    'data-input-field': 'ctrl_recipientsTo',
-                    'title': lang['add_recipients']
-                });
-                var ctrl_recipientsTo = document.id('ctrl_recipientsTo');
-                addAddressIconTo.inject(ctrl_recipientsTo, 'before');
-            }
+        /**
+         * addressBook (html)
+         */
+        addressBook: null,
 
-            // cc
-            if (document.getElementById('ctrl_recipientsCc') !== null) {
-                var addAddressIconCc = new Element('img', {
-                    'id': 'addAddressIconCc',
-                    'class': 'open-address-book-icon',
-                    'role': 'button',
-                    'src': '/../system/modules/be_email/assets/phone-book.svg',
-                    'data-input-field': 'ctrl_recipientsCc',
-                    'title': lang['add_recipients']
-                });
-                var ctrl_recipientsCc = document.id('ctrl_recipientsCc');
-                addAddressIconCc.inject(ctrl_recipientsCc, 'before');
-            }
+        /**
+         * language data/labels
+         */
+        lang: null,
 
-            // bcc
-            if (document.getElementById('ctrl_recipientsBcc') !== null) {
-                var addAddressIconBcc = new Element('img', {
-                    'id': 'addAddressIconBcc',
-                    'class': 'open-address-book-icon',
-                    'role': 'button',
-                    'src': '/../system/modules/be_email/assets/phone-book.svg',
-                    'data-input-field': 'ctrl_recipientsBcc',
-                    'title': lang['add_recipients']
-                });
-                var ctrl_recipientsBcc = document.id('ctrl_recipientsBcc');
-                addAddressIconBcc.inject(ctrl_recipientsBcc, 'before');
-            }
+        /**
+         * target input field
+         * can be ctrl_recipientsTo, ctrl_recipientsCc or ctrl_recipientsBcc
+         */
+        inputTarget: null,
 
-            var inputFields = [addAddressIconTo, addAddressIconCc, addAddressIconBcc];
-            inputFields.each(function (inputField) {
-                if (inputField) {
-                    inputField.addEvent('click', function (event) {
-                        var icon = this;
+        /**
+         * called on domready
+         */
+        init: function () {
+            var self = this;
 
-                        // Load language file
-                        new Request.JSON({
-                            url: window.location.href,
-                            onSuccess: function (json, txt) {
-                                // Open modal on click
-                                var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
-                                Backend.openModalWindow(modalWidth, json['lang']['address_book'], json.content);
-                                document.id('simple-modal').addClass('contao-be-email-modal');
-
-                                // Handle tab visibility
-                                $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
-                                    el.setStyle('display', 'none');
-                                });
-                                $$('#contaoBeEmailAddressBook .tabgroup > div')[0].setStyle('display', 'block');
-
-                                // Add active class to first child
-                                $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
-                            }
-                        }).post({
-                            'action': 'openBeEmailAddressBook',
-                            'formInput': icon.getProperty('data-input-field'),
-                            'REQUEST_TOKEN': Contao.request_token
-                        });
+            // Insert @.icon before to-, cc- and bcc input fields
+            ['ctrl_recipientsTo', 'ctrl_recipientsCc', 'ctrl_recipientsBcc'].each(function (selector) {
+                if (document.getElementById(selector) !== null) {
+                    var icon = new Element('img', {
+                        'class': 'open-address-book-icon',
+                        'role': 'button',
+                        'src': '/../system/modules/be_email/assets/phone-book.svg',
+                        'data-input-field': 'ctrl_recipientsTo',
+                        'title': self.lang['add_recipients']
                     });
+
+                    // Add event to icon
+                    icon.addEvent('click', function () {
+                        self.inputTarget = selector;
+                    });
+
+                    // Add other event to icon
+                    icon.addEvent('click', function () {
+                        if (self.addressBook !== null) {
+                            // Open modal on click
+                            var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
+                            Backend.openModalWindow(modalWidth, self.lang['address_book'], self.addressBook);
+                            document.id('simple-modal').addClass('contao-be-email-modal');
+
+                            // Handle tab visibility
+                            $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
+                                el.setStyle('display', 'none');
+                            });
+                            $$('#contaoBeEmailAddressBook .tabgroup > div')[0].setStyle('display', 'block');
+
+                            // Add active class to first child
+                            $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
+                        }
+                    });
+
+                    var inputField = document.id(selector);
+                    icon.inject(inputField, 'before');
                 }
             });
+
         },
 
+        /**
+         * Filter rows
+         * @param inputText
+         */
         filterName: function (inputText) {
 
             var arrLists = ['userBox', 'memberBox'];
@@ -126,23 +118,35 @@ ContaoBeEmail = new Class(
             });
         },
 
-        sendmail: function (email, formInputId, elButton) {
+        /**
+         *
+         * @param email
+         * @param elButton
+         */
+        sendmail: function (email, elButton) {
+            var self = this;
             el_form = document.id('tl_be_email');
-            var addrInput = el_form[formInputId];
+            var addrInput = el_form[self.inputTarget];
             if (addrInput) {
                 if (email) {
                     addrInput.value = email + '; ' + addrInput.value;
                 }
                 else {
-                    alert('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
+                    console.log('Es wurde für diesen Eintrag keine E-Mail-Adresse hinterlegt.');
                 }
             }
             else {
-                alert('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
+                console.log('Das Adressbuch funktioniert nur beim Schreiben einer E-Mail. ("to" fehlt)!');
             }
             // Remove button
             var remElement = (elButton.parentNode).removeChild(elButton);
         },
+        
+        /**
+         *
+         * @param el
+         * @returns {boolean}
+         */
         tabClick: function (el) {
             var others = el.getParent('li').getSiblings('li').getChildren('a');
             var target = el.getProperty('href');

@@ -78,23 +78,10 @@ class BeEmail
             echo(json_encode($json));
             exit();
         }
-        // Send language file to the browser
-        if ($strAction === 'loadBeEmailLangFile')
-        {
-            // Output
-            $json = array();
 
-            // Load language file
-            Controller::loadLanguageFile('tl_be_email');
-            $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
-
-            // Send it to the browser
-            echo html_entity_decode(json_encode($json));
-            exit();
-        }
 
         // Send address book to the browser
-        if ($strAction === 'openBeEmailAddressBook')
+        if ($strAction === 'loadData')
         {
             // Load language file
             Controller::loadLanguageFile('tl_be_email');
@@ -152,9 +139,8 @@ class BeEmail
         while ($result->next())
         {
             $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-            $formInput = Input::post('formInput');
             $strName = $result->firstname . " " . $result->lastname;
-            $memberRows .= sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, "'" . $result->email . "'", "'" . $formInput . "'", $strName, $result->email);
+            $memberRows .= sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, "'" . $result->email . "'", $strName, $result->email);
             $i++;
         }
         return $memberRows;
@@ -178,10 +164,9 @@ class BeEmail
 
             // Remove double entries and filter empty values
             $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
-            $formInput = Input::post('formInput');
             $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
             $strName = $row['name'];
-            $userRows .= sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, %s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, "'" . implode('; ', $arrEmailAddresses) . "'", "'" . $formInput . "'", $strName, implode('; ', $arrEmailAddresses));
+            $userRows .= sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(%s, this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, "'" . implode('; ', $arrEmailAddresses) . "'", $strName, implode('; ', $arrEmailAddresses));
             $i++;
         }
         return $userRows;
