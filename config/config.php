@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * @copyright  Marko Cupic 2017
- * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
- * @package    be_email
- * @license    GNU/LGPL
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
  */
 
 

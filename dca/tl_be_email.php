@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * @copyright  Marko Cupic 2012
- * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
- * @package    be_email
- * @license    GNU/LGPL
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
  */
 
 $GLOBALS['TL_DCA']['tl_be_email'] = array(
@@ -26,36 +24,36 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
         'doNotDeleteRecords' => false,
         'oncreate_callback' => array(
             array(
-                'tl_be_email',
+                'Contao\tl_be_email',
                 'onCreateCallback'
             ),
         ),
         'oncopy_callback' => array(
             array(
-                'tl_be_email',
+                'Contao\tl_be_email',
                 'onCopyCallback'
             ),
         ),
         'onload_callback' => array(
             array(
-                'tl_be_email',
+                'Contao\tl_be_email',
                 'setPalette'
             ),
             array(
-                'tl_be_email',
+                'Contao\tl_be_email',
                 'onLoadCbCheckPermission'
             ),
         ),
         'onsubmit_callback' => array(
             array(
-                'tl_be_email',
+                'Contao\tl_be_email',
                 'onSubmitCbSendEmail'
             )
         )
     ),
     // Buttons callback
     'edit' => array(
-        'buttons_callback' => array(array('tl_be_email', 'buttonsCallback'))
+        'buttons_callback' => array(array('Contao\tl_be_email', 'buttonsCallback'))
     ),
     // List
     'list' => array(
@@ -64,7 +62,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'filter' => array(
                 array(
                     'pid=?',
-                    \BackendUser::getInstance()->id
+                    Contao\BackendUser::getInstance()->id
                 )
             ),
             'panelLayout' => 'filter;search,limit',
@@ -76,7 +74,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
                 'recipientsTo'
             ),
             //'format' => '%s  <span style="color:#b3b3b3; padding-left:3px;">(%s)</span>',
-            'label_callback' => array('tl_be_email', 'labelCallback'),
+            'label_callback' => array('Contao\tl_be_email', 'labelCallback'),
         ),
         'global_operations' => array(
             'all' => array(
@@ -190,7 +188,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'inputType' => 'textarea',
             'load_callback' => array(
                 array(
-                    'tl_be_email',
+                    'Contao\tl_be_email',
                     'base64decode'
                 )
             ),
@@ -230,7 +228,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
             'inputType' => 'textarea',
             'input_field_callback' =>
                 array(
-                    'tl_be_email', 'generateSummary',
+                    'Contao\tl_be_email', 'generateSummary',
                 ),
             'eval' => array(
                 'doNotShow' => true,

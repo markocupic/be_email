@@ -16,7 +16,7 @@ In der config.php muss der Hook regsitriert werden.
    $GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array('Vendorname\BeEmailBeforeSendHook', 'myBeEmailBeforeSendHook');
 ```
 
-Die Hook-Klasse könnte ungefähr so aussehen.
+Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter und erwartet keinen Rückgabewert.
 ```php
 <?php
 
@@ -25,12 +25,13 @@ namespace Vendorname;
 class BeEmailBeforeSendHook
 {
     /**
-     * !Important
-     * Parameters should be passed by reference
+     * !!!Important
+     * First and second parameters should be passed by reference!
      * @param $objEmail
      * @param $beEmailModel
+     * @param $dc
      */
-    public function myBeEmailBeforeSendHook(&$objEmail, &$beEmailModel)
+    public function myBeEmailBeforeSendHook(&$objEmail, &$beEmailModel, $dc)
     {
         // f.ex. manipulate sender email address
         $objEmail->from = 'foo@myhost.com';

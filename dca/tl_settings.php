@@ -1,23 +1,18 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * @copyright  Marko Cupic 2017
- * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
- * @package    be_email
- * @license    GNU/LGPL
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
  */
 
-
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
-
-
-PaletteManipulator::create()
+// Manipulate palette
+Contao\CoreBundle\DataContainer\PaletteManipulator::create()
     ->addLegend('be_email_legend', 'global_legend')
-    ->addField(array('address_popup_settings'), 'be_email_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(array('address_popup_settings'), 'be_email_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_settings');
 
 

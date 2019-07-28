@@ -1,4 +1,12 @@
-/** Overwrite defaults **/
+/**
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
+ */
+
 .awesomplete {
     display: block !important;
     width: calc(100% - 30px) !important;
@@ -17,12 +25,6 @@
     border-bottom: 3px solid #fff;
 }
 
-
-
-
-
-
-
 /** Listing **/
 .tl_listing tr[class*="row-email-"] > td > p {
     line-height: 1.5;
@@ -39,12 +41,6 @@
 .contao-be-email-modal {
     max-width: 90% !important;
 }
-
-
-
-
-
-
 
 #tl_navigation .group-email {
     background: url(envelope.svg) 3px 2px no-repeat;
@@ -83,6 +79,7 @@
     position: relative;
     left: 0;
     cursor: pointer;
+    z-index: 100;
 }
 
 #tl_be_email #pal_attachment_legend {
@@ -155,8 +152,13 @@
 #contaoBeEmailAddressBook .tabs li {
     min-width: 160px;
 }
+
+#contaoBeEmailAddressBook .tabs li.table-tab {
+    border-bottom: 1px solid #f47c00;
+}
+
 #contaoBeEmailAddressBook .tabs li .tl_text {
-    margin: 2px 10px;
+    margin: 4px 10px 0 10px;
 }
 
 #contaoBeEmailAddressBook .tabs a {

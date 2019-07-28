@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * @copyright  Marko Cupic 2012
- * @author     Marko Cupic, Oberkirch, Switzerland ->  mailto: m.cupic@gmx.ch
- * @package    be_email
- * @license    GNU/LGPL
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
  */
 
 namespace Markocupic\BeEmail;
@@ -17,7 +15,6 @@ use Contao\Config;
 use Contao\Database;
 use Contao\Controller;
 use Contao\BackendTemplate;
-use Contao\Input;
 
 /**
  * Class BeEmail
@@ -27,22 +24,35 @@ class BeEmail
 {
 
     /**
+     * Ajax
      * @param string $strAction
      */
     public function executePreActions($strAction = '')
     {
+        $blnShowUserAddresses = false;
+        $blnShowMemberAddresses = false;
+        switch (Config::get('address_popup_settings'))
+        {
+            case 'select_users_only' :
+                $blnShowUserAddresses = true;
+                break;
+            case 'select_members_only' :
+                $blnShowMemberAddresses = true;
+                break;
+            default:
+                $blnShowUserAddresses = true;
+                $blnShowMemberAddresses = true;
+        }
+
         // Send email addresses as string to the server
+        // Used for awesomeplete
         if ($strAction === 'loadEmailAddresses')
         {
-            // Output
             $json = array();
 
-            // userBox
             $arrEmail = [];
 
-            $mode = Config::get('address_popup_settings') ?: '';
-
-            if ($mode === 'select_members_and_users' || $mode === 'select_users_only')
+            if ($blnShowUserAddresses)
             {
                 $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY email')->execute('');
                 while ($result->next())
@@ -60,7 +70,7 @@ class BeEmail
                 }
             }
 
-            if ($mode === 'select_members_and_users' || $mode === 'select_members_only')
+            if ($blnShowMemberAddresses)
             {
                 $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ?')->execute('');
                 while ($result->next())
@@ -69,12 +79,11 @@ class BeEmail
                 }
             }
 
-            $arrEmail = array_unique($arrEmail);
-            $arrEmail = array_filter($arrEmail);
+            $arrEmail =  array_filter(array_unique($arrEmail));
 
             $json['emailString'] = implode(',', $arrEmail);
 
-            // Send it to the browser
+            // Send to the browser
             echo(json_encode($json));
             exit();
         }
@@ -88,88 +97,98 @@ class BeEmail
             // Get template object
             $objTemplate = new BackendTemplate('be_email_address_book');
 
-            // userBox
-            $arrRows = $this->getUserRows();
-            $objTemplate->userAddresses = implode('', $arrRows);
-            $objTemplate->countUserAddresses = count($arrRows);
+            $objTemplate->showUserAddresses = $blnShowUserAddresses;
+            $objTemplate->showMemberAddresses = $blnShowMemberAddresses;
 
-            // memberBox
-            $arrRows = $this->getMemberRows();
-            $objTemplate->memberAddresses = implode('', $arrRows);
-            $objTemplate->countMemberAddresses = count($arrRows);
-            $objTemplate->lblEntriesFound = $GLOBALS['TL_LANG']['tl_be_email']['entriesFound'];
+            if ($blnShowUserAddresses)
+            {
+                // userBox
+                $arrRows = $this->getUserRows('tl_user');
+                $objTemplate->userAddresses = implode('', $arrRows);
+                $objTemplate->countUserAddresses = count($arrRows);
+            }
 
-            // Placeholders
+            if ($blnShowMemberAddresses)
+            {
+                // memberBox
+                $arrRows = $this->getUserRows('tl_member');
+                $objTemplate->memberAddresses = implode('', $arrRows);
+                $objTemplate->countMemberAddresses = count($arrRows);
+            }
+
+            // Labels
             $objTemplate->lbl_searchForName = $GLOBALS['TL_LANG']['tl_be_email']['searchForName'];
             $objTemplate->lbl_users = $GLOBALS['TL_LANG']['tl_be_email']['users']['0'];
             $objTemplate->lbl_members = $GLOBALS['TL_LANG']['tl_be_email']['members']['0'];
+            $objTemplate->lbl_entriesFound = $GLOBALS['TL_LANG']['tl_be_email']['entriesFound'];
 
-            switch ($GLOBALS['TL_CONFIG']['address_popup_settings'])
-            {
-                case 'select_users_only' :
-                    $objTemplate->showUsersAddresses = true;
-                    break;
-                case 'select_members_only' :
-                    $objTemplate->showMembersAddresses = true;
-                    break;
-                default:
-                    $objTemplate->showUsersAddresses = true;
-                    $objTemplate->showMembersAddresses = true;
-            }
-
-            // Output
             $json = array();
-
             $json['lang'] = $GLOBALS['TL_LANG']['tl_be_email'];
 
             // Parse template
             $json['content'] = $objTemplate->parse();
 
-            // Send it to the browser
+            // Send to the browser
             echo json_encode($json);
             exit();
         }
     }
 
     /**
+     * @param $strTable (can be tl_user or tl_member)
      * @return array
      */
-    protected function getMemberRows()
+    protected function getUserRows($strTable)
     {
-        $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ? ORDER BY lastname')->execute('');
-        $i = 0;
-        $arrRows = array();
-        while ($result->next())
+        if ($strTable === 'tl_user')
         {
-            $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-            $strName = $result->firstname . " " . $result->lastname;
-            $arrRows[] = sprintf('<tr class="col_0 %s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(\'%s\', this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td class="col_1">%s</td><td class="col_2">%s</td></tr>', $oddOrEven, $strName, $result->email, $strName, $result->email);
-            $i++;
+            $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
         }
-        return $arrRows;
-    }
+        else
+        {
+            $result = Database::getInstance()->prepare('SELECT * FROM tl_member WHERE email != ? ORDER BY lastname')->execute('');
+        }
 
-    /**
-     * @return array
-     */
-    protected function getUserRows()
-    {
-        $result = Database::getInstance()->prepare('SELECT * FROM tl_user WHERE email != ? ORDER BY name')->execute('');
         $i = 0;
         $arrRows = array();
+
         while ($row = $result->fetchAssoc())
         {
-            $arrEmailAddresses = array(
-                trim($row['email']),
-                trim($row['alternate_email']),
-                trim($row['alternate_email_2'])
-            );
+            $objPartial = new BackendTemplate('be_email_address_book_partial');
+            $objPartial->setData($row);
 
-            // Remove double entries and filter empty values
-            $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
-            $oddOrEven = $i % 2 == 0 ? 'odd' : 'even';
-            $strName = $row['name'];
-            $arrRows[] = sprintf('<tr class="%s" data-name="%s" data-email=""><td><a href="#" onclick="ContaoBeEmail.sendmail(\'%s\', this); return false"><img src="../system/modules/be_email/assets/email.svg" class="select-address-icon"></a></td><td>%s</td><td>%s</td></tr>', $oddOrEven, $strName, implode('; ', $arrEmailAddresses), $strName, implode('; ', $arrEmailAddresses));
+            // Row class
+            $objPartial->dataRowClass = $i % 2 == 0 ? 'odd' : 'even';
+
+            // Email
+            if ($strTable === 'tl_user')
+            {
+                $arrEmailAddresses = array(
+                    trim($row['email']),
+                    trim($row['alternate_email']),
+                    trim($row['alternate_email_2'])
+                );
+                // Remove double entries and filter empty values
+                $arrEmailAddresses = array_filter(array_unique($arrEmailAddresses));
+                $objPartial->dataEmail = implode('; ', $arrEmailAddresses);
+            }
+            else
+            {
+                $objPartial->dataEmail = $row['email'];
+            }
+
+            // Fullname
+            if ($strTable === 'tl_user')
+            {
+                $objPartial->dataFullname = $row['name'];
+            }
+            else
+            {
+                $objPartial->dataFullname = trim($row['firstname'] . ' ' . $row['lastname']);
+            }
+
+            $arrRows[] = $objPartial->parse();
+
             $i++;
         }
         return $arrRows;

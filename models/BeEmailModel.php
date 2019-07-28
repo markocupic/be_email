@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (c) 2005-2017 Leo Feyer
- *
- * @license LGPL-3.0+
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
  */
 
-/**
- * Run in a custom namespace, so the class can be replaced
- */
+
 namespace Contao;
 
 
@@ -18,7 +17,7 @@ namespace Contao;
 /**
  * Reads and writes tl_be_email
  */
-class BeEmailModel extends \Model
+class BeEmailModel extends Model
 {
 
     /**

@@ -1,6 +1,19 @@
 <?php
 
 /**
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
+ */
+
+namespace Contao;
+
+use Contao\CoreBundle\Exception\AccessDeniedException;
+
+/**
  * Class tl_be_email
  */
 class tl_be_email extends Backend
@@ -8,12 +21,12 @@ class tl_be_email extends Backend
 
     public function __construct()
     {
-        if (\Input::post('copyAndResendEmail') !== null)
+        if (Input::post('copyAndResendEmail') !== null)
         {
             $objSource = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
-            if (\Contao\BackendUser::getInstance()->id !== $objSource->pid)
+            if (BackendUser::getInstance()->id !== $objSource->pid)
             {
-                throw new Contao\CoreBundle\Exception\AccessDeniedException('You are not allowed to this action.');
+                throw new AccessDeniedException('You are not allowed to this action.');
             }
             $set = $objSource->row();
             $set['tstamp'] = 0;
@@ -26,7 +39,7 @@ class tl_be_email extends Backend
                 $request = Environment::get('request');
                 $redirect = preg_replace('/id=([\d]+)/', 'id=' . $objInsertStmt->insertId, $request);
                 unset($_POST);
-                \Contao\Controller::redirect($redirect);
+                Controller::redirect($redirect);
             }
         }
 
@@ -35,21 +48,19 @@ class tl_be_email extends Backend
             $strValue = $this->cleanPost($_POST['content']);
             $_POST['content'] = base64_encode($strValue);
         }
-        parent::__construct();
-
-        $this->import('Database');
-        $this->import('BackendUser', 'User');
 
         // Load language-file
-        $this->loadLanguageFile('tl_settings');
+        Controller::loadLanguageFile('tl_settings');
+
+        parent::__construct();
     }
 
     /**
      * @param \Contao\DataContainer $dc
      */
-    public function setPalette(\Contao\DataContainer $dc)
+    public function setPalette(DataContainer $dc)
     {
-        $db = \Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
+        $db = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
         if (!$db->emailNotSent)
         {
             $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
@@ -65,7 +76,7 @@ class tl_be_email extends Backend
         $class = $row['emailNotSent'] ? 'email-not-sent' : 'email-sent';
 
         $project = $row['emailNotSent'] ? sprintf('<span class="project">[%s]</span>', $GLOBALS['TL_LANG']['tl_be_email']['emailNotSent'][0]) : '';
-        return sprintf('<p class="%s"><span class="date">%s</span> %s<br><span class="subject"><strong>%s</strong></span><br><span class="to">TO: %s</span></p>', $class, Date::parse('d.m.Y H:m', $row['tstamp']), $project, $row['subject'], \Contao\StringUtil::substr($row['recipientsTo'], 50, ' ...'));
+        return sprintf('<p class="%s"><span class="date">%s</span> %s<br><span class="subject"><strong>%s</strong></span><br><span class="to">TO: %s</span></p>', $class, Date::parse('d.m.Y H:m', $row['tstamp']), $project, $row['subject'], StringUtil::substr($row['recipientsTo'], 50, ' ...'));
     }
 
     /**
@@ -107,10 +118,10 @@ class tl_be_email extends Backend
             return;
         }
 
-        $db = $this->Database->prepare('SELECT pid FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
-        if ($db->pid != $this->User->id)
+        $db = Database::getInstance()->prepare('SELECT pid FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
+        if ($db->pid != BackendUser::getInstance()->id)
         {
-            $this->redirect($this->getReferer());
+            Controller::redirect($this->getReferer());
         }
     }
 
@@ -127,7 +138,7 @@ class tl_be_email extends Backend
         }
 
         $objEmail = new Email();
-        $fromMail = $this->User->email;
+        $fromMail = BackendUser::getInstance()->email;
         $subject = Input::post('subject');
         $objEmail->replyTo($fromMail);
         $objEmail->from = $fromMail;
@@ -136,7 +147,7 @@ class tl_be_email extends Backend
         $objEmail->html = nl2br(base64_decode($_POST['content']));
 
         // Save attachment
-        $db = $this->Database->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
+        $db = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->execute(Input::get('id'));
 
         // Attachment
         if ($db->addAttachment)
@@ -174,23 +185,6 @@ class tl_be_email extends Backend
 
         if (count($recipients))
         {
-            // Call the oncreate_callback
-            if (\is_array($GLOBALS['TL_DCA']['tl_be_email']['config']['onemail_sent_callback']))
-            {
-                foreach ($GLOBALS['TL_DCA']['tl_be_email']['config']['onemail_sent_callback'] as $callback)
-                {
-                    if (\is_array($callback))
-                    {
-                        $this->import($callback[0]);
-                        $this->{$callback[0]}->{$callback[1]}($dc);
-                    }
-                    elseif (\is_callable($callback))
-                    {
-                        $callback($dc);
-                    }
-                }
-            }
-
             // Update model
             $beEmailModel = BeEmailModel::findByPk(Input::get('id'));
             if ($beEmailModel !== null)
@@ -206,7 +200,7 @@ class tl_be_email extends Backend
                     foreach ($GLOBALS['TL_HOOKS']['beEmailBeforeSend'] as $callback)
                     {
                         // !Important - Parameters $objEmail and $beEmailModel should be passed by reference in the function declaration.
-                        static::importStatic($callback[0])->{$callback[1]}($objEmail, $beEmailModel);
+                        static::importStatic($callback[0])->{$callback[1]}($objEmail, $beEmailModel, $dc);
                     }
                 }
 
@@ -221,7 +215,7 @@ class tl_be_email extends Backend
             Message::addInfo($GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent']);
             unset($_POST);
 
-            \Contao\Controller::redirect($redirect);
+            Controller::redirect($redirect);
         }
     }
 
@@ -238,7 +232,7 @@ class tl_be_email extends Backend
         {
             $set = array($field => '');
             // update the db
-            $this->Database->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
+            Database::getInstance()->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
             Input::setPost($field, '');
             return $arrEmailAddresses;
         }
@@ -251,7 +245,7 @@ class tl_be_email extends Backend
 
         // update the db
         $set = array($field => implode('; ', $arrEmailAddresses));
-        $this->Database->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
+        Database::getInstance()->prepare('UPDATE tl_be_email %s WHERE id=?')->set($set)->execute(Input::get('id'));
         Input::setPost($field, implode('; ', $arrEmailAddresses));
 
         return $arrEmailAddresses;
@@ -265,7 +259,7 @@ class tl_be_email extends Backend
      */
     public function buttonsCallback($arrButtons, DC_Table $dc)
     {
-        $db = \Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
+        $db = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
 
         if ($db->emailNotSent)
         {
@@ -295,7 +289,7 @@ class tl_be_email extends Backend
      * @param $arrSet
      * @param \Contao\DC_Table $dc
      */
-    public function onCreateCallback($strTable, $id, $arrSet, \Contao\DC_Table $dc)
+    public function onCreateCallback($strTable, $id, $arrSet, DC_Table $dc)
     {
         $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
 
@@ -306,20 +300,19 @@ class tl_be_email extends Backend
      * oncopy_callback
      * @param $dc
      */
-    public function onCopyCallback($id, \Contao\DC_Table $dc)
+    public function onCopyCallback($id, DC_Table $dc)
     {
         $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
 
         Database::getInstance()->prepare('UPDATE tl_be_email SET emailNotSent=? WHERE id=?')->execute('1', $id);
     }
 
-
     /**
      * @return string
      */
-    public function generateSummary(Contao\DC_Table $dc, $label)
+    public function generateSummary(DC_Table $dc, $label)
     {
-        $db = \Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
+        $db = Database::getInstance()->prepare('SELECT * FROM tl_be_email WHERE id=?')->limit(1)->execute($dc->id);
         $objTemplate = new BackendTemplate('be_email_summary');
         $objTemplate->to = $db->recipientsTo;
         $objTemplate->cc = $db->recipientsCc;

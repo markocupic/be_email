@@ -3,13 +3,13 @@
     "description":"Send emails from the Contao backend. Backend extension for the Contao Open Source CMS",
     "keywords":["contao", "Backend Email Client"],
     "type":"contao-module",
-    "license":"LGPL-3.0+",
+    "license":"MIT",
     "authors":[
         {
             "name":"Marko Cupic",
             "email":"m.cupic@gmx.ch",
             "homepage":"https://github.com/markocupic/be_email",
-            "role":"Developer" 
+            "role":"Developer"
         }
     ],
     "support":{

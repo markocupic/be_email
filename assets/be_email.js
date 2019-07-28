@@ -1,3 +1,11 @@
+/**
+ * Backend Email Web Plugin for Contao
+ * Copyright (c) 20012-2019 Marko Cupic
+ * @package be_email
+ * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+ * @link https://github.com/markocupic/be_email
+ * @license MIT
+ */
 window.addEvent('domready', function () {
 
     // Get class instance
@@ -48,41 +56,19 @@ ContaoBeEmail = new Class(
 
             // Insert @.icon before to-, cc- and bcc input fields
             ['ctrl_recipientsTo', 'ctrl_recipientsCc', 'ctrl_recipientsBcc'].each(function (selector) {
-                if (document.getElementById(selector) !== null) {
+                if (document.id(selector) !== null) {
                     var icon = new Element('img', {
                         'class': 'open-address-book-icon',
                         'role': 'button',
                         'src': '/../system/modules/be_email/assets/phone-book.svg',
                         'data-input-field': 'ctrl_recipientsTo',
-                        'title': self.lang['add_recipients']
-                    });
-
-                    // Add event to icon
-                    icon.addEvent('click', function () {
-                        self.inputTarget = selector;
+                        'title': self.lang['add_recipients'],
+                        'onclick': 'ContaoBeEmail.openAddressBook(\'' + selector + '\')'
                     });
 
                     // Add other event to icon
                     icon.addEvent('click', function () {
-                        if (self.addressBook !== null) {
-                            // Open modal on click
-                            var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
-                            Backend.openModalWindow(modalWidth, self.lang['address_book'], self.addressBook);
 
-                            document.id('simple-modal').addClass('contao-be-email-modal');
-
-                            // Set focus to the search input field
-                            document.getElementById('ctrlSearchForName').focus();
-
-                            // Handle tab visibility
-                            $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
-                                el.setStyle('display', 'none');
-                            });
-                            $$('#contaoBeEmailAddressBook .tabgroup > div')[0].setStyle('display', 'block');
-
-                            // Add active class to first child
-                            $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
-                        }
                     });
 
                     var inputField = document.id(selector);
@@ -90,6 +76,37 @@ ContaoBeEmail = new Class(
                 }
             });
 
+        },
+
+        /**
+         * Open the address book
+         * This function is triggered, when the icon has been clicked
+         * @param selector
+         */
+        openAddressBook: function (selector) {
+            var self = this;
+            if (self.addressBook !== null) {
+                // Set target input field (to, cc or bcc)
+                self.inputTarget = selector;
+
+                // Open modal on click
+                var modalWidth = window.innerWidth < 900 ? Math.floor(0.9 * window.innerWidth) : 900;
+                Backend.openModalWindow(modalWidth, self.lang['address_book'], self.addressBook);
+
+                document.id('simple-modal').addClass('contao-be-email-modal');
+
+                // Set focus to the search input field
+                document.id('ctrlSearchForName').focus();
+
+                // Handle tab visibility
+                $$('#contaoBeEmailAddressBook .tabgroup > div').each(function (el) {
+                    el.setStyle('display', 'none');
+                });
+                $$('#contaoBeEmailAddressBook .tabgroup > div')[0].setStyle('display', 'block');
+
+                // Add active class to first child
+                $$('#contaoBeEmailAddressBook .tabs a')[0].addClass('active');
+            }
         },
 
         /**
