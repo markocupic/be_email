@@ -9,7 +9,7 @@ Viel Spass mit Contao Backend E-Mail!
 ## beEmailBeforeSend Hook
 Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipuliert werden. Dazu muss ein kleines Modul geschrieben werden.
 
-In der config.php muss der Hook regsitriert werden.
+In der config.php muss der Hook registriert werden.
 ```php
    // config.php
    // Register hook
@@ -26,7 +26,7 @@ class BeEmailBeforeSendHook
 {
     /**
      * !!!Important
-     * First and second parameters should be passed by reference!
+     * For manipulating data first and second parameter should be passed by reference!
      * @param $objEmail
      * @param $beEmailModel
      * @param $dc
