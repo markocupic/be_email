@@ -189,9 +189,9 @@ class tl_be_email extends Backend
             $beEmailModel = BeEmailModel::findByPk(Input::get('id'));
             if ($beEmailModel !== null)
             {
-                $beEmailModel->recipientsTo = implode('; ', $recipients);
-                $beEmailModel->recipientsCc = implode('; ', $cc_recipients);
-                $beEmailModel->recipientsBcc = implode('; ', $bcc_recipients);
+                $beEmailModel->recipientsTo = implode(',', $recipients);
+                $beEmailModel->recipientsCc = implode(',', $cc_recipients);
+                $beEmailModel->recipientsBcc = implode(',', $bcc_recipients);
                 $beEmailModel->tstamp = time();
 
                 // HOOK: add custom logic
