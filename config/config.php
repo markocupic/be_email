@@ -16,7 +16,7 @@ $GLOBALS['BE_MOD']['email']['tl_be_email'] = array
     'tables' => array('tl_be_email'),
 );
 
-if (TL_MODE == 'BE' && $_GET['do'] == 'tl_be_email')
+if (TL_MODE == 'BE' && isset($_GET['do']) && $_GET['do'] === 'tl_be_email')
 {
     $GLOBALS['TL_CSS'][] = 'system/modules/be_email/assets/stylesheet.css|static';
 
