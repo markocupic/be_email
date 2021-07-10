@@ -1,0 +1,14 @@
+<tr class="<?= $this->dataRowClass ?>" data-name="<?= $this->dataFullname ?>">
+    <td class="col_0">
+        <a href="#" onclick="ContaoBeEmail.sendmail('<?= $this->dataEmail ?>', this); return false">
+            <img src="/markocupicbeemail/email.svg" class="select-address-icon">
+        </a>
+    </td>
+    <td class="col_1"><?= $this->dataFullname ?></td>
+    <td class="col_2"><?= $this->dataEmail ?></td>
+</tr>
+
+
+
+
+

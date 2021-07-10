@@ -1,8 +1,8 @@
 {
     "name":"markocupic/be_email",
     "description":"Send emails from the Contao backend. Backend extension for the Contao Open Source CMS",
-    "keywords":["contao", "Backend Email Client"],
-    "type":"contao-module",
+    "keywords":["Contao CMS", "Backend Email Client"],
+    "type":"contao-bundle",
     "license":"MIT",
     "authors":[
         {
@@ -17,17 +17,35 @@
         "source":"https://github.com/markocupic/be_email"
     },
     "require":{
-        "php":">=7.0",
-        "contao/core-bundle": ">=4.4"
+        "php": "^7.3 || ^8.0",
+        "contao/core-bundle": ">=4.4",
+        "markocupic/contao-component-awesomplete": "^1.1"
+    },
+    "require-dev": {
+        "contao/easy-coding-standard": "^3.0",
+        "contao/test-case": "^4.0",
+        "contao/manager-plugin": "^2.3",
+        "phpunit/phpunit": "^8.4",
+        "symfony/http-client": "4.4.*",
+        "symfony/phpunit-bridge": "4.4.*"
     },
     "replace": {
         "contao-legacy/be_email":"*"
     },
-    "conflict": {
-        "contao/core": "3.*"
-    },
-    "autoload":{
-        "classmap":[""]
+    "autoload": {
+        "psr-4": {
+            "Markocupic\\BeEmail\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/skeleton",
+            "src/Resources/contao/config",
+            "src/Resources/contao/dca",
+            "src/Resources/contao/languages",
+            "src/Resources/contao/templates"
+        ]
     },
     "extra":{
         "contao":{

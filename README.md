@@ -1,3 +1,5 @@
+![Alt text](https://github.com/markocupic/markocupic/blob/main/logo.png "logo")
+
 # Contao Backend E-Mail
 Contao E-Mail Erweiterung für den Versand von Nachrichten aus dem Contao Backend. In den Contao Einstellungen kann definiert werden, woher das Adressbuch seine Adressen zieht. Entweder tl_member oder tl_user oder aus beiden Tabellen.
 
