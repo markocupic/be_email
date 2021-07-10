@@ -12,9 +12,9 @@
 
 namespace Markocupic\BeEmail;
 
-// Backend modules
 use Markocupic\BeEmail\Model\BeEmailModel;
 
+// Backend modules
 $GLOBALS['BE_MOD']['email']['tl_be_email'] = array
 (
 	'tables' => array('tl_be_email'),

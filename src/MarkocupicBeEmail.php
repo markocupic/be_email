@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/be_email
  */
 
-namespace Markocupic\MarkocupicBeEmail;
+namespace Markocupic\BeEmail;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
