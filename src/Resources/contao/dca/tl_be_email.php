@@ -13,6 +13,7 @@
 namespace Markocupic\BeEmail;
 
 use Contao\BackendUser;
+use Contao\Input;
 use Markocupic\BeEmail\Dca\TlBeEmail;
 
 $GLOBALS['TL_DCA']['tl_be_email'] = array(
@@ -36,23 +37,23 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 		),
 		'oncopy_callback'    => array(
 			array(
-                TlBeEmail::class,
+				TlBeEmail::class,
 				'onCopyCallback',
 			),
 		),
 		'onload_callback'    => array(
 			array(
-                TlBeEmail::class,
+				TlBeEmail::class,
 				'setPalette',
 			),
 			array(
-                TlBeEmail::class,
+				TlBeEmail::class,
 				'onLoadCbCheckPermission',
 			),
 		),
 		'onsubmit_callback'  => array(
 			array(
-                TlBeEmail::class,
+				TlBeEmail::class,
 				'onSubmitCbSendEmail',
 			),
 		),
@@ -142,7 +143,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 			'search'    => true,
 			'sorting'   => true,
 			'filter'    => false,
-			'inputType' => 'email_to',
+			'inputType' => 'text',
 			'eval'      => array(
 				'mandatory'      => true,
 				'doNotSaveEmpty' => true,
@@ -155,7 +156,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 			'search'    => true,
 			'sorting'   => true,
 			'filter'    => false,
-            'inputType' => 'email_to',
+			'inputType' => 'text',
 			'eval'      => array(),
 			'sql'       => "text NULL",
 		),
@@ -165,7 +166,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 			'search'    => true,
 			'sorting'   => true,
 			'filter'    => false,
-            'inputType' => 'email_to',
+			'inputType' => 'text',
 			'eval'      => array(),
 			'sql'       => "text NULL",
 		),
@@ -235,3 +236,10 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 		),
 	),
 );
+
+if (isset($_GET) && \count($_GET) === 5 && Input::get('do') === 'tl_be_email' && Input::get('act') === 'edit' && isset($_GET['id']))
+{
+    $GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsTo']['inputType'] = 'email_to';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsCc']['inputType'] = 'email_to';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsBcc']['inputType'] = 'email_to';
+}

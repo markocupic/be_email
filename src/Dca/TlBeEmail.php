@@ -2,7 +2,15 @@
 
 declare(strict_types=1);
 
-
+/*
+ * This file is part of Be Email.
+ *
+ * (c) Marko Cupic 2021 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/be_email
+ */
 
 namespace Markocupic\BeEmail\Dca;
 
@@ -24,23 +32,19 @@ use Contao\StringUtil;
 use Markocupic\BeEmail\Model\BeEmailModel;
 
 /**
- * Class TlBeEmail
- * @package Markocupic\BeEmail\Dca
+ * Class TlBeEmail.
  */
 class TlBeEmail extends Backend
 {
-
     public function __construct()
     {
-        if (Input::post('copyAndResendEmail') !== null)
-        {
+        if (null !== Input::post('copyAndResendEmail')) {
             $objSource = Database::getInstance()
                 ->prepare('SELECT * FROM tl_be_email WHERE id=?')
                 ->execute(Input::get('id'))
             ;
 
-            if (BackendUser::getInstance()->id !== $objSource->pid)
-            {
+            if (BackendUser::getInstance()->id !== $objSource->pid) {
                 throw new AccessDeniedException('You are not allowed to this action.');
             }
 
@@ -55,17 +59,15 @@ class TlBeEmail extends Backend
                 ->execute()
             ;
 
-            if ($objInsertStmt->affectedRows)
-            {
+            if ($objInsertStmt->affectedRows) {
                 $request = Environment::get('request');
-                $redirect = preg_replace('/id=([\d]+)/', 'id=' . $objInsertStmt->insertId, $request);
+                $redirect = preg_replace('/id=([\d]+)/', 'id='.$objInsertStmt->insertId, $request);
                 unset($_POST);
                 Controller::redirect($redirect);
             }
         }
 
-        if ($_POST['content'])
-        {
+        if ($_POST['content']) {
             $strValue = $this->cleanPost($_POST['content']);
             $_POST['content'] = base64_encode($strValue);
         }
@@ -76,10 +78,7 @@ class TlBeEmail extends Backend
         parent::__construct();
     }
 
-    /**
-     * @param \Contao\DataContainer $dc
-     */
-    public function setPalette(DataContainer $dc)
+    public function setPalette(DataContainer $dc): void
     {
         $db = Database::getInstance()
             ->prepare('SELECT * FROM tl_be_email WHERE id=?')
@@ -87,14 +86,14 @@ class TlBeEmail extends Backend
             ->execute($dc->id)
         ;
 
-        if (!$db->emailNotSent)
-        {
+        if (!$db->emailNotSent) {
             $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
         }
     }
 
     /**
      * @param $row
+     *
      * @return string
      */
     public function labelCallback($row)
@@ -115,62 +114,53 @@ class TlBeEmail extends Backend
 
     /**
      * load callback for the content field
-     * the content is stored base64_encoded in the database
+     * the content is stored base64_encoded in the database.
+     *
      * @param $strValue
      * @param $objUser
      * @param null $objDCA
+     *
      * @return string
      */
     public function base64decode(?string $strValue)
     {
-        if (base64_decode((string)$strValue, true))
-        {
-            return base64_decode($strValue);
+        if (base64_decode((string) $strValue, true)) {
+            return base64_decode($strValue, true);
         }
+
         return $strValue;
     }
 
     /**
-     * @param $strValue
-     * @return mixed
+     * onload_callback.
      */
-    protected function cleanPost($strValue)
-    {
-        $strValue = Input::xssClean($strValue, true);
-        return $strValue;
-    }
-
-    /**
-     * onload_callback
-     */
-    public function onLoadCbCheckPermission()
+    public function onLoadCbCheckPermission(): void
     {
         // each user can only see his own emails
-        if (Input::get('act') == '' || Input::get('id') == '')
-        {
+        if ('' === Input::get('act') || !Input::get('id')) {
             return;
         }
 
         $db = Database::getInstance()
             ->prepare('SELECT pid FROM tl_be_email WHERE id=?')
-            ->execute(Input::get('id')
-            );
+            ->execute(
+                Input::get('id')
+            )
+        ;
 
-        if ($db->pid != BackendUser::getInstance()->id)
-        {
-            Controller::redirect($this->getReferer());
+        if ($db->pid !== BackendUser::getInstance()->id) {
+           Controller::redirect($this->getReferer());
         }
     }
 
     /**
      * onsubmit_callback
-     * send email
+     * send email.
      */
-    public function onSubmitCbSendEmail(DataContainer $dc)
+    public function onSubmitCbSendEmail(DataContainer $dc): void
     {
         // the save-button is a fileupload-button
-        if (!isset($_POST['save']))
-        {
+        if (!isset($_POST['save'])) {
             return;
         }
 
@@ -180,8 +170,8 @@ class TlBeEmail extends Backend
         $objEmail->replyTo($fromMail);
         $objEmail->from = $fromMail;
         $objEmail->subject = $subject;
-        $objEmail->text = base64_decode($_POST['content']);
-        $objEmail->html = nl2br(base64_decode($_POST['content']));
+        $objEmail->text = base64_decode($_POST['content'], true);
+        $objEmail->html = nl2br(base64_decode($_POST['content'], true));
 
         // Save attachment
         $db = Database::getInstance()
@@ -190,17 +180,15 @@ class TlBeEmail extends Backend
         ;
 
         // Attachment
-        if ($db->addAttachment)
-        {
+        if ($db->addAttachment) {
             $arrFiles = StringUtil::deserialize($db->attachment, true);
-            foreach ($arrFiles as $uuid)
-            {
+
+            foreach ($arrFiles as $uuid) {
                 $objFile = FilesModel::findByUuid($uuid);
-                if ($objFile !== null)
-                {
-                    if (file_exists(TL_ROOT . '/' . $objFile->path))
-                    {
-                        $objEmail->attachFile(TL_ROOT . '/' . $objFile->path);
+
+                if (null !== $objFile) {
+                    if (file_exists(TL_ROOT.'/'.$objFile->path)) {
+                        $objEmail->attachFile(TL_ROOT.'/'.$objFile->path);
                     }
                 }
             }
@@ -208,37 +196,34 @@ class TlBeEmail extends Backend
 
         // Cc
         $cc_recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsCc'), 'recipientsCc'));
-        if (count($cc_recipients))
-        {
+
+        if (\count($cc_recipients)) {
             $objEmail->sendCc($cc_recipients);
         }
 
         // Bcc
         $bcc_recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsBcc'), 'recipientsBcc'));
-        if (count($bcc_recipients))
-        {
+
+        if (\count($bcc_recipients)) {
             $objEmail->sendBcc($bcc_recipients);
         }
 
         // To
         $recipients = array_unique($this->validateEmailAddresses(Input::post('recipientsTo'), 'recipientsTo'));
 
-        if (count($recipients))
-        {
+        if (\count($recipients)) {
             // Update model
             $beEmailModel = BeEmailModel::findByPk(Input::get('id'));
-            if ($beEmailModel !== null)
-            {
+
+            if (null !== $beEmailModel) {
                 $beEmailModel->recipientsTo = implode(',', $recipients);
                 $beEmailModel->recipientsCc = implode(',', $cc_recipients);
                 $beEmailModel->recipientsBcc = implode(',', $bcc_recipients);
                 $beEmailModel->tstamp = time();
 
                 // HOOK: add custom logic
-                if (isset($GLOBALS['TL_HOOKS']['beEmailBeforeSend']) && \is_array($GLOBALS['TL_HOOKS']['beEmailBeforeSend']))
-                {
-                    foreach ($GLOBALS['TL_HOOKS']['beEmailBeforeSend'] as $callback)
-                    {
+                if (isset($GLOBALS['TL_HOOKS']['beEmailBeforeSend']) && \is_array($GLOBALS['TL_HOOKS']['beEmailBeforeSend'])) {
+                    foreach ($GLOBALS['TL_HOOKS']['beEmailBeforeSend'] as $callback) {
                         // !Important - Parameters $objEmail and $beEmailModel should be passed by reference in the function declaration.
                         static::importStatic($callback[0])->{$callback[1]}($objEmail, $beEmailModel, $dc);
                     }
@@ -260,51 +245,10 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * @param string $strAddresses
-     * @param $field
-     * @return array
-     */
-    private function validateEmailAddresses($strAddresses = '', $field)
-    {
-        $arrEmailAddresses = array();
-        $strAddresses = trim(strtolower($strAddresses));
-        if ($strAddresses == '')
-        {
-            $set = array($field => '');
-            // update the db
-            Database::getInstance()
-                ->prepare('UPDATE tl_be_email %s WHERE id=?')
-                ->set($set)
-                ->execute(Input::get('id'))
-            ;
-
-            Input::setPost($field, '');
-            return $arrEmailAddresses;
-        }
-
-        $arrEmailAddresses = array();
-        preg_match_all('/\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,6}/i', $strAddresses, $arrEmailAddresses);
-
-        // remove doubble entries
-        $arrEmailAddresses = array_unique($arrEmailAddresses[0]);
-
-        // update the db
-        $set = array($field => implode('; ', $arrEmailAddresses));
-        Database::getInstance()
-            ->prepare('UPDATE tl_be_email %s WHERE id=?')
-            ->set($set)
-            ->execute(Input::get('id'))
-        ;
-
-        Input::setPost($field, implode('; ', $arrEmailAddresses));
-
-        return $arrEmailAddresses;
-    }
-
-    /**
-     * buttons_callback
+     * buttons_callback.
+     *
      * @param $arrButtons
-     * @param DC_Table $dc
+     *
      * @return mixed
      */
     public function buttonsCallback($arrButtons, DC_Table $dc)
@@ -315,22 +259,15 @@ class TlBeEmail extends Backend
             ->execute($dc->id)
         ;
 
-        if ($db->emailNotSent)
-        {
+        if ($db->emailNotSent) {
             // Disable buttons
-            unset($arrButtons['saveNclose']);
-            unset($arrButtons['saveNcreate']);
-            unset($arrButtons['saveNduplicate']);
-            $arrButtons['save'] = '<button name="save" id="save" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['send_email'] . '</button>';
-        }
-        else
-        {
-            unset($arrButtons['save']);
-            unset($arrButtons['saveNcreate']);
-            unset($arrButtons['saveNduplicate']);
-            unset($arrButtons['saveNback']);
-            $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] . '</button>';
-            $arrButtons['copyAndResendEmail'] = '<button type="submit" name="copyAndResendEmail" id="copyAndResendEmail" class="tl_submit" accesskey="r">' . $GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'] . '</button>';
+            unset($arrButtons['saveNclose'], $arrButtons['saveNcreate'], $arrButtons['saveNduplicate']);
+            $arrButtons['save'] = '<button name="save" id="save" class="tl_submit" accesskey="c">'.$GLOBALS['TL_LANG']['tl_be_email']['send_email'].'</button>';
+        } else {
+            unset($arrButtons['save'], $arrButtons['saveNcreate'], $arrButtons['saveNduplicate'], $arrButtons['saveNback']);
+
+            $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c">'.$GLOBALS['TL_LANG']['tl_be_email']['closeEditView'].'</button>';
+            $arrButtons['copyAndResendEmail'] = '<button type="submit" name="copyAndResendEmail" id="copyAndResendEmail" class="tl_submit" accesskey="r">'.$GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'].'</button>';
         }
 
         return $arrButtons;
@@ -338,12 +275,12 @@ class TlBeEmail extends Backend
 
     /**
      * oncreate_callback
-     * param $strTable
+     * param $strTable.
+     *
      * @param $id
      * @param $arrSet
-     * @param \Contao\DC_Table $dc
      */
-    public function onCreateCallback($strTable, $id, $arrSet, DC_Table $dc)
+    public function onCreateCallback($strTable, $id, $arrSet, DC_Table $dc): void
     {
         $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
 
@@ -354,10 +291,11 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * oncopy_callback
+     * oncopy_callback.
+     *
      * @param $dc
      */
-    public function onCopyCallback($id, DC_Table $dc)
+    public function onCopyCallback($id, DC_Table $dc): void
     {
         $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
 
@@ -389,5 +327,59 @@ class TlBeEmail extends Backend
         $objTemplate->labelText = $GLOBALS['TL_LANG']['tl_be_email']['content']['0'];
 
         return $objTemplate->parse();
+    }
+
+    /**
+     * @param $strValue
+     *
+     * @return mixed
+     */
+    protected function cleanPost($strValue)
+    {
+        return Input::xssClean($strValue, true);
+    }
+
+    /**
+     * @param string $strAddresses
+     * @param $field
+     *
+     * @return array
+     */
+    private function validateEmailAddresses($strAddresses, $field)
+    {
+        $arrEmailAddresses = [];
+        $strAddresses = trim(strtolower($strAddresses));
+
+        if ('' === $strAddresses) {
+            $set = [$field => ''];
+            // update the db
+            Database::getInstance()
+                ->prepare('UPDATE tl_be_email %s WHERE id=?')
+                ->set($set)
+                ->execute(Input::get('id'))
+            ;
+
+            Input::setPost($field, '');
+
+            return $arrEmailAddresses;
+        }
+
+        $arrEmailAddresses = [];
+        preg_match_all('/\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,6}/i', $strAddresses, $arrEmailAddresses);
+
+        // remove doubble entries
+        $arrEmailAddresses = array_unique($arrEmailAddresses[0]);
+
+        // update the db
+        $set = [$field => implode('; ', $arrEmailAddresses)];
+        Database::getInstance()
+            ->prepare('UPDATE tl_be_email %s WHERE id=?')
+            ->set($set)
+            ->execute(Input::get('id'))
+        ;
+
+        Input::setPost($field, implode('; ', $arrEmailAddresses));
+
+        return $arrEmailAddresses;
     }
 }

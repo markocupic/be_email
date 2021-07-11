@@ -5,19 +5,28 @@
     id="ctrl_%s"
     class="tl_text tl_email_to_widget%s"
     @blur="onBlur"
-    @keyup="runAutocomplete"
+    @keyup="handleKeypress"
     v-model="value"
     value="%s"
   >
-  <div class="email-suggestion-list-container">
-    <ul class="email-suggestion-list">
-      <li v-for="suggest in arrSuggestions" @click="selectAddress(suggest.email)">
-        <button class="email-suggestion-list-item" data-is-focusable="true">
-          <div class="email-suggestion-list-name">{{ suggest.label }}</div>
-          <div class="email-suggestion-list-email">{{ suggest.email }}</div>
-        </button>
-      </li>
-    </ul>
+
+  <div class="esl-container" v-if="arrSuggestions.length">
+    <div class="esl-container-inner">
+      <div class="esl-container-inner-header">
+        <button type="button" @click="closeSuggestList"><img src="bundles/markocupicbeemail/icon-close.svg"></button>
+      </div>
+      <ul class="esl">
+        <li v-for="(suggest,index) in arrSuggestions">
+          <button type="button" class="esl-item" data-is-focusable="true" v-bind:data-email="suggest.email" @click="selectAddress(suggest.email, index)">
+            <div class="esl-name">
+              <img src="bundles/markocupicbeemail/icon-user.svg">
+              <span>{{ suggest.label }}</span></div>
+            <div class="esl-email">{{ suggest.email }}</div>
+          </button>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
 

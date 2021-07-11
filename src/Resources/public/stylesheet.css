@@ -1,51 +1,84 @@
-/**
- * Backend Email Web Plugin for Contao
- * Copyright (c) 20012-2019 Marko Cupic
- * @package be_email
- * @author Marko Cupic m.cupic@gmx.ch, 2012-2019
+/*
+ * This file is part of Be Email.
+ *
+ * (c) Marko Cupic 2021 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
  * @link https://github.com/markocupic/be_email
- * @license MIT
  */
-.email-suggestion-list-container {
+
+.esl-container {
     position: relative;
     overflow-y: visible;
 }
-.email-suggestion-list {
-    width: 300px;
-    position:absolute;
+
+.esl-container-inner {
+    position: absolute;
     left: 0;
-    top:0;
+    top: 0;
     z-index: 10;
+    padding: 0;
+    margin: 0;
 }
 
-.email-suggestion-list-item {
+.esl-container-inner-header {
     display: flex;
-    position: relative;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: #F3F3F5;
+}
+
+.esl-container-inner-header button {
+    border: 0;
+    background: 0;
+    padding: 6px;
+}
+
+.esl-container-inner-header img {
+    width: 16px;
+    height: auto;
+}
+
+.esl-item {
+    display: block;
     cursor: pointer;
-    background-color: transparent;
-    border:0;
+    background-color: #F3F3F5;
     padding: 0;
     margin: 0;
     text-align: left;
-    width: 100%;
+    border: 0;
+    border-top: 1px solid #c4c4c4;
+    width: 350px;
 }
 
-.email-suggestion-list-name {
+.esl-item.has-focus, .esl-item:hover {
+    background-color: #e2e2e2;
+}
+
+.esl-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     font-size: 16px;
     font-weight: bold;
-    padding: 8px;
-    background-color: #9efaa6;
-    width: 100%;
+    padding: 4px;
+    display: block;
 }
 
-.email-suggestion-list-email {
+.esl-name img {
+    height: 30px;
+    width: auto;
+    color: #000;
+    margin-right: 8px;
+}
+
+.esl-email {
     font-size: 13px;
     padding: 8px;
-    background-color: #c2f8c7;
-    width: 100%;
+    display: block;
+    margin-left: 38px;
 }
-
 
 .tl_listing tr[class*="row-email-"] > td {
     border-bottom: 3px solid #fff;
@@ -90,11 +123,5 @@
 #tl_be_email .attachmentList span {
     display: block;
 }
-
-
-#tl_be_email #pal_attachment_legend {
-    background-color: #f0f0f0;
-}
-
 
 

@@ -1,27 +1,27 @@
 <div class="widget tl_be_email summary">
+  
+  <div>
 
-    <div>
+    <h3 class="headlineDate"><?= Contao\Date::parse('d.m.Y H:m', $this->tstamp) ?></h3>
 
-        <h3 class="headlineDate"><?= \Date::parse('d.m.Y H:m', $this->tstamp) ?></h3>
+    <h3 class="headlineTo">To:</h3>
+    <div class="sentTo"><?= $this->to ?></div>
 
-        <h3 class="headlineTo">To:</h3>
-        <div class="sentTo"><?= $this->to ?></div>
+    <?php if ('' != $this->cc): ?>
+    <h3 class="headlineCc">CC:</h3>
+    <div class="sentCc"><?= $this->cc ?></div>
+    <?php endif; ?>
 
-        <?php if($this->cc != ''): ?>
-        <h3 class="headlineCc">CC:</h3>
-        <div class="sentCc"><?= $this->cc ?></div>
-        <?php endif; ?>
+    <?php if ('' != $this->bcc): ?>
+    <h3 class="headlineBcc">BCC:</h3>
+    <div class="sentBcc"><?= $this->bcc ?></div>
+    <?php endif; ?>
 
-        <?php if($this->bcc != ''): ?>
-        <h3 class="headlineBcc">BCC:</h3>
-        <div class="sentBcc"><?= $this->bcc ?></div>
-        <?php endif; ?>
+    <h3 class="headlineSubject"><?= $this->labelSubject ?>:</h3>
+    <div class="subject"><?= $this->subject ?></div>
 
-        <h3 class="headlineSubject"><?= $this->labelSubject ?>:</h3>
-        <div class="subject"><?= $this->subject ?></div>
-
-        <h3 class="headlineText"><?= $this->labelText ?>:</h3>
-        <div class="text"><?= $this->text ?></div>
-    </div>
+    <h3 class="headlineText"><?= $this->labelText ?>:</h3>
+    <div class="text"><?= $this->text ?></div>
+  </div>
 
 </div>
