@@ -50,6 +50,9 @@ class VueEmailTagInput {
       watch: {
         value: function (val) {
           this.arrRecipients = val.split(',');
+          this.value = this.value.replace(';', ',');
+          this.arrRecipients = this.value.split(',');
+          this.getAddresses();
         },
 
         intFocus(val, oldVal) {
@@ -99,9 +102,7 @@ class VueEmailTagInput {
               this.arrSuggestions = [];
             }
           } else {
-            this.value = this.value.replace(';', ',');
-            this.arrRecipients = this.value.split(',');
-            this.getAddresses();
+            //
           }
         },
 
@@ -109,6 +110,7 @@ class VueEmailTagInput {
           let self = this;
           if (!self.arrRecipients.length) {
             self.intFocus = -1;
+            this.arrSuggestions = [];
             return null;
           }
 

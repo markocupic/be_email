@@ -4,10 +4,12 @@
     name="%s"
     id="ctrl_%s"
     class="tl_text tl_email_to_widget%s"
-    @blur="onBlur"
-    @keyup="handleKeypress"
-    v-model="value"
     value="%s"
+    @blur="onBlur"
+    @input="e => value = e.target.value"
+    @keydown="handleKeypress"
+    v-model="value"
+    :value="value"
   >
 
   <div class="esl-container" v-if="arrSuggestions.length">

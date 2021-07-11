@@ -28,7 +28,7 @@ class BeEmail
      *
      * @param string $strAction
      */
-    public function executePreActions($strAction = '')
+    public function executePreActions($strAction = ''): void
     {
         $blnShowUserAddresses = false;
         $blnShowMemberAddresses = false;
@@ -51,30 +51,38 @@ class BeEmail
         if ('loadEmailList' === $strAction) {
             $arrEmail = [];
 
-            $pattern = Input::post('pattern');
+            $pattern = strtolower(trim((string)Input::post('pattern')));
 
             if (\strlen($pattern) > 1 && $blnShowUserAddresses) {
                 $result = Database::getInstance()
-                    ->query("SELECT * FROM tl_user WHERE email != '' AND CONCAT(email, ' ', name) LIKE '%".$pattern."%' ORDER BY name LIMIT 0,10")
+                    ->query("SELECT * FROM tl_user WHERE email != '' AND email NOT LIKE '".$pattern."' AND name LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY name LIMIT 0,10")
                 ;
 
                 while ($result->next()) {
+                    if(strtolower($result->email) === $pattern)
+                    {
+                        continue;
+                    }
                     $arrEmail[$result->email] = [
                         'label' => $result->name,
-                        'email' => $result->email,
+                        'email' => strtolower((string) $result->email),
                     ];
                 }
             }
 
-            if ($blnShowMemberAddresses) {
+            if (!$blnShowMemberAddresses) {
                 $result = Database::getInstance()
-                    ->query("SELECT * FROM tl_member WHERE email != '' AND CONCAT(email, ' ', firstname, ' ', lastname) LIKE '%".$pattern."%' ORDER BY lastname LIMIT 0,10")
+                    ->query("SELECT * FROM tl_member WHERE email != '' AND email NOT LIKE '".$pattern."' AND CONCAT(firstname, ' ', lastname) LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY lastname LIMIT 0,10")
                 ;
 
                 while ($result->next()) {
+                    if(strtolower($result->email) === $pattern)
+                    {
+                        continue;
+                    }
                     $arrEmail[$result->email] = [
                         'label' => trim($result->firstname.' '.$result->lastname),
-                        'email' => $result->email,
+                        'email' => strtolower((string) $result->email),
                     ];
                 }
             }
