@@ -13,7 +13,9 @@
   <div class="esl-container" v-if="arrSuggestions.length">
     <div class="esl-container-inner">
       <div class="esl-container-inner-header">
-        <button type="button" @click="closeSuggestList"><img src="bundles/markocupicbeemail/icon-close.svg"></button>
+        <button type="button" @click="closeSuggestList">
+          <img src="bundles/markocupicbeemail/icon-close.svg">
+        </button>
       </div>
       <ul class="esl">
         <li v-for="(suggest,index) in arrSuggestions">

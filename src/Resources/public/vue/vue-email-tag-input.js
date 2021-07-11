@@ -26,6 +26,7 @@ class VueEmailTagInput {
         arrSuggestions: [],
         intFocus: -1,
       },
+
       created: function () {
         this.arrRecipients = this.value.split(',');
 
@@ -45,10 +46,12 @@ class VueEmailTagInput {
           })
         });
       },
+
       watch: {
         value: function (val) {
           this.arrRecipients = val.split(',');
         },
+
         intFocus(val, oldVal) {
           let self = this;
           window.setTimeout(function () {
@@ -67,7 +70,6 @@ class VueEmailTagInput {
               self.intFocus = -1;
             }
           }, 10);
-
         }
       },
       methods: {
@@ -75,6 +77,7 @@ class VueEmailTagInput {
         closeSuggestList: function closeSuggestList() {
           this.onBlur();
         },
+
         onBlur: function onBlur() {
           let self = this;
           window.setTimeout(function () {
@@ -82,29 +85,27 @@ class VueEmailTagInput {
             self.intFocus = -1;
           }, 100);
         },
+
         handleKeypress: function runAutocomplete(e) {
           let self = this;
           if (e.key === 'ArrowDown') {
             self.intFocus++;
-
           } else if (e.key === 'ArrowUp') {
             self.intFocus--;
           } else if (e.key === 'Enter') {
-
             let elFocus = document.querySelector('.has-focus');
             if (elFocus) {
               this.selectAddress(elFocus.getAttribute('data-email'), self.intFocus);
               this.arrSuggestions = [];
             }
-            return false;
           } else {
             this.value = this.value.replace(';', ',');
             this.arrRecipients = this.value.split(',');
             this.getAddresses();
           }
         },
-        getAddresses: function getAddresses() {
 
+        getAddresses: function getAddresses() {
           let self = this;
           if (!self.arrRecipients.length) {
             self.intFocus = -1;
@@ -134,11 +135,13 @@ class VueEmailTagInput {
             'REQUEST_TOKEN': Contao.request_token
           });
         },
+
         selectAddress: function selectAddress(email, index) {
           // remove last item
           this.arrRecipients.pop();
           this.value = this.arrRecipients.join(',') + ',' + email;
-          // Remove first character if it is comma
+
+          // Remove first character if it is a comma
           this.value = this.value.replace(/^,/, "");
           this.value = this.value.replace(/[\s]+/, "");
 
