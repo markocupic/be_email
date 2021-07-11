@@ -6,20 +6,46 @@
  * @link https://github.com/markocupic/be_email
  * @license MIT
  */
-
-.awesomplete {
-    display: block !important;
-    width: calc(100% - 30px) !important;
+.email-suggestion-list-container {
+    position: relative;
+    overflow-y: visible;
+}
+.email-suggestion-list {
+    width: 300px;
+    position:absolute;
+    left: 0;
+    top:0;
+    z-index: 10;
 }
 
-.awesomplete ul {
-    margin-left: 30px !important;
-    min-width: calc(100% - 30px) !important;
+.email-suggestion-list-item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    cursor: pointer;
+    background-color: transparent;
+    border:0;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
 }
 
-.awesomplete ul li {
-    margin: 7px 0 !important;
+.email-suggestion-list-name {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px;
+    background-color: #9efaa6;
+    width: 100%;
 }
+
+.email-suggestion-list-email {
+    font-size: 13px;
+    padding: 8px;
+    background-color: #c2f8c7;
+    width: 100%;
+}
+
 
 .tl_listing tr[class*="row-email-"] > td {
     border-bottom: 3px solid #fff;
@@ -47,12 +73,6 @@
     background-size: 13px 13px;
 }
 
-#tl_be_email textarea.address_textarea_to, #tl_be_email textarea.address_textarea_cc, #tl_be_email textarea.address_textarea_bcc {
-    height: 14px;
-    width: 85%;
-    margin-left: 10px;
-}
-
 #tl_be_email textarea.content {
     height: 80px;
 }
@@ -71,112 +91,10 @@
     display: block;
 }
 
-#tl_be_email img.open-address-book-icon {
-    width: 20px;
-    height: 20px;
-    top: 23px;
-    vertical-align: top;
-    position: relative;
-    left: 0;
-    cursor: pointer;
-    z-index: 100;
-}
 
 #tl_be_email #pal_attachment_legend {
     background-color: #f0f0f0;
 }
-
-#tl_be_email #ctrl_recipientsTo, #tl_be_email #ctrl_recipientsCc, #tl_be_email #ctrl_recipientsBcc {
-    margin-left: 30px;
-    width: calc(100% - 30px);
-}
-
-#contaoBeEmailAddressBook {
-    padding: 15px 20px;
-}
-
-#contaoBeEmailAddressBook .addressBox {
-    max-height: 500px;
-    overflow: scroll;
-}
-
-#contaoBeEmailAddressBook table {
-    border-collapse: collapse;
-}
-
-#contaoBeEmailAddressBook img.select-address-icon {
-    width: 18px;
-    height: 18px;
-}
-
-#contaoBeEmailAddressBook th {
-    text-align: left;
-    color: #000;
-}
-
-#contaoBeEmailAddressBook td {
-    font-size: 12px;
-    background-color: #ffffff;
-    padding: 12px 4px;
-    border-bottom: 1px solid #e2e2e2;
-    height: 43px;
-    vertical-align: middle;
-}
-
-#contaoBeEmailAddressBook .odd td {
-    background-color: #ffffff;
-}
-
-#contaoBeEmailAddressBook td.col_0 {
-    padding-right: 10px;
-}
-
-#contaoBeEmailAddressBook td.col_1 {
-    width: 150px;
-}
-
-#contaoBeEmailAddressBook td.col_2 {
-    width: 150px;
-    padding-left: 15px;
-}
-
-#contaoBeEmailAddressBook table a, #contaoBeEmailAddressBook table img {
-    border: 0;
-}
-
-#contaoBeEmailAddressBook .tabs {
-    margin-bottom: 20px;
-    display: flex;
-}
-
-#contaoBeEmailAddressBook .tabs li {
-    min-width: 160px;
-}
-
-#contaoBeEmailAddressBook .tabs li.table-tab {
-    border-bottom: 1px solid #f47c00;
-}
-
-#contaoBeEmailAddressBook .tabs li .tl_text {
-    margin: 4px 10px 0 10px;
-}
-
-#contaoBeEmailAddressBook .tabs a {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    color: #333;
-    padding: 10px 10px;
-    background: #f7f7f7;
-}
-
-#contaoBeEmailAddressBook .tabs a:hover, #contaoBeEmailAddressBook .tabs a.active {
-    background: #f47c00;
-    color: #ffffff;
-}
-
-
 
 
 

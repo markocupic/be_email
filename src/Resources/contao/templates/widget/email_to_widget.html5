@@ -1,0 +1,26 @@
+<div id="vueEmailTagInput_%s" class="vue-email-tag-input">
+  <input
+    type="text"
+    name="%s"
+    id="ctrl_%s"
+    class="tl_text tl_email_to_widget%s"
+    @blur="onBlur"
+    @keyup="runAutocomplete"
+    v-model="value"
+    value="%s"
+  >
+  <div class="email-suggestion-list-container">
+    <ul class="email-suggestion-list">
+      <li v-for="suggest in arrSuggestions" @click="selectAddress(suggest.email)">
+        <button class="email-suggestion-list-item" data-is-focusable="true">
+          <div class="email-suggestion-list-name">{{ suggest.label }}</div>
+          <div class="email-suggestion-list-email">{{ suggest.email }}</div>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  new VueEmailTagInput("vueEmailTagInput_%s", "%s");
+</script>

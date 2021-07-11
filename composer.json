@@ -19,7 +19,7 @@
     "require":{
         "php": "^7.3 || ^8.0",
         "contao/core-bundle": ">=4.4",
-        "markocupic/contao-component-awesomplete": "^1.1"
+        "markocupic/contao-component-vue-js": "^2.6"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^3.0",

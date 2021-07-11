@@ -12,6 +12,8 @@
 
 namespace Markocupic\BeEmail;
 
+use Contao\Input;
+use Markocupic\BeEmail\Widget\Backend\EmailToWidget;
 use Markocupic\BeEmail\Model\BeEmailModel;
 
 // Backend modules
@@ -25,28 +27,14 @@ $GLOBALS['BE_MOD']['email']['tl_be_email'] = array
  */
 $GLOBALS['TL_MODELS']['tl_be_email'] = BeEmailModel::class;
 
+/**
+ * Backend form widgets
+ */
+$GLOBALS['BE_FFL'][EmailToWidget::TYPE] = EmailToWidget::class;
 
-if (TL_MODE === 'BE' && isset($_GET['do']) && $_GET['do'] === 'tl_be_email')
+if (TL_MODE === 'BE' && Input::get('do') === 'tl_be_email')
 {
 	$GLOBALS['TL_CSS'][] = 'bundles/markocupicbeemail/stylesheet.css|static';
-
-    /**
-     * Awesomplete
-     */
-	$GLOBALS['TL_JAVASCRIPT'][] = 'assets/contao-component-awesomplete/js/awesomplete.min.js';
-	$GLOBALS['TL_CSS'][]        = 'assets/contao-component-awesomplete/css/awesomplete.css';
-
-    /**
-     * Load plugin js & css
-     */
-	$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/be_email_listing.js|static';
-	$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/be_email_listing_autocomplete.js|static';
-
-	if ($_GET['act'] === 'edit')
-	{
-		// Add Javascript
-		$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/be_email.js|static';
-	}
 
 	// HOOKS
 	$GLOBALS['TL_HOOKS']['executePreActions'][] = array(BeEmail::class, 'executePreActions');
