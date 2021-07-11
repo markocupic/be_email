@@ -69,7 +69,7 @@ class BeEmail
                 }
             }
 
-            if ($blnShowMemberAddresses) { 
+            if ($blnShowMemberAddresses) {
                 $result = Database::getInstance()
                     ->query("SELECT * FROM tl_member WHERE email != '' AND email NOT LIKE '".$pattern."' AND CONCAT(firstname, ' ', lastname) LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY lastname LIMIT 0,10")
                 ;

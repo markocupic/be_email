@@ -47,9 +47,9 @@ class EmailToWidget extends Widget
         return sprintf(
             $widget->parse(),
             $this->id,
+            ($this->class ? ' '.$this->class : ''),
             $this->name,
             $this->id,
-            ($this->class ? ' '.$this->class : ''),
             StringUtil::specialchars($this->value),
             $this->id,
             StringUtil::specialchars($this->value),

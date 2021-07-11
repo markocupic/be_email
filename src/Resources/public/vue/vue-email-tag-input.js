@@ -21,14 +21,17 @@ class VueEmailTagInput {
     let app = new Vue({
       el: '#' + this.el,
       data: {
+        valueNew: '',
         value: this.value,
-        arrRecipients: [],
+        arrValues: [],
         arrSuggestions: [],
         intFocus: -1,
       },
 
       created: function () {
-        this.arrRecipients = this.value.split(',');
+        this.arrValues = this.value.split(',').filter(el => {
+          return el != null && el != '';
+        });
 
         // Do not submit form when pressing the Enter key
         document.addEventListener("DOMContentLoaded", function () {
@@ -48,11 +51,12 @@ class VueEmailTagInput {
       },
 
       watch: {
-        value: function (val) {
-          this.arrRecipients = val.split(',');
-          this.value = this.value.replace(';', ',');
-          this.arrRecipients = this.value.split(',');
+        valueNew: function (val) {
           this.getAddresses();
+        },
+
+        arrValues: function (val) {
+          this.value = val.join(',');
         },
 
         intFocus(val, oldVal) {
@@ -77,6 +81,28 @@ class VueEmailTagInput {
       },
       methods: {
 
+        pushValue: function pushValue(event) {
+          self = this;
+          let value = event.target.value;
+          if (self.validateEmail(value)) {
+            self.arrValues.push(value);
+            self.valueNew = '';
+          }
+        },
+        removeTag: function removeTag(event)
+        {
+          self = this;
+          let arrTagClass = event.target.parentElement.className.split(' ');
+          arrTagClass = arrTagClass.map(cl => '.' + cl);
+          let strClass = arrTagClass.join('');
+          let tag = event.target.parentElement;
+          let container = tag.parentElement;
+          let tagCollection = container.querySelectorAll(strClass);
+          let index = Array.prototype.indexOf.call(tagCollection, tag);
+          //tagCollection[index].remove();
+          self.arrValues.splice(index,1);
+        },
+
         closeSuggestList: function closeSuggestList() {
           this.onBlur();
         },
@@ -98,8 +124,8 @@ class VueEmailTagInput {
           } else if (e.key === 'Enter') {
             let elFocus = document.querySelector('.has-focus');
             if (elFocus) {
-              this.selectAddress(elFocus.getAttribute('data-email'), self.intFocus);
-              this.arrSuggestions = [];
+              self.selectAddress(elFocus.getAttribute('data-email'), self.intFocus);
+              self.arrSuggestions = [];
             }
           } else {
             //
@@ -108,16 +134,15 @@ class VueEmailTagInput {
 
         getAddresses: function getAddresses() {
           let self = this;
-          if (!self.arrRecipients.length) {
-            self.intFocus = -1;
-            this.arrSuggestions = [];
-            return null;
+          if (!self.arrValues.length) {
+            //self.intFocus = -1;
+            //self.arrSuggestions = [];
+            //return null;
           }
 
-          let strEmail = self.arrRecipients[self.arrRecipients.length - 1];
-          if (strEmail.length < 3) {
+          if (self.valueNew.length < 3) {
             self.intFocus = -1;
-            this.arrSuggestions = [];
+            self.arrSuggestions = [];
             return null;
           }
 
@@ -133,21 +158,20 @@ class VueEmailTagInput {
             }
           }).post({
             'action': 'loadEmailList',
-            'pattern': strEmail,
+            'pattern': self.valueNew,
             'REQUEST_TOKEN': Contao.request_token
           });
         },
 
         selectAddress: function selectAddress(email, index) {
-          // remove last item
-          this.arrRecipients.pop();
-          this.value = this.arrRecipients.join(',') + ',' + email;
-
-          // Remove first character if it is a comma
-          this.value = this.value.replace(/^,/, "");
-          this.value = this.value.replace(/[\s]+/, "");
-
+          // Push new item
+          this.arrValues.push(email);
+          this.valueNew = '';
           this.arrSuggestions = [];
+        },
+        validateEmail: function validateEmail(email) {
+          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(String(email).toLowerCase());
         }
       }
     })

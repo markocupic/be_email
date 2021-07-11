@@ -1,16 +1,23 @@
-<div id="vueEmailTagInput_%s" class="vue-email-tag-input">
-  <input
-    type="text"
-    name="%s"
-    id="ctrl_%s"
-    class="tl_text tl_email_to_widget%s"
-    value="%s"
-    @blur="onBlur"
-    @input="e => value = e.target.value"
-    @keydown="handleKeypress"
-    v-model="value"
-    :value="value"
-  >
+<div id="vueEmailTagInput_%s" class="vue-email-tag-input%s">
+
+  <div class="esl-tag-container">
+    <div v-for="(value,index) in arrValues" class="esl-tag foo" :data-value="value">
+      <span class="esl-tag-label">{{ value }}</span><img @click.stop="removeTag" class="esl-tag-remove" src="bundles/markocupicbeemail/icon-close.svg">
+    </div>
+    <input
+      class="esl-tag-input"
+      v-on:keyup.enter="pushValue($event)"
+      @input="e => valueNew = e.target.value"
+      :value="valueNew"
+      @keydown="handleKeypress"
+      autocapitalize="off"
+      autocomplete="off"
+      type="text"
+    >
+  </div>
+
+  <!-- Hidden form field -->
+  <input type="hidden" name="%s" id="ctrl_%s" :value="value" value="%s">
 
   <div class="esl-container" v-if="arrSuggestions.length">
     <div class="esl-container-inner">
