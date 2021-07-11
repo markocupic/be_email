@@ -8,6 +8,41 @@
  */
 window.addEvent('domready', function () {
 
+    const inputTo = document.querySelectorAll("#ctrl_recipientsTo,#ctrl_recipientsCc,#ctrl_recipientsBcc");
+    if(null !== inputTo)
+    {
+        let disable;
+
+        inputTo.forEach(element => {
+            element.addEventListener("focus", function(event) {
+                disable = true;
+                disableBtn();
+            });
+            element.addEventListener("blur", function(event) {
+                disable = false;
+                disableBtn();
+            });
+        });
+
+        function disableBtn()
+        {
+            let btn = document.getElementById('save');
+            if(btn)
+            {
+                if(disable)
+                {
+                    btn.setAttribute('disabled',true);
+                }else{
+                    btn.removeAttribute('disabled');
+                }
+            }
+        }
+
+    }
+
+
+
+
     // Get class instance
     ContaoBeEmail = new ContaoBeEmail();
 
@@ -60,7 +95,7 @@ ContaoBeEmail = new Class(
                     var icon = new Element('img', {
                         'class': 'open-address-book-icon',
                         'role': 'button',
-                        'src': '/markocupicbeemail/phone-book.svg',
+                        'src': '/bundles/markocupicbeemail/phone-book.svg',
                         'data-input-field': 'ctrl_recipientsTo',
                         'title': self.lang['add_recipients'],
                         'onclick': 'ContaoBeEmail.openAddressBook(\'' + selector + '\')'

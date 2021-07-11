@@ -7,12 +7,9 @@
  * @license MIT
  */
 window.addEvent('domready', function () {
-
     // Get class instance
     ContaoBeEmailListing = new ContaoBeEmailListing();
     ContaoBeEmailListing.init();
-
-
 });
 
 

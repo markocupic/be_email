@@ -121,9 +121,9 @@ class TlBeEmail extends Backend
      * @param null $objDCA
      * @return string
      */
-    public function base64decode($strValue)
+    public function base64decode(?string $strValue)
     {
-        if (base64_decode($strValue, true))
+        if (base64_decode((string)$strValue, true))
         {
             return base64_decode($strValue);
         }
@@ -321,7 +321,7 @@ class TlBeEmail extends Backend
             unset($arrButtons['saveNclose']);
             unset($arrButtons['saveNcreate']);
             unset($arrButtons['saveNduplicate']);
-            $arrButtons['save'] = '<button type="submit" name="save" id="save" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['send_email'] . '</button>';
+            $arrButtons['save'] = '<button name="save" id="save" class="tl_submit" accesskey="c">' . $GLOBALS['TL_LANG']['tl_be_email']['send_email'] . '</button>';
         }
         else
         {

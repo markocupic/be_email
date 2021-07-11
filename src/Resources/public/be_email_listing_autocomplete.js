@@ -42,7 +42,7 @@ ContaoBeEmailListingAutocomplete = new Class(
          * Load email addresses from server
          */
         loadEmailAddresses: function () {
-            var self = this;
+            let self = this;
             // Load addresses
             new Request.JSON({
                 url: window.location.href,
@@ -53,7 +53,7 @@ ContaoBeEmailListingAutocomplete = new Class(
                         el.setProperty('data-multiple', 'true');
                         el.setProperty('data-list', self.emailString);
 
-                        var input = document.getElementById(el.id);
+                        let input = document.getElementById(el.id);
 
                         // Move cursor to the end of input
                         input.addEventListener('awesomplete-selectcomplete', function (e) {
@@ -71,7 +71,7 @@ ContaoBeEmailListingAutocomplete = new Class(
                                 },
 
                                 replace: function (text) {
-                                    var before = this.input.value.match(/^.+;\s*|/)[0];
+                                    let before = this.input.value.match(/^.+;\s*|/)[0];
                                     this.input.value = before + text + ";";
                                 }
 
@@ -93,8 +93,8 @@ ContaoBeEmailListingAutocomplete = new Class(
          * @returns {*}
          */
         cleanAddressString: function (el) {
-            var str = String.from(el.get('value'));
-            str = str.replace(' ', '').replace(' ', '').replace(' ', '').replace(',', ';').replace(',', ';');
+            let str = String.from(el.get('value'));
+            //str = str.replace(' ', '').replace(' ', '').replace(' ', '').replace(',', ';').replace(',', ';');
             el.set('value', str);
             return el;
 
@@ -109,7 +109,7 @@ ContaoBeEmailListingAutocomplete = new Class(
             el = this.cleanAddressString(el);
 
             // Scroll to the very end of the input field
-            var value = el.get('value');
+            let value = el.get('value');
             el.focus();
             el.scrollLeft = el.scrollWidth;
         }
