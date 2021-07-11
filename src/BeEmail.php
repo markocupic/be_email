@@ -51,7 +51,7 @@ class BeEmail
         if ('loadEmailList' === $strAction) {
             $arrEmail = [];
 
-            $pattern = strtolower(trim((string)Input::post('pattern')));
+            $pattern = strtolower(trim((string) Input::post('pattern')));
 
             if (\strlen($pattern) > 1 && $blnShowUserAddresses) {
                 $result = Database::getInstance()
@@ -59,8 +59,7 @@ class BeEmail
                 ;
 
                 while ($result->next()) {
-                    if(strtolower($result->email) === $pattern)
-                    {
+                    if (strtolower($result->email) === $pattern) {
                         continue;
                     }
                     $arrEmail[$result->email] = [
@@ -70,14 +69,13 @@ class BeEmail
                 }
             }
 
-            if (!$blnShowMemberAddresses) {
+            if ($blnShowMemberAddresses) { 
                 $result = Database::getInstance()
                     ->query("SELECT * FROM tl_member WHERE email != '' AND email NOT LIKE '".$pattern."' AND CONCAT(firstname, ' ', lastname) LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY lastname LIMIT 0,10")
                 ;
 
                 while ($result->next()) {
-                    if(strtolower($result->email) === $pattern)
-                    {
+                    if (strtolower($result->email) === $pattern) {
                         continue;
                     }
                     $arrEmail[$result->email] = [
