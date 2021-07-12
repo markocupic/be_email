@@ -1,4 +1,4 @@
-<div id="vueEmailTagInput_%s" class="vue-email-tag-input%s">
+<div id="vueEmailTagInput_%s" v-cloak class="vue-email-tag-input%s">
 
   <!-- tag input section -->
   <div class="ti-tag-container">

@@ -16,7 +16,8 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 PaletteManipulator::create()
 	->addLegend('be_email_legend', 'global_legend')
 	->addField(array('address_popup_settings'), 'be_email_legend', PaletteManipulator::POSITION_APPEND)
-	->applyToPalette('default', 'tl_settings');
+	->applyToPalette('default', 'tl_settings')
+;
 
 /**
  * Add fields

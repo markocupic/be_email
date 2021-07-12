@@ -37,6 +37,9 @@ use Markocupic\BeEmail\Model\BeEmailModel;
  */
 class TlBeEmail extends Backend
 {
+    /**
+     * TlBeEmail constructor.
+     */
     public function __construct()
     {
         // Load language files
@@ -82,22 +85,26 @@ class TlBeEmail extends Backend
         parent::__construct();
     }
 
+    /**
+     * @param DataContainer $dc
+     */
     public function setPalette(DataContainer $dc): void
     {
-        $db = Database::getInstance()
-            ->prepare('SELECT * FROM tl_be_email WHERE id=?')
-            ->limit(1)
-            ->execute($dc->id)
-        ;
+        if(Input::get('act') === 'edit' && Input::get('id')){
+            $db = Database::getInstance()
+                ->prepare('SELECT * FROM tl_be_email WHERE id=?')
+                ->limit(1)
+                ->execute($dc->id)
+            ;
 
-        if (!$db->emailNotSent) {
-            $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
+            if (!$db->emailNotSent) {
+                $GLOBALS['TL_DCA']['tl_be_email']['palettes']['default'] = $GLOBALS['TL_DCA']['tl_be_email']['palettes']['sentEmail'];
+            }
         }
     }
 
     /**
      * @param $row
-     *
      * @return string
      */
     public function labelCallback($row)
@@ -136,11 +143,11 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * onload_callback.
+     * Onload callback
      */
     public function onLoadCbCheckPermission(): void
     {
-        // each user can only see his own emails
+        // All users only have access to their own emails
         if ('' === Input::get('act') || !Input::get('id')) {
             return;
         }
@@ -158,8 +165,7 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * onsubmit_callback
-     * send email.
+     * @param DataContainer $dc
      */
     public function onSubmitCbSendEmail(DataContainer $dc): void
     {
@@ -249,10 +255,8 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * buttons_callback.
-     *
      * @param $arrButtons
-     *
+     * @param DC_Table $dc
      * @return mixed
      */
     public function buttonsCallback($arrButtons, DC_Table $dc)
@@ -278,11 +282,10 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * oncreate_callback
-     * param $strTable.
-     *
+     * @param $strTable
      * @param $id
      * @param $arrSet
+     * @param DC_Table $dc
      */
     public function onCreateCallback($strTable, $id, $arrSet, DC_Table $dc): void
     {
@@ -310,6 +313,8 @@ class TlBeEmail extends Backend
     }
 
     /**
+     * @param DC_Table $dc
+     * @param $label
      * @return string
      */
     public function generateSummary(DC_Table $dc, $label)
@@ -335,8 +340,7 @@ class TlBeEmail extends Backend
 
     /**
      * @param $strValue
-     *
-     * @return mixed
+     * @return array|bool|int|mixed|string
      */
     protected function cleanPost($strValue)
     {
@@ -344,9 +348,8 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * @param string $strAddresses
+     * @param $strAddresses
      * @param $field
-     *
      * @return array
      */
     private function validateEmailAddresses($strAddresses, $field)
@@ -356,7 +359,8 @@ class TlBeEmail extends Backend
 
         if ('' === $strAddresses) {
             $set = [$field => ''];
-            // update the db
+
+            // Update the db
             Database::getInstance()
                 ->prepare('UPDATE tl_be_email %s WHERE id=?')
                 ->set($set)

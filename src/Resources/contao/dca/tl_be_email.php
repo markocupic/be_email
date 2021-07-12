@@ -79,7 +79,6 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 				'subject',
 				'recipientsTo',
 			),
-			//'format' => '%s  <span style="color:#b3b3b3; padding-left:3px;">(%s)</span>',
 			'label_callback' => array(TlBeEmail::class, 'labelCallback'),
 		),
 		'global_operations' => array(
@@ -113,7 +112,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 	'palettes'    => array(
 		'__selector__' => array('addAttachment'),
 		'sentEmail'    => 'summary',
-		'default'      => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content;{attachment_legend},addAttachment;',
+		'default'      => '{recipients_legend:hide},recipientsTo,recipientsCc,recipientsBcc;{message_legend},subject,content;{attachment_legend},addAttachment',
 	),
 	// Subpalettes
 	'subpalettes' => array(
@@ -180,7 +179,6 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 			'eval'      => array(
 				'mandatory'      => true,
 				'doNotSaveEmpty' => true,
-				'style'          => ' width:95%; ',
 			),
 			'sql'       => "text NULL",
 		),
@@ -200,7 +198,6 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 				'allowHtml'      => true,
 				'mandatory'      => true,
 				'doNotSaveEmpty' => true,
-				'style'          => ' width:95%; ',
 			),
 			'sql'           => "longtext NULL",
 		),
@@ -239,7 +236,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 
 if (isset($_GET) && \count($_GET) === 5 && Input::get('do') === 'tl_be_email' && Input::get('act') === 'edit' && isset($_GET['id']))
 {
-    $GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsTo']['inputType'] = 'email_to';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsTo']['inputType'] = 'email_to';
 	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsCc']['inputType'] = 'email_to';
 	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsBcc']['inputType'] = 'email_to';
 }

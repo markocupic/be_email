@@ -12,6 +12,13 @@
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
+// Add the fields to the palettes
+PaletteManipulator::create()
+    ->addField(array('alternate_email', 'alternate_email_2'), 'email', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('default', 'tl_user')
+    ->applyToPalette('admin', 'tl_user')
+;
+
 // Add additional fields to tl_user
 $GLOBALS['TL_DCA']['tl_user']['fields']['alternate_email'] = array
 (
@@ -36,9 +43,3 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['alternate_email_2'] = array
 	'eval'      => array('mandatory' => false, 'rgxp' => 'email', 'tl_class' => 'clr'),
 	'sql'       => "varchar(255) NOT NULL default ''"
 );
-
-// Add the fields to the palettes
-PaletteManipulator::create()
-	->addField(array('alternate_email', 'alternate_email_2'), 'email', PaletteManipulator::POSITION_AFTER)
-	->applyToPalette('default', 'tl_user')
-	->applyToPalette('admin', 'tl_user');

@@ -8,6 +8,14 @@
  * @link https://github.com/markocupic/be_email
  */
 
+#tl_navigation .group-email {
+    background: url(mail.svg) 3px 2px no-repeat;
+    background-size: 13px 13px;
+}
+
+[v-cloak].vue-email-tag-input {
+    visibility: hidden;
+}
 
 .ti-tag-container {
     display: flex;
@@ -138,11 +146,6 @@
 
 .contao-be-email-modal {
     max-width: 90% !important;
-}
-
-#tl_navigation .group-email {
-    background: url(envelope.svg) 3px 2px no-repeat;
-    background-size: 13px 13px;
 }
 
 #tl_be_email textarea.content {

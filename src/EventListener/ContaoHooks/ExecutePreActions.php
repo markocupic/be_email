@@ -15,24 +15,41 @@ declare(strict_types=1);
 namespace Markocupic\BeEmail\EventListener\ContaoHooks;
 
 use Contao\Config;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Hook;
-use Contao\Database;
-use Contao\Input;
+use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @Hook("executePreActions")
  */
 class ExecutePreActions
 {
+    private $framework;
+    private $connection;
+    private $requestStack;
+
+    public function __construct(ContaoFramework $framework, Connection $connection, RequestStack $requestStack)
+    {
+        $this->framework = $framework;
+        $this->connection = $connection;
+        $this->requestStack = $requestStack;
+    }
+
     /**
      * @param string $strAction
      */
-    public function __invoke($strAction = ''): void
+    public function __invoke($strAction = '')
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         $blnShowUserAddresses = false;
         $blnShowMemberAddresses = false;
 
-        switch (Config::get('address_popup_settings')) {
+        $configAdapter = $this->framework->getAdapter(Config::class);
+
+        switch ($configAdapter->get('address_popup_settings')) {
             case 'select_users_only':
                 $blnShowUserAddresses = true;
                 break;
@@ -48,52 +65,46 @@ class ExecutePreActions
 
         // Send email-addresses to the server
         if ('loadEmailList' === $strAction) {
-            $arrEmail = [];
+            $arrItems = [];
 
-            $pattern = strtolower(trim((string) Input::post('pattern')));
+            $strPattern = strtolower(trim($request->request->get('pattern', '')));
 
-            if (\strlen($pattern) > 1 && $blnShowUserAddresses) {
-                $result = Database::getInstance()
-                    ->query("SELECT * FROM tl_user WHERE email != '' AND email NOT LIKE '".$pattern."' AND name LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY name LIMIT 0,10")
-                ;
+            if (\strlen($strPattern) && $blnShowUserAddresses) {
+                $stmt = $this->connection->prepare('SELECT * FROM tl_user t WHERE t.email LIKE :pattern OR t.name LIKE :pattern ORDER BY t.name LIMIT 0,10');
+                $stmt->bindValue(':pattern', '%'.$strPattern.'%', \PDO::PARAM_STR);
+                $stmt->execute();
 
-                while ($result->next()) {
-                    if (strtolower($result->email) === $pattern) {
-                        continue;
-                    }
-                    $arrEmail[$result->email] = [
+                while (false !== ($result = $stmt->fetch(\PDO::FETCH_OBJ))) {
+                    $arrItems[$result->email] = [
                         'label' => $result->name,
                         'value' => strtolower((string) $result->email),
                     ];
                 }
             }
 
-            if ($blnShowMemberAddresses) {
-                $result = Database::getInstance()
-                    ->query("SELECT * FROM tl_member WHERE email != '' AND email NOT LIKE '".$pattern."' AND CONCAT(firstname, ' ', lastname) LIKE '%".$pattern."%' OR email LIKE '%".$pattern."%' ORDER BY lastname LIMIT 0,10")
-                ;
+            if (\strlen($strPattern) && $blnShowMemberAddresses) {
+                $stmt = $this->connection->prepare("SELECT * FROM tl_member t WHERE t.email LIKE :pattern OR CONCAT(t.firstname, ' ', t.lastname) LIKE :pattern ORDER BY t.lastname, t.firstname LIMIT 0,10");
+                $stmt->bindValue(':pattern', '%'.$strPattern.'%', \PDO::PARAM_STR);
+                $stmt->execute();
 
-                while ($result->next()) {
-                    if (strtolower($result->email) === $pattern) {
-                        continue;
-                    }
-                    $arrEmail[$result->email] = [
+                while (false !== ($result = $stmt->fetch(\PDO::FETCH_OBJ))) {
+                    $arrItems[$result->email] = [
                         'label' => trim($result->firstname.' '.$result->lastname),
                         'value' => strtolower((string) $result->email),
                     ];
                 }
             }
-            $arrMail = [];
 
-            foreach ($arrEmail as $arrItem) {
-                $arrMail[] = $arrItem;
+            // Remove associative keys
+            $arrEmail = [];
+
+            foreach ($arrItems as $arrItem) {
+                $arrEmail[] = $arrItem;
             }
 
-            $json = ['data' => $arrMail];
+            // Send data to the browser
 
-            // Send to the browser
-            echo json_encode($json);
-            exit();
+            return (new JsonResponse(['data' => $arrEmail]))->send();
         }
     }
 }

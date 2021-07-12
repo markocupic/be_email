@@ -13,7 +13,6 @@
 namespace Markocupic\BeEmail;
 
 use Contao\Input;
-use Markocupic\BeEmail\EventListener\ContaoHooks\ExecutePreActions;
 use Markocupic\BeEmail\Model\BeEmailModel;
 use Markocupic\BeEmail\Widget\Backend\EmailToWidget;
 
@@ -33,12 +32,7 @@ $GLOBALS['TL_MODELS']['tl_be_email'] = BeEmailModel::class;
  */
 $GLOBALS['BE_FFL'][EmailToWidget::TYPE] = EmailToWidget::class;
 
-if (TL_MODE === 'BE' && Input::get('do') === 'tl_be_email')
+if (TL_MODE === 'BE')
 {
-	$GLOBALS['TL_CSS'][] = 'bundles/markocupicbeemail/stylesheet.css|static';
-
-	/**
-     * Hook, used for the recipient suggest
-     */
-	$GLOBALS['TL_HOOKS']['executePreActions'][] = array(ExecutePreActions::class, '__invoke');
+	$GLOBALS['TL_CSS'][] = 'bundles/markocupicbeemail/stylesheet.css';
 }
