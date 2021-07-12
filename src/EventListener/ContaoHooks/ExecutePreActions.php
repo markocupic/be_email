@@ -40,7 +40,7 @@ class ExecutePreActions
     /**
      * @param string $strAction
      */
-    public function __invoke($strAction = '')
+    public function __invoke($strAction = ''): void
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -103,8 +103,8 @@ class ExecutePreActions
             }
 
             // Send data to the browser
-
-            return (new JsonResponse(['data' => $arrEmail]))->send();
+            echo json_encode(['data' => $arrEmail]);
+            exit();
         }
     }
 }

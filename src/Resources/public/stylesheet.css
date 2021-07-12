@@ -21,19 +21,21 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-content: stretch;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     padding: 4px 4px 0 4px;
+    border-radius: 2px;
 }
 
 .ti-tag {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 13px;
     border: 0;
-    padding: 3px 5px;
+    padding: 4px 12px;
     background-color: #6096e7;
     color: #fff;
     margin: 0 6px 4px 0;
@@ -52,7 +54,11 @@
     border: 0;
     padding: 5px;
     outline: none;
-    min-width: 200px;
+    webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    flex: 1 1 auto;
 }
 
 .ti-suggest-container {
