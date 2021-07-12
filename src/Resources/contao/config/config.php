@@ -31,8 +31,3 @@ $GLOBALS['TL_MODELS']['tl_be_email'] = BeEmailModel::class;
  * Backend form widgets
  */
 $GLOBALS['BE_FFL'][EmailToWidget::TYPE] = EmailToWidget::class;
-
-if (TL_MODE === 'BE')
-{
-	$GLOBALS['TL_CSS'][] = 'bundles/markocupicbeemail/stylesheet.css';
-}

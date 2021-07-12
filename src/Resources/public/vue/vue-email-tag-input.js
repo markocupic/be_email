@@ -18,7 +18,7 @@ class VueEmailTagInput {
   }
 
   init() {
-    let app = new Vue({
+    const app = new Vue({
       el: '#' + this.el,
       data: {
         /**
@@ -59,7 +59,7 @@ class VueEmailTagInput {
         // Do not submit form when pressing the Enter key
         document.addEventListener("DOMContentLoaded", function () {
           ['save', 'saveNback'].forEach(el => {
-            let saveBtn = document.getElementById(el);
+            const saveBtn = document.getElementById(el);
             if (saveBtn) {
               saveBtn.setAttribute('type', 'button');
               saveBtn.addEventListener("mouseenter", function () {
@@ -83,10 +83,10 @@ class VueEmailTagInput {
         },
 
         intFocus(val, oldVal) {
-          let self = this;
+          const self = this;
           window.setTimeout(function () {
             if (self.arrSuggest.length) {
-              let listItems = self.$el.querySelectorAll('.ti-suggest-list [data-is-focusable="true"]');
+              const listItems = self.$el.querySelectorAll('.ti-suggest-list [data-is-focusable="true"]');
               listItems.forEach(el => el.classList.remove('has-focus'));
 
               if (!listItems[val] && val < 0) {
@@ -110,7 +110,7 @@ class VueEmailTagInput {
          */
         pushValue: function pushValue(event) {
           self = this;
-          let value = event.target.value;
+          const value = event.target.value;
           if (self.validateEmail(value)) {
             self.arrValues.push(value);
             self.valueNew = '';
@@ -124,11 +124,11 @@ class VueEmailTagInput {
           self = this;
           let arrTagClass = event.target.parentElement.className.split(' ');
           arrTagClass = arrTagClass.map(cl => '.' + cl);
-          let strClass = arrTagClass.join('');
-          let tag = event.target.parentElement;
-          let container = tag.parentElement;
-          let tagCollection = container.querySelectorAll(strClass);
-          let index = Array.prototype.indexOf.call(tagCollection, tag);
+          const strClass = arrTagClass.join('');
+          const tag = event.target.parentElement;
+          const container = tag.parentElement;
+          const tagCollection = container.querySelectorAll(strClass);
+          const index = Array.prototype.indexOf.call(tagCollection, tag);
           self.removeItemFromIndex(index);
         },
         /**
@@ -136,7 +136,7 @@ class VueEmailTagInput {
          * @param index
          */
         removeItemFromIndex: function removeItemFromIndex(index) {
-          let self = this;
+          const self = this;
           if (self.arrValues[index]) {
             self.arrValues.splice(index, 1);
           }
@@ -145,7 +145,7 @@ class VueEmailTagInput {
          * Close suggestion box box on blur
          */
         closeSuggestList: function closeSuggestList() {
-          let self = this;
+          const self = this;
           window.setTimeout(function () {
             self.arrSuggest = [];
             self.intFocus = -1;
@@ -161,8 +161,8 @@ class VueEmailTagInput {
          * Handle keypress events
          * @param event
          */
-        handleKeypress: function runAutocomplete(event) {
-          let self = this;
+        handleKeypress: function runAutocompconste(event) {
+          const self = this;
           if (event.key === 'Backspace') {
             if (!self.valueNew.length && self.arrValues.length) {
               self.removeItemFromIndex(self.arrValues.length - 1);
@@ -176,7 +176,7 @@ class VueEmailTagInput {
             self.intFocus--;
             return;
           } else if (event.key === 'Enter') {
-            let elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
+            const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
               self.selectAddress(elFocus.getAttribute('data-value'), self.intFocus);
               self.arrSuggest = [];
@@ -193,7 +193,7 @@ class VueEmailTagInput {
          * @returns {null}
          */
         getSuggestValuesFromRemote: function getSuggestValuesFromRemote() {
-          let self = this;
+          const self = this;
 
           if (self.valueNew.length < 3) {
             self.intFocus = -1;
@@ -223,8 +223,7 @@ class VueEmailTagInput {
          * @param index
          */
         selectAddress: function selectAddress(value, index) {
-          let self = this;
-          console.log(value);
+          const self = this;
           self.arrValues.push(value);
           self.valueNew = '';
           self.arrSuggest = [];

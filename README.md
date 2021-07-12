@@ -10,9 +10,6 @@ Die Version 3.3 ist nur zu Contao >=4.9 kompatibel.
 
 Viel Spass mit Contao Backend E-Mail!
 
-## Backend-Einstellungen
-In den Backend Einstallungen kann eingestellt werden, ob das Adressbuch der Mitgliederdatenbank, der Userdatenbank oder beide Tabellen verwendet werden sollen.
-
 ## beEmailBeforeSend Hook
 Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipuliert werden. Dazu muss ein kleines Modul geschrieben werden.
 

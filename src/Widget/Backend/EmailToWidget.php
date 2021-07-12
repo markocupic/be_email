@@ -39,9 +39,6 @@ class EmailToWidget extends Widget
 
     public function generate(): string
     {
-        $GLOBALS['TL_JAVASCRIPT'][] = 'assets/contao-component-vue-js/vue/dist/vue.min.js|static';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/vue/vue-email-tag-input.js';
-
         $widget = new BackendTemplate('email_to_widget');
 
         return sprintf(
