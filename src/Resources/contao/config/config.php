@@ -13,8 +13,8 @@
 namespace Markocupic\BeEmail;
 
 use Contao\Input;
-use Markocupic\BeEmail\Widget\Backend\EmailToWidget;
 use Markocupic\BeEmail\Model\BeEmailModel;
+use Markocupic\BeEmail\Widget\Backend\EmailToWidget;
 
 // Backend modules
 $GLOBALS['BE_MOD']['email']['tl_be_email'] = array

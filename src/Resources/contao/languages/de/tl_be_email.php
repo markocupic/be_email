@@ -31,13 +31,14 @@ $GLOBALS['TL_LANG']['tl_be_email']['emailNotSent'] = array('Entwurf');
 $GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Empfänger";
 $GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Nachricht";
 $GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Dateianhänge';
-$GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'E-Mail senden';
+$GLOBALS['TL_LANG']['tl_be_email']['sendEmail'] = 'E-Mail senden';
 $GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Adressbuch';
 $GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Empfänger hinzufügen';
 
 // Buttons
 $GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'] = 'Email erneut versenden';
 $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] = 'Zurück';
+$GLOBALS['TL_LANG']['tl_be_email']['saveAsDraft'] = 'Als Entwurf speichern';
 
 // Messages
 $GLOBALS['TL_LANG']['tl_be_email']['confirmMessageHasBeenSent'] = 'Ihre Nachricht wurde versandt.';

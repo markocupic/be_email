@@ -29,6 +29,7 @@ use Contao\FilesModel;
 use Contao\Input;
 use Contao\Message;
 use Contao\StringUtil;
+use Contao\System;
 use Markocupic\BeEmail\Model\BeEmailModel;
 
 /**
@@ -38,6 +39,9 @@ class TlBeEmail extends Backend
 {
     public function __construct()
     {
+        // Load language files
+        System::loadLanguageFile('tl_be_email');
+
         if (null !== Input::post('copyAndResendEmail')) {
             $objSource = Database::getInstance()
                 ->prepare('SELECT * FROM tl_be_email WHERE id=?')
@@ -149,7 +153,7 @@ class TlBeEmail extends Backend
         ;
 
         if ($db->pid !== BackendUser::getInstance()->id) {
-           Controller::redirect($this->getReferer());
+            Controller::redirect($this->getReferer());
         }
     }
 
@@ -262,10 +266,10 @@ class TlBeEmail extends Backend
         if ($db->emailNotSent) {
             // Disable buttons
             unset($arrButtons['saveNclose'], $arrButtons['saveNcreate'], $arrButtons['saveNduplicate']);
-            $arrButtons['save'] = '<button name="save" id="save" class="tl_submit" accesskey="c">'.$GLOBALS['TL_LANG']['tl_be_email']['send_email'].'</button>';
+            $arrButtons['save'] = '<button name="save" id="save" class="tl_submit" accesskey="c">'.$GLOBALS['TL_LANG']['tl_be_email']['sendEmail'].'</button>';
+            $arrButtons['saveNback'] = '<button name="saveNback" id="saveNback" class="tl_submit" accesskey="g">'.$GLOBALS['TL_LANG']['tl_be_email']['saveAsDraft'].'</button>';
         } else {
             unset($arrButtons['save'], $arrButtons['saveNcreate'], $arrButtons['saveNduplicate'], $arrButtons['saveNback']);
-
             $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c">'.$GLOBALS['TL_LANG']['tl_be_email']['closeEditView'].'</button>';
             $arrButtons['copyAndResendEmail'] = '<button type="submit" name="copyAndResendEmail" id="copyAndResendEmail" class="tl_submit" accesskey="r">'.$GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'].'</button>';
         }

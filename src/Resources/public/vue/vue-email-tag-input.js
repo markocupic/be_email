@@ -47,7 +47,9 @@ class VueEmailTagInput {
          */
         intFocus: -1,
       },
-
+      /**
+       * Initialize app
+       */
       created: function () {
         // Remove empty values
         this.arrValues = this.value.split(',').filter(el => {
@@ -127,7 +129,17 @@ class VueEmailTagInput {
           let container = tag.parentElement;
           let tagCollection = container.querySelectorAll(strClass);
           let index = Array.prototype.indexOf.call(tagCollection, tag);
-          self.arrValues.splice(index, 1);
+          self.removeItemFromIndex(index);
+        },
+        /**
+         * Remove item with a certain index
+         * @param index
+         */
+        removeItemFromIndex: function removeItemFromIndex(index) {
+          let self = this;
+          if (self.arrValues[index]) {
+            self.arrValues.splice(index, 1);
+          }
         },
         /**
          * Close suggestion box box on blur
@@ -147,23 +159,33 @@ class VueEmailTagInput {
         },
         /**
          * Handle keypress events
-         * @param e
+         * @param event
          */
         handleKeypress: function runAutocomplete(event) {
           let self = this;
-          if (event.key === 'ArrowDown') {
+          if (event.key === 'Backspace') {
+            if (!self.valueNew.length && self.arrValues.length) {
+              self.removeItemFromIndex(self.arrValues.length - 1);
+              self.arrSuggest = [];
+            }
+            return;
+          } else if (event.key === 'ArrowDown') {
             self.intFocus++;
+            return;
           } else if (event.key === 'ArrowUp') {
             self.intFocus--;
+            return;
           } else if (event.key === 'Enter') {
-            let elFocus = document.querySelector('.has-focus');
+            let elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
               self.selectAddress(elFocus.getAttribute('data-value'), self.intFocus);
               self.arrSuggest = [];
             }
+            return;
           } else {
             //
           }
+
         },
         /**
          * Get suggestions from remote

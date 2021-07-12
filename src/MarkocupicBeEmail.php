@@ -18,8 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class MarkocupicBeEmail
- * @package Markocupic\MarkocupicBeEmail
+ * Class MarkocupicBeEmail.
  */
 class MarkocupicBeEmail extends Bundle
 {

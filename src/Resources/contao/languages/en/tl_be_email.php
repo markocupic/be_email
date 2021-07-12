@@ -17,9 +17,10 @@ $GLOBALS['TL_LANG']['tl_be_email']['new'] = array('new email', 'Write a new emai
 $GLOBALS['TL_LANG']['tl_be_email']['edit'] = array('edit email', 'Edit email with ID %s.');
 $GLOBALS['TL_LANG']['tl_be_email']['delete'] = array('delete email', 'Delete email with ID %s.');
 $GLOBALS['TL_LANG']['tl_be_email']['show'] = array('show email', 'Show email with ID %s.');
-$GLOBALS['TL_LANG']['tl_be_email']['send_email'] = 'Send email';
+$GLOBALS['TL_LANG']['tl_be_email']['sendEmail'] = 'Send email';
 $GLOBALS['TL_LANG']['tl_be_email']['copyAndResendEmail'] = 'Send email again';
 $GLOBALS['TL_LANG']['tl_be_email']['closeEditView'] = 'Go back';
+$GLOBALS['TL_LANG']['tl_be_email']['saveAsDraft'] = 'Safe as draft';
 
 // Legends
 $GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = 'Recipients';
