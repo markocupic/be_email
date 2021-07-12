@@ -30,7 +30,7 @@
       </div>
       <ul class="ti-suggest-list">
         <li v-for="(suggest,index) in arrSuggest">
-          <button type="button" class="ti-suggest-item" data-is-focusable="true" v-bind:data-value="suggest.value" @click="selectAddress(suggest.email, index)">
+          <button type="button" class="ti-suggest-item" data-is-focusable="true" v-bind:data-value="suggest.value" @click="selectAddress(suggest.value, index)">
             <div class="ti-suggest-label">
               <img src="bundles/markocupicbeemail/icon-user.svg">
               <span>{{ suggest.label }}</span></div>

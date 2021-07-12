@@ -12,23 +12,22 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/be_email
  */
 
-namespace Markocupic\BeEmail;
+namespace Markocupic\BeEmail\EventListener\ContaoHooks;
 
 use Contao\Config;
+use Contao\CoreBundle\ServiceAnnotation\Hook;
 use Contao\Database;
 use Contao\Input;
 
 /**
- * Class BeEmail.
+ * @Hook("executePreActions")
  */
-class BeEmail
+class ExecutePreActions
 {
     /**
-     * Ajax.
-     *
      * @param string $strAction
      */
-    public function executePreActions($strAction = ''): void
+    public function __invoke($strAction = ''): void
     {
         $blnShowUserAddresses = false;
         $blnShowMemberAddresses = false;

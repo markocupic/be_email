@@ -224,6 +224,7 @@ class VueEmailTagInput {
          */
         selectAddress: function selectAddress(value, index) {
           let self = this;
+          console.log(value);
           self.arrValues.push(value);
           self.valueNew = '';
           self.arrSuggest = [];

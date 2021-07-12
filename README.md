@@ -15,9 +15,13 @@ Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipu
 
 In der config.php muss der Hook registriert werden.
 ```php
-   // config.php
+namespace Vendorname\App;
 
-   $GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array('Vendorname\BeEmailBeforeSendHook', 'myBeEmailBeforeSendHook');
+use Vendorname\App\Listener\ContaoHooks\BeEmailBeforeSendHook;
+
+// config.php
+
+$GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array(BeEmailBeforeSendHook::class, '__invoke');
 ```
 
 Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter und erwartet keinen Rückgabewert.
@@ -26,6 +30,11 @@ Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter 
 
 namespace Vendorname\App\Listener\ContaoHooks;
 
+use Contao\CoreBundle\ServiceAnnotation\Hook;
+
+/**
+ * @Hook("beEmailBeforeSendHook")
+ */
 class BeEmailBeforeSendHook
 {
     /**
@@ -35,7 +44,7 @@ class BeEmailBeforeSendHook
      * @param $beEmailModel
      * @param $dc
      */
-    public function myBeEmailBeforeSendHook(&$objEmail, &$beEmailModel, $dc)
+    public function __invoke(&$objEmail, &$beEmailModel, $dc)
     {
         // f.ex. manipulate sender email address
         $objEmail->from = 'foo@myhost.com';
@@ -43,7 +52,6 @@ class BeEmailBeforeSendHook
         // f.ex. manipulate content
         $objEmail->text = 'bla bla!!';
         $objEmail->html = 'bla bla!!';
-
     }
 
 }
