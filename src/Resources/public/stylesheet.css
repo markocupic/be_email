@@ -9,52 +9,50 @@
  */
 
 
-.esl-tag-container{
-    display:flex;
+.ti-tag-container {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    padding: 4px;
+    padding: 4px 4px 0 4px;
 }
 
-.esl-tag{
-    display:flex;
+.ti-tag {
+    display: flex;
     flex-direction: row;
     align-items: center;
     border-radius: 8px;
-    border:0;
+    border: 0;
     padding: 3px 5px;
     background-color: #6096e7;
     color: #fff;
-    margin-right: 6px;
+    margin: 0 6px 4px 0;
 }
 
-.esl-tag-label{
-    margin-right:10px;
+.ti-tag-label {
+    margin-right: 10px;
     font-size: .825rem;
 }
 
-.esl-tag-remove img{
-    font-size: 4px !important;
-    color: #fff;
+.ti-tag-remove {
     cursor: pointer;
 }
 
-.esl-tag-input{
-    border:0;
-    padding:5px;
+.ti-tag-input {
+    border: 0;
+    padding: 5px;
     outline: none;
     min-width: 200px;
 }
 
-.esl-container {
+.ti-suggest-container {
     position: relative;
     overflow-y: visible;
 }
 
-.esl-container-inner {
+.ti-suggest-container-inner {
     position: absolute;
     left: 0;
     top: 0;
@@ -63,25 +61,25 @@
     margin: 0;
 }
 
-.esl-container-inner-header {
+.ti-suggest-container-inner-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     background-color: #F3F3F5;
 }
 
-.esl-container-inner-header button {
+.ti-suggest-container-inner-header button {
     border: 0;
     background: 0;
     padding: 6px;
 }
 
-.esl-container-inner-header img {
+.ti-suggest-container-inner-header img {
     width: 16px;
     height: auto;
 }
 
-.esl-item {
+.ti-suggest-item {
     display: block;
     cursor: pointer;
     background-color: #F3F3F5;
@@ -93,11 +91,11 @@
     width: 350px;
 }
 
-.esl-item.has-focus, .esl-item:hover {
+.ti-suggest-item.has-focus, .ti-suggest-item:hover {
     background-color: #e2e2e2;
 }
 
-.esl-name {
+.ti-suggest-label {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -107,14 +105,14 @@
     display: block;
 }
 
-.esl-name img {
+.ti-suggest-label img {
     height: 30px;
     width: auto;
     color: #000;
     margin-right: 8px;
 }
 
-.esl-email {
+.ti-suggest-value {
     font-size: 13px;
     padding: 0 8px 8px 8px;
     display: block;

@@ -21,14 +21,35 @@ class VueEmailTagInput {
     let app = new Vue({
       el: '#' + this.el,
       data: {
+        /**
+         * Stores the value for new inputs
+         */
         valueNew: '',
-        value: this.value,
+
+        /**
+         * The value array
+         */
         arrValues: [],
-        arrSuggestions: [],
+
+        /**
+         * The values as a string
+         */
+        value: this.value,
+
+        /**
+         * The suggestion array
+         */
+        arrSuggest: [],
+
+        /**
+         * Store the index of the focused element in the
+         * suggestion list
+         */
         intFocus: -1,
       },
 
       created: function () {
+        // Remove empty values
         this.arrValues = this.value.split(',').filter(el => {
           return el != null && el != '';
         });
@@ -52,7 +73,7 @@ class VueEmailTagInput {
 
       watch: {
         valueNew: function (val) {
-          this.getAddresses();
+          this.getSuggestValuesFromRemote();
         },
 
         arrValues: function (val) {
@@ -62,8 +83,8 @@ class VueEmailTagInput {
         intFocus(val, oldVal) {
           let self = this;
           window.setTimeout(function () {
-            if (self.arrSuggestions.length) {
-              let listItems = self.$el.querySelectorAll('.esl li button');
+            if (self.arrSuggest.length) {
+              let listItems = self.$el.querySelectorAll('.ti-suggest-list [data-is-focusable="true"]');
               listItems.forEach(el => el.classList.remove('has-focus'));
 
               if (!listItems[val] && val < 0) {
@@ -80,7 +101,11 @@ class VueEmailTagInput {
         }
       },
       methods: {
-
+        /**
+         * Push new value to arrValues
+         * and clear input field
+         * @param event
+         */
         pushValue: function pushValue(event) {
           self = this;
           let value = event.target.value;
@@ -89,8 +114,11 @@ class VueEmailTagInput {
             self.valueNew = '';
           }
         },
-        removeTag: function removeTag(event)
-        {
+        /**
+         * Remove a certain tag from the tag container
+         * @param event
+         */
+        removeTag: function removeTag(event) {
           self = this;
           let arrTagClass = event.target.parentElement.className.split(' ');
           arrTagClass = arrTagClass.map(cl => '.' + cl);
@@ -99,58 +127,63 @@ class VueEmailTagInput {
           let container = tag.parentElement;
           let tagCollection = container.querySelectorAll(strClass);
           let index = Array.prototype.indexOf.call(tagCollection, tag);
-          //tagCollection[index].remove();
-          self.arrValues.splice(index,1);
+          self.arrValues.splice(index, 1);
         },
-
+        /**
+         * Close suggestion box box on blur
+         */
         closeSuggestList: function closeSuggestList() {
-          this.onBlur();
-        },
-
-        onBlur: function onBlur() {
           let self = this;
           window.setTimeout(function () {
-            self.arrSuggestions = [];
+            self.arrSuggest = [];
             self.intFocus = -1;
           }, 100);
         },
-
-        handleKeypress: function runAutocomplete(e) {
+        /**
+         * Close suggestion box box on blur
+         */
+        onBlur: function onBlur() {
+          this.closeSuggestList();
+        },
+        /**
+         * Handle keypress events
+         * @param e
+         */
+        handleKeypress: function runAutocomplete(event) {
           let self = this;
-          if (e.key === 'ArrowDown') {
+          if (event.key === 'ArrowDown') {
             self.intFocus++;
-          } else if (e.key === 'ArrowUp') {
+          } else if (event.key === 'ArrowUp') {
             self.intFocus--;
-          } else if (e.key === 'Enter') {
+          } else if (event.key === 'Enter') {
             let elFocus = document.querySelector('.has-focus');
             if (elFocus) {
-              self.selectAddress(elFocus.getAttribute('data-email'), self.intFocus);
-              self.arrSuggestions = [];
+              self.selectAddress(elFocus.getAttribute('data-value'), self.intFocus);
+              self.arrSuggest = [];
             }
           } else {
             //
           }
         },
-
-        getAddresses: function getAddresses() {
+        /**
+         * Get suggestions from remote
+         * using Contao executePreActions Hook
+         * @returns {null}
+         */
+        getSuggestValuesFromRemote: function getSuggestValuesFromRemote() {
           let self = this;
-          if (!self.arrValues.length) {
-            //self.intFocus = -1;
-            //self.arrSuggestions = [];
-            //return null;
-          }
 
           if (self.valueNew.length < 3) {
             self.intFocus = -1;
-            self.arrSuggestions = [];
+            self.arrSuggest = [];
             return null;
           }
-
+          // Get data from remote
           new Request.JSON({
             url: window.location.href,
             onSuccess: function (json) {
-              self.arrSuggestions = json['emailList'];
-              if (json['emailList'].length) {
+              self.arrSuggest = json['data'];
+              if (json['data'].length) {
                 self.intFocus = 0;
               } else {
                 self.intFocus = -1;
@@ -162,16 +195,25 @@ class VueEmailTagInput {
             'REQUEST_TOKEN': Contao.request_token
           });
         },
-
-        selectAddress: function selectAddress(email, index) {
-          // Push new item
-          this.arrValues.push(email);
-          this.valueNew = '';
-          this.arrSuggestions = [];
+        /**
+         * Push new values to arrValues
+         * @param value
+         * @param index
+         */
+        selectAddress: function selectAddress(value, index) {
+          let self = this;
+          self.arrValues.push(value);
+          self.valueNew = '';
+          self.arrSuggest = [];
         },
-        validateEmail: function validateEmail(email) {
+        /**
+         * Validate email addresses
+         * @param email
+         * @returns {boolean}
+         */
+        validateEmail: function validateEmail(value) {
           const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return re.test(String(email).toLowerCase());
+          return re.test(String(value).toLowerCase());
         }
       }
     })

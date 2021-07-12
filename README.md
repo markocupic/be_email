@@ -3,6 +3,8 @@
 # Contao Backend E-Mail
 Contao E-Mail Erweiterung für den Versand von Nachrichten aus dem Contao Backend. In den Contao Einstellungen kann definiert werden, woher das Adressbuch seine Adressen zieht. Entweder tl_member oder tl_user oder aus beiden Tabellen.
 
+![Backend](docs/images/app-backend-screenshot.png "backend")
+
 ## Kompatibilität
 Die Version 3.x ist nur zu Contao >=4.4 kompatibel.
 
@@ -14,7 +16,7 @@ Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipu
 In der config.php muss der Hook registriert werden.
 ```php
    // config.php
-   // Register hook
+
    $GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array('Vendorname\BeEmailBeforeSendHook', 'myBeEmailBeforeSendHook');
 ```
 
@@ -22,7 +24,7 @@ Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter 
 ```php
 <?php
 
-namespace Vendorname;
+namespace Vendorname\App\Listener\ContaoHooks;
 
 class BeEmailBeforeSendHook
 {

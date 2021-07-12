@@ -64,7 +64,7 @@ class BeEmail
                     }
                     $arrEmail[$result->email] = [
                         'label' => $result->name,
-                        'email' => strtolower((string) $result->email),
+                        'value' => strtolower((string) $result->email),
                     ];
                 }
             }
@@ -80,7 +80,7 @@ class BeEmail
                     }
                     $arrEmail[$result->email] = [
                         'label' => trim($result->firstname.' '.$result->lastname),
-                        'email' => strtolower((string) $result->email),
+                        'value' => strtolower((string) $result->email),
                     ];
                 }
             }
@@ -90,7 +90,7 @@ class BeEmail
                 $arrMail[] = $arrItem;
             }
 
-            $json = ['emailList' => $arrMail];
+            $json = ['data' => $arrMail];
 
             // Send to the browser
             echo json_encode($json);

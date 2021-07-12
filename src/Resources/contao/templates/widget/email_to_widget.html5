@@ -1,11 +1,12 @@
 <div id="vueEmailTagInput_%s" class="vue-email-tag-input%s">
 
-  <div class="esl-tag-container">
-    <div v-for="(value,index) in arrValues" class="esl-tag foo" :data-value="value">
-      <span class="esl-tag-label">{{ value }}</span><img @click.stop="removeTag" class="esl-tag-remove" src="bundles/markocupicbeemail/icon-close.svg">
+  <!-- tag input section -->
+  <div class="ti-tag-container">
+    <div v-for="(value,index) in arrValues" class="ti-tag" :data-value="value">
+      <span class="ti-tag-label">{{ value }}</span><img @click.stop="removeTag" class="ti-tag-remove" src="bundles/markocupicbeemail/icon-close-white.svg">
     </div>
     <input
-      class="esl-tag-input"
+      class="ti-tag-input"
       v-on:keyup.enter="pushValue($event)"
       @input="e => valueNew = e.target.value"
       :value="valueNew"
@@ -19,20 +20,21 @@
   <!-- Hidden form field -->
   <input type="hidden" name="%s" id="ctrl_%s" :value="value" value="%s">
 
-  <div class="esl-container" v-if="arrSuggestions.length">
-    <div class="esl-container-inner">
-      <div class="esl-container-inner-header">
+  <!-- Suggest container -->
+  <div class="ti-suggest-container" v-if="arrSuggest.length">
+    <div class="ti-suggest-container-inner">
+      <div class="ti-suggest-container-inner-header">
         <button type="button" @click="closeSuggestList">
-          <img src="bundles/markocupicbeemail/icon-close.svg">
+          <img src="bundles/markocupicbeemail/icon-close-black.svg">
         </button>
       </div>
-      <ul class="esl">
-        <li v-for="(suggest,index) in arrSuggestions">
-          <button type="button" class="esl-item" data-is-focusable="true" v-bind:data-email="suggest.email" @click="selectAddress(suggest.email, index)">
-            <div class="esl-name">
+      <ul class="ti-suggest-list">
+        <li v-for="(suggest,index) in arrSuggest">
+          <button type="button" class="ti-suggest-item" data-is-focusable="true" v-bind:data-value="suggest.value" @click="selectAddress(suggest.email, index)">
+            <div class="ti-suggest-label">
               <img src="bundles/markocupicbeemail/icon-user.svg">
               <span>{{ suggest.label }}</span></div>
-            <div class="esl-email">{{ suggest.email }}</div>
+            <div class="ti-suggest-value">{{ suggest.value }}</div>
           </button>
         </li>
       </ul>
