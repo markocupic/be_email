@@ -11,20 +11,26 @@ Die Version 3.3 ist nur zu Contao >=4.9 kompatibel.
 Viel Spass mit Contao Backend E-Mail!
 
 ## beEmailBeforeSend Hook
-Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipuliert werden. Dazu muss ein kleines Modul geschrieben werden.
+Mit dem beEmailBeforeSend-Hook können die beiden Objekte vor dem Versand manipuliert werden. Dazu muss eine Contao Hook Klasse geschrieben werden.
 
-In der config.php muss der Hook registriert werden.
-```php
-namespace Vendorname\App;
+Damit der Hook via Annotation registriert wird, muss er in der services.yml registriert werden.
 
-use Vendorname\App\Listener\ContaoHooks\BeEmailBeforeSendHook;
+```
+# services.yml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
 
-// config.php
+    Vendorname\App\:
+        resource: ../../
+        exclude: ../../{DependencyInjection,Resources,Model,Widget}
 
-$GLOBALS['TL_HOOKS']['beEmailBeforeSend'][] = array(BeEmailBeforeSendHook::class, '__invoke');
 ```
 
-Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter und erwartet keinen Rückgabewert.
+Die Hook-Klasse könnte ungefähr so aussehen. Der Hook erwartet drei Parameter und keinen Rückgabewert. 
+
 ```php
 <?php
 
