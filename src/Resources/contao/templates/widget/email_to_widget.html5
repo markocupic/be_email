@@ -29,8 +29,8 @@
         </button>
       </div>
       <ul class="ti-suggestion-list">
-        <li v-for="(suggestion,index) in arrSuggestions">
-          <button type="button" class="ti-suggestion-item" data-is-focusable="true" v-bind:data-value="suggestion.value" @click="selectAddress(suggestion.value, index)">
+        <li v-for="(suggestion) in arrSuggestions">
+          <button type="button" class="ti-suggestion-item" data-is-focusable="true" v-bind:data-value="suggestion.value" @click="selectAddress(suggestion.value)">
             <div class="ti-suggestion-label">
               <img src="bundles/markocupicbeemail/icon-user.svg">
               <span>{{ suggestion.label }}</span></div>

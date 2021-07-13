@@ -18,7 +18,7 @@ class VueEmailTagInput {
   }
 
   init() {
-    const app = new Vue({
+    new Vue({
       el: '#' + this.el,
       data: {
         /**
@@ -32,7 +32,7 @@ class VueEmailTagInput {
         arrValues: [],
 
         /**
-         * The values as a string
+         * The values as a comma separated string
          */
         value: this.value,
 
@@ -45,29 +45,27 @@ class VueEmailTagInput {
          * Store the index of the focused element in the
          * suggestion list
          */
-        intFocus: -1,
+        intFocusedSuggestion: -1,
       },
+
       /**
        * Initialize app
        */
       created: function () {
+        const self = this;
         // Remove empty values
-        this.arrValues = this.value.split(',').filter(el => {
-          return el != null && el != '';
+        self.arrValues = self.value.split(',').filter(el => {
+          return el != null && el !== '';
         });
 
         // Do not submit form when pressing the Enter key
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () => {
           ['save', 'saveNback'].forEach(el => {
             const saveBtn = document.getElementById(el);
             if (saveBtn) {
               saveBtn.setAttribute('type', 'button');
-              saveBtn.addEventListener("mouseenter", function () {
-                saveBtn.removeAttribute('type');
-              });
-              saveBtn.addEventListener("mouseout", function () {
-                saveBtn.setAttribute('type', 'button');
-              });
+              saveBtn.addEventListener("mouseenter", () => saveBtn.removeAttribute('type'));
+              saveBtn.addEventListener("mouseout", () => saveBtn.setAttribute('type', 'button'));
             }
           })
         });
@@ -82,55 +80,58 @@ class VueEmailTagInput {
           this.value = val.join(',');
         },
 
-        intFocus(val, oldVal) {
+        intFocusedSuggestion(val, oldVal) {
           const self = this;
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             if (self.arrSuggestions.length) {
               const listItems = self.$el.querySelectorAll('.ti-suggestion-list [data-is-focusable="true"]');
               listItems.forEach(el => el.classList.remove('has-focus'));
 
               if (!listItems[val] && val < 0) {
-                self.intFocus = 0;
+                self.intFocusedSuggestion = 0;
               } else if (!listItems[val] && val > 0) {
-                self.intFocus = oldVal;
+                self.intFocusedSuggestion = oldVal;
               } else if (listItems[val]) {
                 listItems[val].classList.add('has-focus');
               }
             } else {
-              self.intFocus = -1;
+              self.intFocusedSuggestion = -1;
             }
           }, 10);
         }
       },
       methods: {
+
         /**
          * Push new value to arrValues
          * and clear input field
-         * @param event
+         * @param e
          */
-        pushValue: function pushValue(event) {
-          self = this;
-          const value = event.target.value;
+        pushValue: function pushValue(e) {
+          const self = this;
+          const value = e.target.value;
           if (self.validateEmail(value)) {
             self.arrValues.push(value);
             self.valueNew = '';
           }
         },
+
         /**
          * Remove a certain tag from the tag container
-         * @param event
+         * @param e
          */
-        removeTag: function removeTag(event) {
-          self = this;
-          let arrTagClass = event.target.parentElement.className.split(' ');
+        removeTag: function removeTag(e) {
+          const self = this;
+          let arrTagClass = e.target.parentElement.className.split(' ');
           arrTagClass = arrTagClass.map(cl => '.' + cl);
           const strClass = arrTagClass.join('');
-          const tag = event.target.parentElement;
+          const tag = e.target.parentElement;
           const container = tag.parentElement;
           const tagCollection = container.querySelectorAll(strClass);
           const index = Array.prototype.indexOf.call(tagCollection, tag);
           self.removeItemFromIndex(index);
         },
+
         /**
          * Remove item with a certain index
          * @param index
@@ -141,6 +142,7 @@ class VueEmailTagInput {
             self.arrValues.splice(index, 1);
           }
         },
+
         /**
          * Close suggestion box box on blur
          */
@@ -148,45 +150,43 @@ class VueEmailTagInput {
           const self = this;
           window.setTimeout(() => {
             self.arrSuggestions = [];
-            self.intFocus = -1;
+            self.intFocusedSuggestion = -1;
           }, 100);
         },
+
         /**
          * Close suggestion box box on blur
          */
         onBlur: function onBlur() {
           this.closeSuggestList();
         },
+
         /**
          * Handle keypress events
-         * @param event
+         * @param e
          */
-        handleKeypress: function runAutocompconste(event) {
+        handleKeypress: function runAutocompconste(e) {
           const self = this;
-          if (event.key === 'Backspace') {
+          if (e.key === 'Backspace') {
             if (!self.valueNew.length && self.arrValues.length) {
               self.removeItemFromIndex(self.arrValues.length - 1);
               self.arrSuggestions = [];
             }
-            return;
-          } else if (event.key === 'ArrowDown') {
-            self.intFocus++;
-            return;
-          } else if (event.key === 'ArrowUp') {
-            self.intFocus--;
-            return;
-          } else if (event.key === 'Enter') {
+          } else if (e.key === 'ArrowDown') {
+            self.intFocusedSuggestion++;
+          } else if (e.key === 'ArrowUp') {
+            self.intFocusedSuggestion--;
+          } else if (e.key === 'Enter') {
             const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
-              self.selectAddress(elFocus.getAttribute('data-value'), self.intFocus);
+              self.selectAddress(elFocus.getAttribute('data-value'));
               self.arrSuggestions = [];
             }
-            return;
           } else {
             //
           }
-
         },
+
         /**
          * Get suggestions from remote
          * using Contao executePreActions Hook
@@ -196,19 +196,19 @@ class VueEmailTagInput {
           const self = this;
 
           if (self.valueNew.length < 3) {
-            self.intFocus = -1;
+            self.intFocusedSuggestion = -1;
             self.arrSuggestions = [];
             return null;
           }
           // Get data from remote
           new Request.JSON({
             url: window.location.href,
-            onSuccess: function (json) {
+            onSuccess: json => {
               self.arrSuggestions = json['data'];
               if (json['data'].length) {
-                self.intFocus = 0;
+                self.intFocusedSuggestion = 0;
               } else {
-                self.intFocus = -1;
+                self.intFocusedSuggestion = -1;
               }
             }
           }).post({
@@ -217,24 +217,25 @@ class VueEmailTagInput {
             'REQUEST_TOKEN': Contao.request_token
           });
         },
+
         /**
          * Push new values to arrValues
          * @param value
-         * @param index
          */
-        selectAddress: function selectAddress(value, index) {
+        selectAddress: function selectAddress(value) {
           const self = this;
           self.arrValues.push(value);
           self.valueNew = '';
           self.arrSuggestions = [];
         },
+
         /**
          * Validate email addresses
-         * @param email
+         * @param value
          * @returns {boolean}
          */
         validateEmail: function validateEmail(value) {
-          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(String(value).toLowerCase());
         }
       }
