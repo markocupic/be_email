@@ -85,12 +85,9 @@ class TlBeEmail extends Backend
         parent::__construct();
     }
 
-    /**
-     * @param DataContainer $dc
-     */
     public function setPalette(DataContainer $dc): void
     {
-        if(Input::get('act') === 'edit' && Input::get('id')){
+        if ('edit' === Input::get('act') && Input::get('id')) {
             $db = Database::getInstance()
                 ->prepare('SELECT * FROM tl_be_email WHERE id=?')
                 ->limit(1)
@@ -105,6 +102,7 @@ class TlBeEmail extends Backend
 
     /**
      * @param $row
+     *
      * @return string
      */
     public function labelCallback($row)
@@ -143,7 +141,7 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * Onload callback
+     * Onload callback.
      */
     public function onLoadCbCheckPermission(): void
     {
@@ -164,9 +162,6 @@ class TlBeEmail extends Backend
         }
     }
 
-    /**
-     * @param DataContainer $dc
-     */
     public function onSubmitCbSendEmail(DataContainer $dc): void
     {
         // the save-button is a fileupload-button
@@ -256,7 +251,7 @@ class TlBeEmail extends Backend
 
     /**
      * @param $arrButtons
-     * @param DC_Table $dc
+     *
      * @return mixed
      */
     public function buttonsCallback($arrButtons, DC_Table $dc)
@@ -285,7 +280,6 @@ class TlBeEmail extends Backend
      * @param $strTable
      * @param $id
      * @param $arrSet
-     * @param DC_Table $dc
      */
     public function onCreateCallback($strTable, $id, $arrSet, DC_Table $dc): void
     {
@@ -313,8 +307,8 @@ class TlBeEmail extends Backend
     }
 
     /**
-     * @param DC_Table $dc
      * @param $label
+     *
      * @return string
      */
     public function generateSummary(DC_Table $dc, $label)
@@ -340,6 +334,7 @@ class TlBeEmail extends Backend
 
     /**
      * @param $strValue
+     *
      * @return array|bool|int|mixed|string
      */
     protected function cleanPost($strValue)
@@ -350,6 +345,7 @@ class TlBeEmail extends Backend
     /**
      * @param $strAddresses
      * @param $field
+     *
      * @return array
      */
     private function validateEmailAddresses($strAddresses, $field)

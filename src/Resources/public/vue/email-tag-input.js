@@ -10,7 +10,7 @@
 
 'use strict';
 
-class VueEmailTagInput {
+class EmailTagInput {
   constructor(el, value) {
     this.el = el;
     this.value = value;

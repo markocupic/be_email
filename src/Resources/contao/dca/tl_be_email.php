@@ -236,7 +236,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = array(
 
 if (isset($_GET) && \count($_GET) === 5 && Input::get('do') === 'tl_be_email' && Input::get('act') === 'edit' && isset($_GET['id']))
 {
-	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsTo']['inputType'] = 'email_to';
-	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsCc']['inputType'] = 'email_to';
-	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsBcc']['inputType'] = 'email_to';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsTo']['inputType'] = 'email_tag';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsCc']['inputType'] = 'email_tag';
+	$GLOBALS['TL_DCA']['tl_be_email']['fields']['recipientsBcc']['inputType'] = 'email_tag';
 }

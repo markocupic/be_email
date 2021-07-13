@@ -10,6 +10,5 @@
  * @link https://github.com/markocupic/be_email
  */
 
-// Backend modules
-$GLOBALS['TL_LANG']['MOD']['email'] = 'email';
-$GLOBALS['TL_LANG']['MOD']['tl_be_email'] = ['Backend Email', 'Write emails to backend users/ frontend members.'];
+// Placeholders
+$GLOBALS['TL_LANG']['MSC']['enterEmailAddress'] = 'Bitte E-Mail-Adresse eingeben.';

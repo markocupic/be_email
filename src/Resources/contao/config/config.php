@@ -12,9 +12,8 @@
 
 namespace Markocupic\BeEmail;
 
-use Contao\Input;
 use Markocupic\BeEmail\Model\BeEmailModel;
-use Markocupic\BeEmail\Widget\Backend\EmailToWidget;
+use Markocupic\BeEmail\Widget\Backend\EmailTagWidget;
 
 // Backend modules
 $GLOBALS['BE_MOD']['email']['tl_be_email'] = array
@@ -30,4 +29,4 @@ $GLOBALS['TL_MODELS']['tl_be_email'] = BeEmailModel::class;
 /**
  * Backend form widgets
  */
-$GLOBALS['BE_FFL'][EmailToWidget::TYPE] = EmailToWidget::class;
+$GLOBALS['BE_FFL'][EmailTagWidget::TYPE] = EmailTagWidget::class;

@@ -40,7 +40,7 @@ class KernelRequestSubscriber implements EventSubscriberInterface
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $GLOBALS['TL_CSS'][] = 'bundles/markocupicbeemail/stylesheet.css';
             $GLOBALS['TL_JAVASCRIPT'][] = 'assets/contao-component-vue-js/vue/dist/vue.min.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/vue/vue-email-tag-input.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicbeemail/vue/email-tag-input.js';
         }
     }
 }

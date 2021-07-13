@@ -11,5 +11,6 @@ services:
 
     Markocupic\BeEmail\:
         resource: ../../
-        exclude: ../../{DependencyInjection,Resources,Model}
+        exclude: ../../{DependencyInjection,Resources,Model,Widget}
+
 

@@ -1,37 +1,40 @@
 <?php
 
-$GLOBALS['TL_LANG']['tl_be_email']['users']['0'] = "Utilisateurs";
-$GLOBALS['TL_LANG']['tl_be_email']['members']['0'] = "Membres";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo']['0'] = "À:";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo']['1'] = "Ajouter des destinataires.";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc']['0'] = "CC:";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc']['1'] = "Copie carbone";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc']['0'] = "CCI:";
-$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc']['1'] = "Copie carbone invisible";
-$GLOBALS['TL_LANG']['tl_be_email']['subject']['0'] = "Sujet";
-$GLOBALS['TL_LANG']['tl_be_email']['subject']['1'] = "Sujet de l'e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['content']['0'] = "Message";
-$GLOBALS['TL_LANG']['tl_be_email']['content']['1'] = "Contenu de l'e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['removeAttachments']['0'] = "Supprimer les pièces jointes sélectionnées";
-$GLOBALS['TL_LANG']['tl_be_email']['fileupload']['0'] = "Téléchargement de fichiers";
-$GLOBALS['TL_LANG']['tl_be_email']['new']['0'] = "Nouvel e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['new']['1'] = "Écrire un nouvel e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['edit']['0'] = "Éditer un e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['edit']['1'] = "Éditer l'e-mail ID %s.";
-$GLOBALS['TL_LANG']['tl_be_email']['delete']['0'] = "Supprimer un e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['delete']['1'] = "Supprimer l'e-mail ID %s.";
-$GLOBALS['TL_LANG']['tl_be_email']['show']['0'] = "Voir un e-mail";
-$GLOBALS['TL_LANG']['tl_be_email']['show']['1'] = "Voir l'e-mail ID %s.";
-$GLOBALS['TL_LANG']['tl_be_email']['addAttachment']['0'] = "Ajoutez des pièces jointes";
-$GLOBALS['TL_LANG']['tl_be_email']['attachment']['0'] = "Choisissez des fichiers";
-$GLOBALS['TL_LANG']['tl_be_email']['attachment']['1'] = "Choisissez une ou plusieurs fichiers.";
-$GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = "Destinataires";
-$GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = "Messages";
-$GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = "Attachments";
-$GLOBALS['TL_LANG']['tl_be_email']['sendEmail'] = 'Envoie e-mail';
-$GLOBALS['TL_LANG']['tl_be_email']['address_book'] = 'Carnet d\'adresses';
-$GLOBALS['TL_LANG']['tl_be_email']['add_recipients'] = 'Ajouter des destinataires';
-$GLOBALS['TL_LANG']['tl_be_email']['searchForName'] = 'Cherche nom';
-$GLOBALS['TL_LANG']['tl_be_email']['entriesFound'] = 'enregistrements';
+/*
+ * This file is part of Be Email.
+ *
+ * (c) Marko Cupic 2021 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/be_email
+ */
+
+// Operations
+$GLOBALS['TL_LANG']['tl_be_email']['new'] = ['Nouvel e-mail', 'Écrire un nouvel e-mail'];
+$GLOBALS['TL_LANG']['tl_be_email']['edit'] = ['Éditer un e-mail', 'Éditer l'e - mail ID % s.'];
+$GLOBALS['TL_LANG']['tl_be_email']['delete'] = ['Supprimer un e - mail', 'Supprimer l'e-mail ID %s.']
+$GLOBALS['TL_LANG']['tl_be_email']['show'] = ['Voir un e-mail', 'Voir l'e - mail ID % s.'];
+
+// Legends
+$GLOBALS['TL_LANG']['tl_be_email']['recipients_legend'] = 'Destinataires';
+$GLOBALS['TL_LANG']['tl_be_email']['message_legend'] = 'Messages';
+$GLOBALS['TL_LANG']['tl_be_email']['attachment_legend'] = 'Attachments';
+
+// Fields
+$GLOBALS['TL_LANG']['tl_be_email']['users'] = ['Utilisateurs'];
+$GLOBALS['TL_LANG']['tl_be_email']['members'] = ['Membres'];
+$GLOBALS['TL_LANG']['tl_be_email']['recipientsTo'] = ['À:', 'Ajouter des destinataires.'];
+$GLOBALS['TL_LANG']['tl_be_email']['recipientsCc'] = ['CC:', 'Copie carbone'];
+$GLOBALS['TL_LANG']['tl_be_email']['recipientsBcc'] = ['CCI:', 'Copie carbone invisible'];
+$GLOBALS['TL_LANG']['tl_be_email']['subject'] = ['Sujet', 'Sujet de l'e-mail']
+$GLOBALS['TL_LANG']['tl_be_email']['content'] = ['Message', 'Contenu de l'e - mail'];
+$GLOBALS['TL_LANG']['tl_be_email']['removeAttachments'] = ['Supprimer les pièces jointes sélectionnées'];
+$GLOBALS['TL_LANG']['tl_be_email']['fileupload'] = ['Téléchargement de fichiers'];
+$GLOBALS['TL_LANG']['tl_be_email']['addAttachment'] = ['Ajoutez des pièces jointes'];
+$GLOBALS['TL_LANG']['tl_be_email']['attachment'] = ['Choisissez des fichiers', 'Choisissez une ou plusieurs fichiers.'];
+
+// Buttons
+$GLOBALS['TL_LANG']['tl_be_email']['sendEmail'] = 'Envoie e - mail';
 $GLOBALS['TL_LANG']['tl_be_email']['saveAsDraft'] = 'Enregistre comm brouillon';
 

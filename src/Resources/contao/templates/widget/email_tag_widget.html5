@@ -1,9 +1,11 @@
-<div id="vueEmailTagInput_%s" v-cloak class="vue-email-tag-input%s">
+<div id="vueEmailTagInput_%s" v-cloak class="email-tag-input%s">
 
-  <!-- tag input section -->
-  <div class="ti-tag-container">
-    <div v-for="(value,index) in arrValues" class="ti-tag" :data-value="value">
-      <span class="ti-tag-label">{{ value }}</span><img @click.stop="removeTag" class="ti-tag-remove" src="bundles/markocupicbeemail/icon-close-white.svg">
+  <!-- tag input container -->
+  <div class="ti-recipient-container">
+    <div class="ti-tag-container">
+      <div v-for="(value,index) in arrValues" class="ti-tag" :data-value="value">
+        <span class="ti-tag-label">{{ value }}</span><img @click.stop="removeTag" class="ti-tag-remove" src="bundles/markocupicbeemail/icon-close-white.svg">
+      </div>
     </div>
     <input
       class="ti-tag-input"
@@ -14,13 +16,14 @@
       autocapitalize="off"
       autocomplete="off"
       type="text"
+      placeholder="<?= $this->trans('MSC.enterEmailAddress', [], 'contao_default') ?>"
     >
   </div>
 
-  <!-- Hidden form field -->
+  <!-- hidden form field -->
   <input type="hidden" name="%s" id="ctrl_%s" :value="value" value="%s">
 
-  <!-- Suggestion container -->
+  <!-- suggestion container -->
   <div class="ti-suggestion-container" v-if="arrSuggestions.length">
     <div class="ti-suggestion-container-inner">
       <div class="ti-suggestion-container-inner-header">
@@ -28,6 +31,7 @@
           <img src="bundles/markocupicbeemail/icon-close-black.svg">
         </button>
       </div>
+
       <ul class="ti-suggestion-list">
         <li v-for="(suggestion) in arrSuggestions">
           <button type="button" class="ti-suggestion-item" data-is-focusable="true" v-bind:data-value="suggestion.value" @click="selectAddress(suggestion.value)">
@@ -44,5 +48,5 @@
 </div>
 
 <script>
-  new VueEmailTagInput("vueEmailTagInput_%s", "%s");
+  new EmailTagInput("vueEmailTagInput_%s", "%s");
 </script>

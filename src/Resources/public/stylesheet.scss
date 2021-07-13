@@ -13,44 +13,49 @@
   background-size: 13px 13px;
 }
 
-[v-cloak].vue-email-tag-input {
+[v-cloak].email-tag-input {
   visibility: hidden;
 }
 
-.vue-email-tag-input {
-  .ti-tag-container {
+.email-tag-input {
+  .ti-recipient-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    align-content: stretch;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #aaa;
     padding: 4px 4px 0 4px;
     border-radius: 2px;
 
-    .ti-tag {
+    .ti-tag-container {
       display: flex;
       flex-direction: row;
-      align-items: center;
-      border-radius: 13px;
-      border: 0;
-      padding: 4px 12px;
-      background-color: #6096e7;
-      color: #fff;
-      margin: 0 6px 4px 0;
+      flex-wrap: wrap;
 
-      .ti-tag-label {
-        margin-right: 10px;
-        font-size: .825rem;
-      }
 
-      .ti-tag-remove {
-        cursor: pointer;
+      .ti-tag {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 13px;
+        border: 0;
+        padding: 4px 12px;
+        background-color: #6096e7;
+        color: #fff;
+        margin: 0 6px 4px 0;
+
+        .ti-tag-label {
+          margin-right: 10px;
+          font-size: .825rem;
+        }
+
+        .ti-tag-remove {
+          cursor: pointer;
+        }
       }
     }
 
-    .ti-tag-input {
+    input.ti-tag-input {
       border: 0;
       padding: 5px;
       outline: none;
@@ -60,7 +65,6 @@
       display: flex;
       flex: 1 1 auto;
     }
-
   }
 
   .ti-suggestion-container {
@@ -76,8 +80,8 @@
       padding: 0;
       margin: 0;
       border-radius: 2px;
-      -webkit-box-shadow: 4px 5px 5px -2px rgba(204,204,204,0.8);
-      box-shadow: 4px 5px 5px -2px rgba(204,204,204,0.8);
+      -webkit-box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
+      box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
 
       .ti-suggestion-container-inner-header {
         display: flex;

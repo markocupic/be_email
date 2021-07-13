@@ -50,6 +50,5 @@ class MarkocupicBeEmailExtension extends Extension
         $loader->load('services.yml');
 
         $container->setParameter('markocupic_be_email.suggestions_list_max_length', $config['suggestions_list_max_length']);
-
     }
 }

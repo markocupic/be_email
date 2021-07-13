@@ -15,12 +15,13 @@ declare(strict_types=1);
 namespace Markocupic\BeEmail\Widget\Backend;
 
 use Contao\BackendTemplate;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
 use Contao\Widget;
 
-class EmailToWidget extends Widget
+class EmailTagWidget extends Widget
 {
-    public const TYPE = 'email_to';
+    public const TYPE = 'email_tag';
 
     /**
      * @var bool
@@ -32,6 +33,11 @@ class EmailToWidget extends Widget
      */
     protected $blnForAttribute = true;
 
+    public function __construct($arrAttributes = null)
+    {
+        parent::__construct($arrAttributes);
+    }
+
     /**
      * @var string
      */
@@ -39,7 +45,7 @@ class EmailToWidget extends Widget
 
     public function generate(): string
     {
-        $widget = new BackendTemplate('email_to_widget');
+        $widget = new BackendTemplate('email_tag_widget');
 
         return sprintf(
             $widget->parse(),
