@@ -1,0 +1,159 @@
+/*
+ * This file is part of Be Email.
+ *
+ * (c) Marko Cupic 2021 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/be_email
+ */
+
+#tl_navigation .group-email {
+  background: url(mail.svg) 3px 2px no-repeat;
+  background-size: 13px 13px;
+}
+
+[v-cloak].vue-email-tag-input {
+  visibility: hidden;
+}
+
+.vue-email-tag-input {
+  .ti-tag-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #aaa;
+    padding: 4px 4px 0 4px;
+    border-radius: 2px;
+
+    .ti-tag {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 13px;
+      border: 0;
+      padding: 4px 12px;
+      background-color: #6096e7;
+      color: #fff;
+      margin: 0 6px 4px 0;
+
+      .ti-tag-label {
+        margin-right: 10px;
+        font-size: .825rem;
+      }
+
+      .ti-tag-remove {
+        cursor: pointer;
+      }
+    }
+
+    .ti-tag-input {
+      border: 0;
+      padding: 5px;
+      outline: none;
+      webkit-font-smoothing: antialiased;
+      font-size: 14px;
+      font-weight: 400;
+      display: flex;
+      flex: 1 1 auto;
+    }
+
+  }
+
+  .ti-suggestion-container {
+    position: relative;
+    overflow-y: visible;
+    background: transparent;
+
+    .ti-suggestion-container-inner {
+      position: absolute;
+      left: 0;
+      top: 2px;
+      z-index: 10;
+      padding: 0;
+      margin: 0;
+      border-radius: 2px;
+      -webkit-box-shadow: 4px 5px 5px -2px rgba(204,204,204,0.8);
+      box-shadow: 4px 5px 5px -2px rgba(204,204,204,0.8);
+
+      .ti-suggestion-container-inner-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        background-color: #F3F3F5;
+
+        button {
+          border: 0;
+          background: 0;
+          padding: 6px;
+        }
+
+        img {
+          width: 16px;
+          height: auto;
+        }
+      }
+
+      .ti-suggestion-list {
+        .ti-suggestion-item {
+          display: block;
+          cursor: pointer;
+          background-color: #F3F3F5;
+          padding: 0;
+          margin: 0;
+          text-align: left;
+          border: 0;
+          border-top: 1px solid #c4c4c4;
+          width: 350px;
+
+          &.has-focus, &:hover {
+            background-color: #e5e5e5;
+          }
+
+          .ti-suggestion-label {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 4px;
+            display: block;
+
+            img {
+              height: 30px;
+              width: auto;
+              color: #000;
+              margin-right: 8px;
+            }
+          }
+
+          .ti-suggestion-value {
+            font-size: 13px;
+            padding: 0 8px 8px 8px;
+            display: block;
+            margin-left: 38px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.tl_listing tr[class*="row-email-"] > td {
+  border-bottom: 3px solid #fff;
+}
+
+/** Listing **/
+.tl_listing tr[class*="row-email-"] > td > p {
+  line-height: 1.5;
+}
+
+.tl_listing tr.row-email-sent > td {
+  background-color: rgba(111, 189, 255, 0.18);
+}
+
+.tl_listing tr.row-email-not-sent > td {
+  background-color: rgba(255, 0, 0, 0.18);
+}
+
+

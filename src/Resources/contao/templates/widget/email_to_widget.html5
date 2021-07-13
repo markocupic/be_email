@@ -20,21 +20,21 @@
   <!-- Hidden form field -->
   <input type="hidden" name="%s" id="ctrl_%s" :value="value" value="%s">
 
-  <!-- Suggest container -->
-  <div class="ti-suggest-container" v-if="arrSuggest.length">
-    <div class="ti-suggest-container-inner">
-      <div class="ti-suggest-container-inner-header">
+  <!-- Suggestion container -->
+  <div class="ti-suggestion-container" v-if="arrSuggestions.length">
+    <div class="ti-suggestion-container-inner">
+      <div class="ti-suggestion-container-inner-header">
         <button type="button" @click="closeSuggestList">
           <img src="bundles/markocupicbeemail/icon-close-black.svg">
         </button>
       </div>
-      <ul class="ti-suggest-list">
-        <li v-for="(suggest,index) in arrSuggest">
-          <button type="button" class="ti-suggest-item" data-is-focusable="true" v-bind:data-value="suggest.value" @click="selectAddress(suggest.value, index)">
-            <div class="ti-suggest-label">
+      <ul class="ti-suggestion-list">
+        <li v-for="(suggestion,index) in arrSuggestions">
+          <button type="button" class="ti-suggestion-item" data-is-focusable="true" v-bind:data-value="suggestion.value" @click="selectAddress(suggestion.value, index)">
+            <div class="ti-suggestion-label">
               <img src="bundles/markocupicbeemail/icon-user.svg">
-              <span>{{ suggest.label }}</span></div>
-            <div class="ti-suggest-value">{{ suggest.value }}</div>
+              <span>{{ suggestion.label }}</span></div>
+            <div class="ti-suggestion-value">{{ suggestion.value }}</div>
           </button>
         </li>
       </ul>

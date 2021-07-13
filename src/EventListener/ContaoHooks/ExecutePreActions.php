@@ -17,8 +17,8 @@ namespace Markocupic\BeEmail\EventListener\ContaoHooks;
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Hook;
+use Contao\System;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -26,8 +26,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ExecutePreActions
 {
+    /**
+     * @var ContaoFramework
+     */
     private $framework;
+
+    /**
+     * @var Connection
+     */
     private $connection;
+
+    /**
+     * @var RequestStack
+     */
     private $requestStack;
 
     public function __construct(ContaoFramework $framework, Connection $connection, RequestStack $requestStack)
@@ -95,11 +106,21 @@ class ExecutePreActions
                 }
             }
 
-            // Remove associative keys
+            // Remove associative keys and limit items
             $arrEmail = [];
+            $i = 0;
+
+            $systemAdapter = $this->framework->getAdapter(System::class);
+            $limit = $systemAdapter->getContainer()
+                ->getParameter('markocupic_be_email.suggestions_list_max_length')
+            ;
 
             foreach ($arrItems as $arrItem) {
+                if ($i === $limit) {
+                    break;
+                }
                 $arrEmail[] = $arrItem;
+                ++$i;
             }
 
             // Send data to the browser

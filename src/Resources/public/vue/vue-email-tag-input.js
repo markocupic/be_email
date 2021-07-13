@@ -39,7 +39,7 @@ class VueEmailTagInput {
         /**
          * The suggestion array
          */
-        arrSuggest: [],
+        arrSuggestions: [],
 
         /**
          * Store the index of the focused element in the
@@ -85,8 +85,8 @@ class VueEmailTagInput {
         intFocus(val, oldVal) {
           const self = this;
           window.setTimeout(function () {
-            if (self.arrSuggest.length) {
-              const listItems = self.$el.querySelectorAll('.ti-suggest-list [data-is-focusable="true"]');
+            if (self.arrSuggestions.length) {
+              const listItems = self.$el.querySelectorAll('.ti-suggestion-list [data-is-focusable="true"]');
               listItems.forEach(el => el.classList.remove('has-focus'));
 
               if (!listItems[val] && val < 0) {
@@ -146,8 +146,8 @@ class VueEmailTagInput {
          */
         closeSuggestList: function closeSuggestList() {
           const self = this;
-          window.setTimeout(function () {
-            self.arrSuggest = [];
+          window.setTimeout(() => {
+            self.arrSuggestions = [];
             self.intFocus = -1;
           }, 100);
         },
@@ -166,7 +166,7 @@ class VueEmailTagInput {
           if (event.key === 'Backspace') {
             if (!self.valueNew.length && self.arrValues.length) {
               self.removeItemFromIndex(self.arrValues.length - 1);
-              self.arrSuggest = [];
+              self.arrSuggestions = [];
             }
             return;
           } else if (event.key === 'ArrowDown') {
@@ -179,7 +179,7 @@ class VueEmailTagInput {
             const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
               self.selectAddress(elFocus.getAttribute('data-value'), self.intFocus);
-              self.arrSuggest = [];
+              self.arrSuggestions = [];
             }
             return;
           } else {
@@ -197,14 +197,14 @@ class VueEmailTagInput {
 
           if (self.valueNew.length < 3) {
             self.intFocus = -1;
-            self.arrSuggest = [];
+            self.arrSuggestions = [];
             return null;
           }
           // Get data from remote
           new Request.JSON({
             url: window.location.href,
             onSuccess: function (json) {
-              self.arrSuggest = json['data'];
+              self.arrSuggestions = json['data'];
               if (json['data'].length) {
                 self.intFocus = 0;
               } else {
@@ -226,7 +226,7 @@ class VueEmailTagInput {
           const self = this;
           self.arrValues.push(value);
           self.valueNew = '';
-          self.arrSuggest = [];
+          self.arrSuggestions = [];
         },
         /**
          * Validate email addresses

@@ -7,169 +7,133 @@
  * please view the LICENSE file that was distributed with this source code.
  * @link https://github.com/markocupic/be_email
  */
-
 #tl_navigation .group-email {
-    background: url(mail.svg) 3px 2px no-repeat;
-    background-size: 13px 13px;
+  background: url(mail.svg) 3px 2px no-repeat;
+  background-size: 13px 13px;
 }
 
 [v-cloak].vue-email-tag-input {
-    visibility: hidden;
+  visibility: hidden;
 }
 
-.ti-tag-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: stretch;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #aaa;
-    padding: 4px 4px 0 4px;
-    border-radius: 2px;
+.vue-email-tag-input .ti-tag-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  padding: 4px 4px 0 4px;
+  border-radius: 2px;
+}
+.vue-email-tag-input .ti-tag-container .ti-tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 13px;
+  border: 0;
+  padding: 4px 12px;
+  background-color: #6096e7;
+  color: #fff;
+  margin: 0 6px 4px 0;
+}
+.vue-email-tag-input .ti-tag-container .ti-tag .ti-tag-label {
+  margin-right: 10px;
+  font-size: 0.825rem;
+}
+.vue-email-tag-input .ti-tag-container .ti-tag .ti-tag-remove {
+  cursor: pointer;
+}
+.vue-email-tag-input .ti-tag-container .ti-tag-input {
+  border: 0;
+  padding: 5px;
+  outline: none;
+  webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  flex: 1 1 auto;
+}
+.vue-email-tag-input .ti-suggestion-container {
+  position: relative;
+  overflow-y: visible;
+  background: transparent;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  -webkit-box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
+  box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-color: #F3F3F5;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header button {
+  border: 0;
+  background: 0;
+  padding: 6px;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header img {
+  width: 16px;
+  height: auto;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item {
+  display: block;
+  cursor: pointer;
+  background-color: #F3F3F5;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  border: 0;
+  border-top: 1px solid #c4c4c4;
+  width: 350px;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item.has-focus, .vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item:hover {
+  background-color: #e5e5e5;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px;
+  display: block;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label img {
+  height: 30px;
+  width: auto;
+  color: #000;
+  margin-right: 8px;
+}
+.vue-email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-value {
+  font-size: 13px;
+  padding: 0 8px 8px 8px;
+  display: block;
+  margin-left: 38px;
 }
 
-.ti-tag {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: 13px;
-    border: 0;
-    padding: 4px 12px;
-    background-color: #6096e7;
-    color: #fff;
-    margin: 0 6px 4px 0;
-}
-
-.ti-tag-label {
-    margin-right: 10px;
-    font-size: .825rem;
-}
-
-.ti-tag-remove {
-    cursor: pointer;
-}
-
-.ti-tag-input {
-    border: 0;
-    padding: 5px;
-    outline: none;
-    webkit-font-smoothing: antialiased;
-    font-size: 14px;
-    font-weight: 400;
-    display: flex;
-    flex: 1 1 auto;
-}
-
-.ti-suggest-container {
-    position: relative;
-    overflow-y: visible;
-}
-
-.ti-suggest-container-inner {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 10;
-    padding: 0;
-    margin: 0;
-}
-
-.ti-suggest-container-inner-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    background-color: #F3F3F5;
-}
-
-.ti-suggest-container-inner-header button {
-    border: 0;
-    background: 0;
-    padding: 6px;
-}
-
-.ti-suggest-container-inner-header img {
-    width: 16px;
-    height: auto;
-}
-
-.ti-suggest-item {
-    display: block;
-    cursor: pointer;
-    background-color: #F3F3F5;
-    padding: 0;
-    margin: 0;
-    text-align: left;
-    border: 0;
-    border-top: 1px solid #c4c4c4;
-    width: 350px;
-}
-
-.ti-suggest-item.has-focus, .ti-suggest-item:hover {
-    background-color: #e2e2e2;
-}
-
-.ti-suggest-label {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 4px;
-    display: block;
-}
-
-.ti-suggest-label img {
-    height: 30px;
-    width: auto;
-    color: #000;
-    margin-right: 8px;
-}
-
-.ti-suggest-value {
-    font-size: 13px;
-    padding: 0 8px 8px 8px;
-    display: block;
-    margin-left: 38px;
-}
-
-.tl_listing tr[class*="row-email-"] > td {
-    border-bottom: 3px solid #fff;
+.tl_listing tr[class*=row-email-] > td {
+  border-bottom: 3px solid #fff;
 }
 
 /** Listing **/
-.tl_listing tr[class*="row-email-"] > td > p {
-    line-height: 1.5;
+.tl_listing tr[class*=row-email-] > td > p {
+  line-height: 1.5;
 }
 
 .tl_listing tr.row-email-sent > td {
-    background-color: rgba(111, 189, 255, 0.18);
+  background-color: rgba(111, 189, 255, 0.18);
 }
 
 .tl_listing tr.row-email-not-sent > td {
-    background-color: rgba(255, 0, 0, 0.18);
+  background-color: rgba(255, 0, 0, 0.18);
 }
 
-.contao-be-email-modal {
-    max-width: 90% !important;
-}
-
-#tl_be_email textarea.content {
-    height: 80px;
-}
-
-#tl_be_email label.tl_upload_file {
-    display: block;
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-#tl_be_email .attachmentList checkbox, #tl_be_email .attachmentList label {
-    display: inline;
-}
-
-#tl_be_email .attachmentList span {
-    display: block;
-}
-
-
+/*# sourceMappingURL=stylesheet.css.map */

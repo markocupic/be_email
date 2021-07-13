@@ -25,16 +25,31 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class MarkocupicBeEmailExtension extends Extension
 {
     /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return 'markocupic_be_email';
+    }
+
+    /**
      * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $configuration = new Configuration();
+
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
 
+        $config = $this->processConfiguration($configuration, $configs);
+
         $loader->load('parameters.yml');
         $loader->load('services.yml');
+
+        $container->setParameter('markocupic_be_email.suggestions_list_max_length', $config['suggestions_list_max_length']);
+
     }
 }
