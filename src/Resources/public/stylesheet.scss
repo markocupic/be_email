@@ -13,11 +13,11 @@
   background-size: 13px 13px;
 }
 
-[v-cloak].email-tag-input {
+[v-cloak].email-tag-input-widget {
   visibility: hidden;
 }
 
-.email-tag-input {
+.email-tag-input-widget {
   .ti-recipient-container {
     display: flex;
     flex-direction: row;
@@ -31,7 +31,6 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-
 
       .ti-tag {
         display: flex;
@@ -53,18 +52,18 @@
           cursor: pointer;
         }
       }
+
+      input.ti-tag-input {
+        border: 0;
+        padding: 5px;
+        outline: none;
+        font-size: 14px;
+        font-weight: 400;
+        display: flex;
+        flex: 1 1 auto;
+      }
     }
 
-    input.ti-tag-input {
-      border: 0;
-      padding: 5px;
-      outline: none;
-      webkit-font-smoothing: antialiased;
-      font-size: 14px;
-      font-weight: 400;
-      display: flex;
-      flex: 1 1 auto;
-    }
   }
 
   .ti-suggestion-container {

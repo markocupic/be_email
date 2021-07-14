@@ -12,11 +12,11 @@
   background-size: 13px 13px;
 }
 
-[v-cloak].email-tag-input {
+[v-cloak].email-tag-input-widget {
   visibility: hidden;
 }
 
-.email-tag-input .ti-recipient-container {
+.email-tag-input-widget .ti-recipient-container {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -25,12 +25,12 @@
   padding: 4px 4px 0 4px;
   border-radius: 2px;
 }
-.email-tag-input .ti-recipient-container .ti-tag-container {
+.email-tag-input-widget .ti-recipient-container .ti-tag-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.email-tag-input .ti-recipient-container .ti-tag-container .ti-tag {
+.email-tag-input-widget .ti-recipient-container .ti-tag-container .ti-tag {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -41,29 +41,28 @@
   color: #fff;
   margin: 0 6px 4px 0;
 }
-.email-tag-input .ti-recipient-container .ti-tag-container .ti-tag .ti-tag-label {
+.email-tag-input-widget .ti-recipient-container .ti-tag-container .ti-tag .ti-tag-label {
   margin-right: 10px;
   font-size: 0.825rem;
 }
-.email-tag-input .ti-recipient-container .ti-tag-container .ti-tag .ti-tag-remove {
+.email-tag-input-widget .ti-recipient-container .ti-tag-container .ti-tag .ti-tag-remove {
   cursor: pointer;
 }
-.email-tag-input .ti-recipient-container input.ti-tag-input {
+.email-tag-input-widget .ti-recipient-container .ti-tag-container input.ti-tag-input {
   border: 0;
   padding: 5px;
   outline: none;
-  webkit-font-smoothing: antialiased;
   font-size: 14px;
   font-weight: 400;
   display: flex;
   flex: 1 1 auto;
 }
-.email-tag-input .ti-suggestion-container {
+.email-tag-input-widget .ti-suggestion-container {
   position: relative;
   overflow-y: visible;
   background: transparent;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner {
   position: absolute;
   left: 0;
   top: 2px;
@@ -74,22 +73,22 @@
   -webkit-box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
   box-shadow: 4px 5px 5px -2px rgba(204, 204, 204, 0.8);
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   background-color: #F3F3F5;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header button {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header button {
   border: 0;
   background: 0;
   padding: 6px;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header img {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-container-inner-header img {
   width: 16px;
   height: auto;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item {
   display: block;
   cursor: pointer;
   background-color: #F3F3F5;
@@ -100,22 +99,22 @@
   border-top: 1px solid #c4c4c4;
   width: 350px;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item.has-focus, .email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item:hover {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item.has-focus, .email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item:hover {
   background-color: #e5e5e5;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label {
   font-size: 16px;
   font-weight: bold;
   padding: 4px;
   display: block;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label img {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-label img {
   height: 30px;
   width: auto;
   color: #000;
   margin-right: 8px;
 }
-.email-tag-input .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-value {
+.email-tag-input-widget .ti-suggestion-container .ti-suggestion-container-inner .ti-suggestion-list .ti-suggestion-item .ti-suggestion-value {
   font-size: 13px;
   padding: 0 8px 8px 8px;
   display: block;

@@ -53,6 +53,7 @@ class EmailTagInput {
        */
       created: function () {
         const self = this;
+
         // Remove empty values
         self.arrValues = self.value.split(',').filter(el => {
           return el != null && el !== '';
@@ -68,12 +69,21 @@ class EmailTagInput {
               saveBtn.addEventListener("mouseout", () => saveBtn.setAttribute('type', 'button'));
             }
           })
+
+          // Close suggestions list when clicking outside
+          window.addEventListener("click", e => {
+            self.arrSuggestions = [];
+            self.intFocusedSuggestion = -1;
+          });
+
         });
       },
 
       watch: {
         valueNew: function (val) {
-          this.getSuggestValuesFromRemote();
+          // Do not allow , and ;
+          this.valueNew = val.replace(/[,;]/g, '');
+          this.getSuggestedValuesFromRemote();
         },
 
         arrValues: function (val) {
@@ -176,6 +186,9 @@ class EmailTagInput {
             self.intFocusedSuggestion++;
           } else if (e.key === 'ArrowUp') {
             self.intFocusedSuggestion--;
+          } else if (e.key === 'Escape') {
+            self.arrSuggestions = [];
+            self.intFocusedSuggestion = -1;
           } else if (e.key === 'Enter') {
             const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
@@ -192,7 +205,7 @@ class EmailTagInput {
          * using Contao executePreActions Hook
          * @returns {null}
          */
-        getSuggestValuesFromRemote: function getSuggestValuesFromRemote() {
+        getSuggestedValuesFromRemote: function getSuggestedValuesFromRemote() {
           const self = this;
 
           if (self.valueNew.length < 3) {

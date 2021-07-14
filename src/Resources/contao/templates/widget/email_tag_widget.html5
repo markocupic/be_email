@@ -1,4 +1,4 @@
-<div id="vueEmailTagInput_%s" v-cloak class="email-tag-input%s">
+<div id="vueEmailTagInput_%s" v-cloak class="email-tag-input-widget%s">
 
   <!-- tag input container -->
   <div class="ti-recipient-container">
@@ -6,19 +6,20 @@
       <div v-for="(value,index) in arrValues" class="ti-tag" :data-value="value">
         <span class="ti-tag-label">{{ value }}</span><img @click.stop="removeTag" class="ti-tag-remove" src="bundles/markocupicbeemail/icon-close-white.svg">
       </div>
+      <input
+              class="ti-tag-input"
+              v-on:keyup.enter="pushValue($event)"
+              @input="e => valueNew = e.target.value"
+              :value="valueNew"
+              @keydown="handleKeypress"
+              autocapitalize="off"
+              autocomplete="off"
+              type="text"
+              placeholder="<?= $this->trans('MSC.enterEmailAddress', [], 'contao_default') ?>"
+      >
     </div>
-    <input
-      class="ti-tag-input"
-      v-on:keyup.enter="pushValue($event)"
-      @input="e => valueNew = e.target.value"
-      :value="valueNew"
-      @keydown="handleKeypress"
-      autocapitalize="off"
-      autocomplete="off"
-      type="text"
-      placeholder="<?= $this->trans('MSC.enterEmailAddress', [], 'contao_default') ?>"
-    >
-  </div>
+    </div>
+
 
   <!-- hidden form field -->
   <input type="hidden" name="%s" id="ctrl_%s" :value="value" value="%s">
