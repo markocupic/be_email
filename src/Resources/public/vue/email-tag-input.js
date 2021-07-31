@@ -53,11 +53,11 @@ class EmailTagInput {
        */
       created: function () {
         const self = this;
-
         // Remove empty values
         self.arrValues = self.value.split(',').filter(el => {
           return el != null && el !== '';
         });
+
 
         // Do not submit form when pressing the Enter key
         document.addEventListener("DOMContentLoaded", () => {
@@ -69,21 +69,12 @@ class EmailTagInput {
               saveBtn.addEventListener("mouseout", () => saveBtn.setAttribute('type', 'button'));
             }
           })
-
-          // Close suggestions list when clicking outside
-          window.addEventListener("click", e => {
-            self.arrSuggestions = [];
-            self.intFocusedSuggestion = -1;
-          });
-
         });
       },
 
       watch: {
         valueNew: function (val) {
-          // Do not allow , and ;
-          this.valueNew = val.replace(/[,;]/g, '');
-          this.getSuggestedValuesFromRemote();
+          this.getSuggestValuesFromRemote();
         },
 
         arrValues: function (val) {
@@ -122,7 +113,7 @@ class EmailTagInput {
           const value = e.target.value;
           if (self.validateEmail(value)) {
             self.arrValues.push(value);
-            self.valueNew = '';
+            window.setTimeout(() => self.valueNew = '', 10);
           }
         },
 
@@ -186,15 +177,18 @@ class EmailTagInput {
             self.intFocusedSuggestion++;
           } else if (e.key === 'ArrowUp') {
             self.intFocusedSuggestion--;
-          } else if (e.key === 'Escape') {
-            self.arrSuggestions = [];
-            self.intFocusedSuggestion = -1;
           } else if (e.key === 'Enter') {
             const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
             if (elFocus) {
               self.selectAddress(elFocus.getAttribute('data-value'));
               self.arrSuggestions = [];
             }
+          } else if (e.key === ';' || e.key === ',') {
+            const elFocus = document.querySelector('[data-is-focusable="true"].has-focus');
+            if (elFocus) {
+              self.arrSuggestions = [];
+            }
+            self.pushValue(e);
           } else {
             //
           }
@@ -205,7 +199,7 @@ class EmailTagInput {
          * using Contao executePreActions Hook
          * @returns {null}
          */
-        getSuggestedValuesFromRemote: function getSuggestedValuesFromRemote() {
+        getSuggestValuesFromRemote: function getSuggestValuesFromRemote() {
           const self = this;
 
           if (self.valueNew.length < 3) {
