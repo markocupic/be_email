@@ -22,7 +22,7 @@
         "markocupic/contao-component-vue-js": "^2.6"
     },
     "require-dev": {
-        "contao/easy-coding-standard": "^3.0",
+        "contao/easy-coding-standard": "^4.0",
         "contao/test-case": "^4.0",
         "contao/manager-plugin": "^2.3",
         "phpunit/phpunit": "^8.4",
