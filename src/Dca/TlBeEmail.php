@@ -74,7 +74,7 @@ class TlBeEmail extends Backend
             }
         }
 
-        if ($_POST['content']) {
+        if (isset($_POST['content'])) {
             $strValue = $this->cleanPost($_POST['content']);
             $_POST['content'] = base64_encode($strValue);
         }

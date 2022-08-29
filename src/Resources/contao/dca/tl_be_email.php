@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Markocupic\BeEmail;
 
 use Contao\BackendUser;
+use Contao\DataContainer;
 use Contao\Input;
 use Markocupic\BeEmail\Dca\TlBeEmail;
 use function count;
@@ -75,6 +76,7 @@ $GLOBALS['TL_DCA']['tl_be_email'] = [
                     BackendUser::getInstance()->id,
                 ],
             ],
+            'mode'        => DataContainer::MODE_UNSORTED,
             'panelLayout' => 'filter;search,limit',
         ],
         'label'             => [

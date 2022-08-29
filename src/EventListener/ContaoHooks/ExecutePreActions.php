@@ -83,12 +83,12 @@ class ExecutePreActions
             if (\strlen($strPattern) && $blnShowUserAddresses) {
                 $stmt = $this->connection->prepare('SELECT * FROM tl_user t WHERE t.email LIKE :pattern OR t.name LIKE :pattern ORDER BY t.name LIMIT 0,10');
                 $stmt->bindValue(':pattern', '%'.$strPattern.'%', \PDO::PARAM_STR);
-                $stmt->execute();
+                $result = $stmt->executeQuery();
 
-                while (false !== ($result = $stmt->fetch(\PDO::FETCH_OBJ))) {
-                    $arrItems[$result->email] = [
-                        'label' => $result->name,
-                        'value' => strtolower((string) $result->email),
+                while (false !== ($row = $result->fetchAssociative())) {
+                    $arrItems[$row['email']] = [
+                        'label' => $row['name'],
+                        'value' => strtolower((string) $row['email']),
                     ];
                 }
             }
@@ -96,12 +96,12 @@ class ExecutePreActions
             if (\strlen($strPattern) && $blnShowMemberAddresses) {
                 $stmt = $this->connection->prepare("SELECT * FROM tl_member t WHERE t.email LIKE :pattern OR CONCAT(t.firstname, ' ', t.lastname) LIKE :pattern ORDER BY t.lastname, t.firstname LIMIT 0,10");
                 $stmt->bindValue(':pattern', '%'.$strPattern.'%', \PDO::PARAM_STR);
-                $stmt->execute();
+                $result = $stmt->executeQuery();
 
-                while (false !== ($result = $stmt->fetch(\PDO::FETCH_OBJ))) {
-                    $arrItems[$result->email] = [
-                        'label' => trim($result->firstname.' '.$result->lastname),
-                        'value' => strtolower((string) $result->email),
+                while (false !== ($row = $result->fetchAssociative())) {
+                    $arrItems[$row['email']] = [
+                        'label' => trim($row['firstname'].' '.$row['lastname']),
+                        'value' => strtolower((string) $row['email']),
                     ];
                 }
             }
