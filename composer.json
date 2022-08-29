@@ -17,8 +17,8 @@
         "source":"https://github.com/markocupic/be_email"
     },
     "require":{
-        "php": "^7.3 || ^8.0",
-        "contao/core-bundle": ">=4.9",
+        "php": " ^8.0",
+        "contao/core-bundle": "^4.13 || ^5.0",
         "markocupic/contao-component-vue-js": "^2.6"
     },
     "require-dev": {
